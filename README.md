@@ -1,1 +1,0 @@
-# wishlist_funding_frontend
