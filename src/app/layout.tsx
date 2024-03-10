@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Box } from "@mui/material";
+import NavigationBar from "@/components/layout/navbar/navigation-bar";
+import { useViewport } from "@/hook/useViewport";
+import Sidebar from "@/components/layout/sidebar/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +18,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isMobile } = useViewport();
+
   return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Box>
+          {children}
+          {isMobile ? <NavigationBar /> : <Sidebar />}
+        </Box>
+      </body>
     </html>
   );
 }
