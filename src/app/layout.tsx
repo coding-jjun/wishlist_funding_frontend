@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Box } from "@mui/material";
-import NavigationBar from "@/components/layout/navbar/navigation-bar";
 import { useViewport } from "@/hook/useViewport";
 import Sidebar from "@/components/layout/sidebar/sidebar";
+import NavigationBar from "@/components/layout/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
