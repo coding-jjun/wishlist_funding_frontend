@@ -7,6 +7,7 @@ export const StyledNavigationPaper = styled(Paper)(() => ({
   left: 0,
   right: 0,
   width: "100%",
+  height: 65,
   borderTopLeftRadius: 20,
   borderTopRightRadius: 20,
 }));
