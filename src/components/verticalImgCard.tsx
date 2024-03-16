@@ -1,3 +1,4 @@
+import calculateDate from "@/utils/calculateDate";
 import React from "react";
 import {
   Card as MaterialCard,
@@ -18,25 +19,16 @@ interface CardProps {
   progress: number;
 }
 
-const Card: React.FC<CardProps> = ({
+export default function VerticalImgCard({
   image,
   userId,
   title,
   theme,
   endDate,
   progress,
-}) => {
-  const calculateRemainingDays = () => {
-    const endDateObj = new Date(endDate);
-    const currentDate = new Date();
-
-    const timeDifference = endDateObj.getTime() - currentDate.getTime();
-    const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-    return days;
-  };
-
-  const remainingDays = calculateRemainingDays();
+}: CardProps) {
+  const currentDate = new Date();
+  const remainingDays = calculateDate(currentDate, endDate);
 
   const closingDate = () => {
     if (remainingDays > 0) return `${remainingDays}일 남음`;
@@ -81,6 +73,4 @@ const Card: React.FC<CardProps> = ({
       </CardActionArea>
     </MaterialCard>
   );
-};
-
-export default Card;
+}

@@ -1,4 +1,4 @@
-import Card from "@/components/card";
+import Card from "@/components/verticalImgCard";
 import React from "react";
 
 const Home: React.FC = () => {
