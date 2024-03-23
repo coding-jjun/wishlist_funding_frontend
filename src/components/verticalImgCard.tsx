@@ -1,6 +1,9 @@
+"use client";
+
 import calculateDate from "@/utils/calculateDate";
 import React from "react";
 import {
+  styled,
   Card as MaterialCard,
   CardContent,
   CardMedia,
@@ -9,6 +12,20 @@ import {
   LinearProgress,
   Box,
 } from "@mui/material";
+import { linearProgressClasses } from "@mui/material/LinearProgress";
+
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === "light" ? "#FFC2C7" : "#E6E6E6",
+  },
+}));
 
 interface CardProps {
   image: string;
@@ -41,7 +58,7 @@ export default function VerticalImgCard({
       <CardActionArea>
         <CardMedia
           component="img"
-          height="260"
+          height="250"
           image={image}
           alt="Card Image"
         />
@@ -49,7 +66,12 @@ export default function VerticalImgCard({
           <Typography variant="body2" color="text.secondary">
             {userId} | {theme}
           </Typography>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            fontWeight="bold"
+          >
             {title}
           </Typography>
           <Box
@@ -57,18 +79,18 @@ export default function VerticalImgCard({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="#FF626F" fontWeight="bold">
               {progress}%
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              fontWeight="medium"
+            >
               {closingDate()}
             </Typography>
           </Box>
-          <LinearProgress
-            color="inherit"
-            variant="determinate"
-            value={progress}
-          />
+          <BorderLinearProgress variant="determinate" value={progress} />
         </CardContent>
       </CardActionArea>
     </MaterialCard>

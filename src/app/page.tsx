@@ -4,7 +4,7 @@ import React from "react";
 const Home: React.FC = () => {
   // 임시 데이터
   let price = 1000;
-  let fundSum = 100;
+  let fundSum = 700;
 
   const cardData = {
     image:
