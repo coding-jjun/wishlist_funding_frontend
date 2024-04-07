@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Box>
           {children}
-          {isMobile ? <NavigationBar /> : <Sidebar />}
+          {isMobile ? <NavigationBar /> : <NavigationBar />}
         </Box>
       </body>
     </html>
