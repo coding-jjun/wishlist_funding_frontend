@@ -14,6 +14,6 @@ export const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
   },
   ".Mui-selected svg": {
     fontSize: 28,
-    color: red[300],
+    color: theme.palette.primary.main,
   },
 }));

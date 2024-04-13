@@ -3,29 +3,14 @@
 import calculateDate from "@/utils/calculateDate";
 import React from "react";
 import {
-  styled,
+  Box,
   Card as MaterialCard,
+  CardActionArea,
   CardContent,
   CardMedia,
-  Typography,
-  CardActionArea,
   LinearProgress,
-  Box,
+  Typography,
 } from "@mui/material";
-import { linearProgressClasses } from "@mui/material/LinearProgress";
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: theme.palette.mode === "light" ? "#FFC2C7" : "#E6E6E6",
-  },
-}));
 
 interface CardProps {
   image: string;
@@ -90,7 +75,7 @@ export default function VerticalImgCard({
               {closingDate()}
             </Typography>
           </Box>
-          <BorderLinearProgress variant="determinate" value={progress} />
+          <LinearProgress variant="determinate" value={progress} />
         </CardContent>
       </CardActionArea>
     </MaterialCard>
