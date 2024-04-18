@@ -1,0 +1,9 @@
+.github
+.idea
+.next
+node_modules
+npm-debug.log
+.eslintrc.json
+.gitignore
+Dockerfile
+README.md
