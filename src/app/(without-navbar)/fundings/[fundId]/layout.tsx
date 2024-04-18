@@ -8,7 +8,7 @@ export default function FundingDetailLayout({
   return (
     <section>
       {children}
-      <DetailActionBar />
+      <DetailActionBar buttonText="구매하기" />
     </section>
   );
 }

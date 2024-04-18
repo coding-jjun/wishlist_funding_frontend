@@ -4,7 +4,11 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { ActionBarStack } from "@/components/layout/action-bar/ActionBarStack";
 import { ActionBarButton } from "@/components/layout/action-bar/ActionBarButton";
 
-export default function DetailActionBar() {
+interface Props {
+  buttonText: string;
+}
+
+export default function DetailActionBar({ buttonText }: Props) {
   return (
     <ActionBarStack
       direction={"row"}
@@ -15,7 +19,7 @@ export default function DetailActionBar() {
       <IconButton aria-label="share">
         <ShareOutlinedIcon />
       </IconButton>
-      <ActionBarButton variant="contained">구매하기</ActionBarButton>
+      <ActionBarButton variant="contained">{buttonText}</ActionBarButton>
     </ActionBarStack>
   );
 }
