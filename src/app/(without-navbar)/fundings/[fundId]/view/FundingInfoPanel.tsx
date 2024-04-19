@@ -11,9 +11,7 @@ export default function FundingInfoPanel({ funding }: Props) {
 
   return (
     <>
-      <Typography variant="body1" color={grey[800]}>
-        {fundCont}
-      </Typography>
+      <Typography variant="body1">{fundCont}</Typography>
       {/*TODO: 펀딩 상세 정보 조회 API에 선물 목록이 추가됐을 때 선물 목록 카드 추가하기*/}
     </>
   );
