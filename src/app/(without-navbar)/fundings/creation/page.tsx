@@ -136,9 +136,16 @@ export default function FundingCreationPage() {
       </Box>
 
       {/*공개범위*/}
-      <ButtonGroup variant="outlined" fullWidth>
-        <Button onClick={() => handlePublicityChange(true)}>전체공개</Button>
-        <Button onClick={() => handlePublicityChange(false)}>친구공개</Button>
+      <ButtonGroup fullWidth>
+        {["전체공개", "친구공개"].map((label, index) => (
+          <Button
+            key={index}
+            onClick={() => handlePublicityChange(index === 0)}
+            variant={pub === (index === 0) ? "contained" : "outlined"}
+          >
+            {label}
+          </Button>
+        ))}
       </ButtonGroup>
 
       {/*마감기한*/}
@@ -156,10 +163,16 @@ export default function FundingCreationPage() {
       </LocalizationProvider>
 
       {/*테마*/}
-      <CustomButtonGroup variant="outlined" fullWidth>
-        <Button onClick={() => handleThemeChange("Birthday")}>생일</Button>
-        <Button onClick={() => handleThemeChange("Anniversary")}>기념일</Button>
-        <Button onClick={() => handleThemeChange("Donation")}>후원</Button>
+      <CustomButtonGroup fullWidth>
+        {[
+          { label: "생일", value: "Birthday" },
+          { label: "기념일", value: "Anniversary" },
+          { label: "후원", value: "Donation" },
+        ].map((themes, index) => (
+          <Button key={index} onClick={() => handleThemeChange(themes.value)}>
+            {themes.label}
+          </Button>
+        ))}
       </CustomButtonGroup>
 
       {/*금액*/}
