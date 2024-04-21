@@ -2,7 +2,15 @@
 
 import * as React from "react";
 import dayjs, { Dayjs } from "dayjs";
-import { Box, TextField, styled, Button, ButtonGroup } from "@mui/material";
+import {
+  Box,
+  TextField,
+  styled,
+  Button,
+  ButtonGroup,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -10,6 +18,12 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import addComma from "@/utils/addComma";
 import { ChangeEvent, useState } from "react";
 import { red } from "@mui/material/colors";
+import FormDataItem from "@/types/FormDataItem";
+import GiftItem from "@/components/GiftItem";
+import { AddBox } from "@mui/icons-material";
+import { DetailActionBar } from "@/components/layout/action-bar";
+import useFundingCreateQuery from "@/query/useFundingCreatQuery";
+import { FundingCreate } from "@/types/FundingCreate";
 
 export default function FundingCreationPage() {
   const [title, setTitle] = useState("");
@@ -18,6 +32,8 @@ export default function FundingCreationPage() {
   const [pub, setPub] = useState(true);
   const [endDate, setEndDate] = useState(dayjs());
   const [theme, setTheme] = useState("");
+  const [formDataList, setFormDataList] = useState<FormDataItem[]>([]);
+  const { mutate } = useFundingCreateQuery();
 
   const CustomButtonGroup = styled(ButtonGroup)({
     marginTop: "15px",
@@ -63,31 +79,38 @@ export default function FundingCreationPage() {
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch("/api/funding", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fundTitle: title,
-          fundCont: content,
-          fundPubl: pub,
-          fundTheme: theme,
-          fundGoal: amount,
-          fundImg:
-            "https://img.danawa.com/prod_img/500000/924/538/img/28538924_1.jpg?_v=20231006030836",
-        }),
-      });
-      if (response.ok) {
-        console.log("👌🏻펀딩 생성 성공");
-      } else {
-        console.error("❌펀딩 생성 실패");
-      }
-    } catch (error) {
-      console.error("❌펀딩 생성 중 에러 발생..", error);
-    }
+  const handleAddForm = () => {
+    const newFormDataList = [
+      ...formDataList,
+      { giftUrl: "", giftOpt: "", giftCont: "" },
+    ];
+    setFormDataList(newFormDataList);
+  };
+
+  const handleChange = (
+    index: number,
+    key: keyof FormDataItem,
+    value: string,
+  ) => {
+    const newFormDataList = [...formDataList];
+    newFormDataList[index][key] = value;
+    setFormDataList(newFormDataList);
+  };
+
+  const body: FundingCreate = {
+    fundTitle: title,
+    fundCont: content,
+    fundPubl: pub,
+    fundTheme: theme,
+    fundGoal: amount,
+    endAt: endDate,
+    fundImg:
+      "https://img.danawa.com/prod_img/500000/924/538/img/28538924_1.jpg?_v=20231006030836",
+    gifts: formDataList,
+  };
+
+  const handleSubmit = () => {
+    mutate(body);
   };
 
   return (
@@ -154,14 +177,24 @@ export default function FundingCreationPage() {
         />
       </Box>
 
-      <Button
-        variant="contained"
-        fullWidth
-        onClick={handleSubmit}
-        style={{ marginTop: "30px" }}
-      >
-        펀딩 생성
-      </Button>
+      {/*gift item*/}
+      <div>
+        <h5>ITEMS</h5>
+        <Tooltip title="addItem" onClick={handleAddForm}>
+          <IconButton>
+            <AddBox />
+          </IconButton>
+        </Tooltip>
+        {formDataList.map((formData, index) => (
+          <GiftItem
+            key={index}
+            index={index}
+            formData={formData}
+            handleChange={handleChange}
+          />
+        ))}
+      </div>
+      <DetailActionBar buttonText="작성하기" handleSubmit={handleSubmit} />
     </>
   );
 }

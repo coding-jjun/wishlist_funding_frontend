@@ -6,9 +6,10 @@ import { ActionBarButton } from "@/components/layout/action-bar/ActionBarButton"
 
 interface Props {
   buttonText: string;
+  handleSubmit: () => void;
 }
 
-export default function DetailActionBar({ buttonText }: Props) {
+export default function DetailActionBar({ buttonText, handleSubmit }: Props) {
   return (
     <ActionBarStack
       direction={"row"}
@@ -19,7 +20,9 @@ export default function DetailActionBar({ buttonText }: Props) {
       <IconButton aria-label="share">
         <ShareOutlinedIcon />
       </IconButton>
-      <ActionBarButton variant="contained">{buttonText}</ActionBarButton>
+      <ActionBarButton variant="contained" onClick={handleSubmit}>
+        {buttonText}
+      </ActionBarButton>
     </ActionBarStack>
   );
 }
