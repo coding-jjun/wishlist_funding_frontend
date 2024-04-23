@@ -5,6 +5,7 @@ import FundingPageTab from "@/app/(without-navbar)/fundings/[fundId]/view/Fundin
 import FundingTitle from "@/app/(without-navbar)/fundings/[fundId]/view/FundingTitle";
 import FundingProgress from "@/app/(without-navbar)/fundings/[fundId]/view/FundingProgress";
 import FundingThumbnail from "@/app/(without-navbar)/fundings/[fundId]/view/FundingThumbnail";
+import { DetailActionBar } from "@/components/layout/action-bar";
 
 export default function FundingDetailPage({
   params,
@@ -12,6 +13,8 @@ export default function FundingDetailPage({
   params: { fundId: string };
 }) {
   const { data: funding } = useFundingDetailQuery(params.fundId);
+
+  const handleSubmit = () => {};
 
   return (
     <>
@@ -25,6 +28,7 @@ export default function FundingDetailPage({
           <FundingPageTab funding={funding} />
         </Stack>
       )}
+      <DetailActionBar buttonText="구매하기" handleSubmit={handleSubmit} />
     </>
   );
 }
