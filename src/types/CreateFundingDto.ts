@@ -7,7 +7,7 @@ export interface CreateFundingDto {
   fundPubl: boolean;
   fundTheme: string;
   fundGoal: number;
-  endAt: Dayjs;
+  endAt: Date;
   fundImg: string;
   gifts: GiftDto[];
 }

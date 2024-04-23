@@ -18,21 +18,21 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import addComma from "@/utils/addComma";
 import { ChangeEvent, useState } from "react";
 import { red } from "@mui/material/colors";
-import FormDataItem from "@/types/FormDataItem";
+import GiftDto from "@/types/GiftDto";
 import GiftItem from "@/components/GiftItem";
 import { AddBox } from "@mui/icons-material";
 import { DetailActionBar } from "@/components/layout/action-bar";
 import useFundingCreateQuery from "@/query/useFundingCreatQuery";
-import { FundingCreate } from "@/types/FundingCreate";
+import { CreateFundingDto } from "@/types/CreateFundingDto";
 
 export default function FundingCreationPage() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [pub, setPub] = useState(true);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
+  const [pub, setPub] = useState<boolean>(true);
   const [endDate, setEndDate] = useState(dayjs());
-  const [theme, setTheme] = useState("");
-  const [formDataList, setFormDataList] = useState<FormDataItem[]>([]);
+  const [theme, setTheme] = useState<string>("");
+  const [formDataList, setFormDataList] = useState<GiftDto[]>([]);
   const { mutate } = useFundingCreateQuery();
 
   const CustomButtonGroup = styled(ButtonGroup)({
@@ -87,23 +87,19 @@ export default function FundingCreationPage() {
     setFormDataList(newFormDataList);
   };
 
-  const handleChange = (
-    index: number,
-    key: keyof FormDataItem,
-    value: string,
-  ) => {
+  const handleChange = (index: number, key: keyof GiftDto, value: string) => {
     const newFormDataList = [...formDataList];
     newFormDataList[index][key] = value;
     setFormDataList(newFormDataList);
   };
 
-  const body: FundingCreate = {
+  const body: CreateFundingDto = {
     fundTitle: title,
     fundCont: content,
     fundPubl: pub,
     fundTheme: theme,
     fundGoal: amount,
-    endAt: endDate,
+    endAt: endDate.toDate(),
     fundImg:
       "https://img.danawa.com/prod_img/500000/924/538/img/28538924_1.jpg?_v=20231006030836",
     gifts: formDataList,
