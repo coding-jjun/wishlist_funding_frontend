@@ -21,7 +21,7 @@ const useFundingCreateQuery = () => {
     mutationFn: (body) => fetchFundingCreate(body),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["fundingCreate"],
+        queryKey: ["fundings"],
       });
     },
   });
