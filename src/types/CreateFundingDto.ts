@@ -1,7 +1,7 @@
 import { Dayjs } from "dayjs";
 import FormDataItem from "@/types/FormDataItem";
 
-export interface FundingCreate {
+export interface CreateFundingDto {
   fundTitle: string;
   fundCont: string;
   fundPubl: boolean;
