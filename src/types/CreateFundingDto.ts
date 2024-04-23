@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import FormDataItem from "@/types/FormDataItem";
+import GiftDto from "@/types/GiftDto";
 
 export interface CreateFundingDto {
   fundTitle: string;
@@ -9,5 +9,5 @@ export interface CreateFundingDto {
   fundGoal: number;
   endAt: Dayjs;
   fundImg: string;
-  gifts: FormDataItem[];
+  gifts: GiftDto[];
 }

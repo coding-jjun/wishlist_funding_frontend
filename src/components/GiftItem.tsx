@@ -1,11 +1,11 @@
 import React from "react";
-import FormDataItem from "@/types/FormDataItem";
+import GiftDto from "@/types/GiftDto";
 import { Card, CardContent, TextField } from "@mui/material";
 
 interface GiftItemProps {
   index: number;
-  formData: FormDataItem;
-  handleChange: (index: number, key: keyof FormDataItem, value: string) => void;
+  formData: GiftDto;
+  handleChange: (index: number, key: keyof GiftDto, value: string) => void;
 }
 
 export default function GiftItem({
