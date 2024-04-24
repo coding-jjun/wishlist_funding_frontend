@@ -7,7 +7,7 @@ export default function FundingDetailLayout({
 }) {
   return (
     <section>
-      {children}
+      <div style={{ paddingBottom: 50 }}>{children}</div>
       <DetailActionBar />
     </section>
   );
