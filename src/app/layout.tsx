@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body className={inter.className} style={{ overflowX: "hidden" }}>
         <RecoilRootProvider>
           <ThemeProvider theme={theme}>
             <QueryClientProvider>{children}</QueryClientProvider>
