@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@mui/material";
 import theme from "@/components/theme";
-import QueryClientProvider from "@/components/provider/QueryClientProvider";
+import { QueryClientProvider, RecoilRootProvider } from "@/components/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider>{children}</QueryClientProvider>
-        </ThemeProvider>
+        <RecoilRootProvider>
+          <ThemeProvider theme={theme}>
+            <QueryClientProvider>{children}</QueryClientProvider>
+          </ThemeProvider>
+        </RecoilRootProvider>
       </body>
     </html>
   );
