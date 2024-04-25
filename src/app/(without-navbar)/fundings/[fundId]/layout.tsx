@@ -8,7 +8,7 @@ export default function FundingDetailLayout({
   return (
     <section>
       <div style={{ paddingBottom: 50 }}>{children}</div>
-      <DetailActionBar buttonText="선물하기" handleSubmit={() => {}} />
+      <DetailActionBar buttonText="선물하기" handleSubmit={undefined} />
     </section>
   );
 }

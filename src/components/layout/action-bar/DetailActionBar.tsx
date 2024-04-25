@@ -6,7 +6,7 @@ import { ActionBarButton } from "@/components/layout/action-bar/ActionBarButton"
 
 interface Props {
   buttonText: string;
-  handleSubmit: () => void;
+  handleSubmit?: () => void;
 }
 
 export default function DetailActionBar({ buttonText, handleSubmit }: Props) {
