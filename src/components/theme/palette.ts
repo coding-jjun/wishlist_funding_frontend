@@ -1,5 +1,5 @@
 import { PaletteOptions } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { grey, red } from "@mui/material/colors";
 
 const palette: PaletteOptions = {
   primary: {
@@ -8,6 +8,10 @@ const palette: PaletteOptions = {
   },
   secondary: {
     main: "#FFC2C7",
+  },
+  info: {
+    main: grey[500],
+    contrastText: "white",
   },
 };
 

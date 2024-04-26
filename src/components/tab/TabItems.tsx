@@ -10,12 +10,13 @@ interface Props {
 
 export default function TabItems({ tabs, handleTabChange }: Props) {
   return (
-    <TabList onChange={handleTabChange} variant={"fullWidth"}>
+    <TabList onChange={handleTabChange} variant="scrollable">
       {tabs.map((tab) => (
         <Tab
           key={`tab-${tab.label}-${tab.value}`}
           label={tab.label}
           value={tab.value}
+          sx={{ flexGrow: 1 }}
         />
       ))}
     </TabList>

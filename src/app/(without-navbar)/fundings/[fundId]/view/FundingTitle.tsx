@@ -11,7 +11,7 @@ export default function FundingTitle({ funding }: Props) {
 
   return (
     <Stack direction="row" spacing={1} alignItems="center">
-      <Typography variant={"h5"} fontWeight={700} color={grey[800]}>
+      <Typography variant={"h5"} fontWeight={700}>
         {fundTitle}
       </Typography>
       <Chip label={fundTheme} size="small" sx={{ borderRadius: 2 }} />

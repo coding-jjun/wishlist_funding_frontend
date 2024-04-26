@@ -1,11 +1,13 @@
 "use client";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import { Stack } from "@mui/material";
 import useFundingDetailQuery from "@/query/useFundingsQuery";
 import FundingPageTab from "@/app/(without-navbar)/fundings/[fundId]/view/FundingPageTab";
 import FundingTitle from "@/app/(without-navbar)/fundings/[fundId]/view/FundingTitle";
 import FundingProgress from "@/app/(without-navbar)/fundings/[fundId]/view/FundingProgress";
 import FundingThumbnail from "@/app/(without-navbar)/fundings/[fundId]/view/FundingThumbnail";
-import { DetailActionBar } from "@/components/layout/action-bar";
+import { currentFundingAtom } from "@/store/atoms/funding";
 
 export default function FundingDetailPage({
   params,
@@ -14,7 +16,11 @@ export default function FundingDetailPage({
 }) {
   const { data: funding } = useFundingDetailQuery(params.fundId);
 
-  const handleSubmit = () => {};
+  const setCurrentFunding = useSetRecoilState(currentFundingAtom);
+
+  useEffect(() => {
+    setCurrentFunding(funding);
+  }, [setCurrentFunding, funding]);
 
   return (
     <>
@@ -28,7 +34,6 @@ export default function FundingDetailPage({
           <FundingPageTab funding={funding} />
         </Stack>
       )}
-      <DetailActionBar buttonText="구매하기" handleSubmit={handleSubmit} />
     </>
   );
 }
