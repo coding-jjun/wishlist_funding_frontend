@@ -12,11 +12,6 @@ export default function FundingThumbnail({ funding }: Props) {
     <CoverImage
       src={fundImg ?? "/dummy/present.png"}
       alt={`thumbnail-${fundTitle}`}
-      parentDivStyle={{
-        width: "100%",
-        aspectRatio: "1 / 1",
-        borderRadius: 10,
-      }}
     />
   );
 }

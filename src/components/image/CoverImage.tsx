@@ -14,6 +14,9 @@ export default function CoverImage({ src, alt, parentDivStyle }: Props) {
         position: "relative",
         overflow: "hidden",
         objectFit: "cover",
+        width: "100%",
+        aspectRatio: "1 / 1",
+        borderRadius: 10,
         ...parentDivStyle,
       }}
     >
