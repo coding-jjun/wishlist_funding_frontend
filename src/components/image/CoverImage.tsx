@@ -7,7 +7,7 @@ interface Props {
   parentDivStyle?: CSSProperties;
 }
 
-export default function FillImage({ src, alt, parentDivStyle }: Props) {
+export default function CoverImage({ src, alt, parentDivStyle }: Props) {
   return (
     <div
       style={{
