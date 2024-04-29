@@ -192,12 +192,7 @@ export default function FundingCreationPage() {
       <div style={{ paddingBottom: 80 }}>
         <h5>배송지</h5>
         <Button onClick={openModal}>선택</Button>
-        <Modal
-          open={isModalOpen}
-          onClose={closeModal}
-          aria-labelledby="bottom-sheet-modal"
-          aria-describedby="bottom-sheet-modal-description"
-        >
+        <Modal open={isModalOpen} onClose={closeModal}>
           <Box
             sx={{
               position: "absolute",

@@ -6,7 +6,7 @@ import { CSS } from "@dnd-kit/utilities";
 import GiftForm from "@/types/GiftForm";
 import GiftItem from "@/components/dragndrop/GiftItem";
 
-export default function SortableGiftForm({ id }: GiftForm) {
+export default function SortableGiftForm({ id, giftInfo }: GiftForm) {
   const {
     attributes,
     listeners,
@@ -24,7 +24,7 @@ export default function SortableGiftForm({ id }: GiftForm) {
 
   return (
     <div style={style} ref={setNodeRef} {...attributes} {...listeners}>
-      <GiftItem index={id} />
+      <GiftItem index={id} giftInfo={giftInfo} />
     </div>
   );
 }

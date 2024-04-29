@@ -26,7 +26,7 @@ export default function DragGifts() {
     },
   ]);
 
-  const addTask = () => {
+  const addForm = () => {
     setGifts((gifts) => [
       ...gifts,
       { id: gifts.length + 1, giftInfo: formData },
@@ -58,7 +58,7 @@ export default function DragGifts() {
 
   return (
     <>
-      <AddGiftForm onSubmit={addTask} />
+      <AddGiftForm onSubmit={addForm} />
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}

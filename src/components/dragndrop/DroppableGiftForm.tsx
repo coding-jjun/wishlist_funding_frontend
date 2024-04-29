@@ -14,7 +14,7 @@ interface Prop {
 export function DroppableGiftForm({ gifts }: Prop) {
   return (
     <SortableContext
-      items={gifts.map((gift) => gift.id)}
+      items={gifts.map((gift: GiftForm) => gift.id)}
       strategy={verticalListSortingStrategy}
     >
       {gifts.map((gift: GiftForm) => (

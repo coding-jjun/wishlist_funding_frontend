@@ -43,12 +43,7 @@ export default function Postcode() {
       <Button onClick={openModal}>주소 찾기</Button>
 
       {/*주소검색 모달*/}
-      <Modal
-        open={isModalOpen}
-        onClose={closeModal}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
+      <Modal open={isModalOpen} onClose={closeModal}>
         <Box
           sx={{
             position: "absolute",

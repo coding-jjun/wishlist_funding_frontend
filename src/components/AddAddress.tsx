@@ -3,11 +3,11 @@ import { Button, TextField, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Postcode from "@/components/Postcode";
 
-interface Prop {
+interface Props {
   onClose: () => void;
 }
 
-export default function AddAddress({ onClose }: Prop) {
+export default function AddAddress({ onClose }: Props) {
   const handleClose = () => {
     onClose();
   };

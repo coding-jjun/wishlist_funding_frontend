@@ -4,14 +4,11 @@ import { Card, CardContent, TextField } from "@mui/material";
 
 interface GiftItemProps {
   index: number;
+  giftInfo: GiftDto;
 }
 
-export default function GiftItem({ index }: GiftItemProps) {
-  const [gift, setGift] = useState<GiftDto>({
-    giftUrl: "",
-    giftOpt: "",
-    giftCont: "",
-  });
+export default function GiftItem({ index, giftInfo }: GiftItemProps) {
+  const [gift, setGift] = useState<GiftDto>(giftInfo);
 
   const renderGiftField = (
     label: string,
