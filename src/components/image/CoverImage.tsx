@@ -7,13 +7,16 @@ interface Props {
   parentDivStyle?: CSSProperties;
 }
 
-export default function FillImage({ src, alt, parentDivStyle }: Props) {
+export default function CoverImage({ src, alt, parentDivStyle }: Props) {
   return (
     <div
       style={{
         position: "relative",
         overflow: "hidden",
         objectFit: "cover",
+        width: "100%",
+        aspectRatio: "1 / 1",
+        borderRadius: 10,
         ...parentDivStyle,
       }}
     >
