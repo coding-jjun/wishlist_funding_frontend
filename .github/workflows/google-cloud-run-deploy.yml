@@ -25,6 +25,12 @@ jobs:
         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          context: .
+          push: true
+          tags: user/app:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Google Cloud Auth
         uses: 'google-github-actions/auth@v2'
