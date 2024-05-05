@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import CoverImage from "@/components/image/CoverImage";
 import useGratitudeQuery from "@/query/useGratitudeQuery";
-import ProfileWithDate from "@/components/profile/ProfileWithDate";
+import Profile from "@/components/profile/Profile";
 import { SwiperWithThumbs } from "@/components/swiper";
 import { grey } from "@mui/material/colors";
 
@@ -26,10 +26,7 @@ export default function GratitudePanel({ gratId }: Props) {
       {gratitude ? (
         <Stack direction="column" spacing={2}>
           {/*TODO: Funding 객체 또는 Gratitude 객체에 유저 정보가 추가되면 userName 하드코딩 제거 필요*/}
-          <ProfileWithDate
-            userName="홍길동"
-            regAt={gratitude?.regAt.toString()}
-          />
+          <Profile userName="홍길동" regAt={gratitude?.regAt.toString()} />
           <Typography variant="body1">{gratitude?.gratCont}</Typography>
           <SwiperWithThumbs
             slides={DUMMY_IMAGES.map((image) => ({
