@@ -46,8 +46,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGISTRY_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGISTRY_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Deploy to Cloud Run
         run: |
