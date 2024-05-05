@@ -46,8 +46,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGISTRY_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=registry,ref=${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGISTRY_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+          cache-to: type=inline
 
       - name: Deploy to Cloud Run
         run: |
