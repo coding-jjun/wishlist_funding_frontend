@@ -10,9 +10,13 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
   dockerize-and-deploy:
+    if: github.event.pull_request.merged == true
+
     runs-on: ubuntu-latest
 
     steps:
