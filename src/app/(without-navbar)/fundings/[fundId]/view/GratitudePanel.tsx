@@ -5,6 +5,7 @@ import useGratitudeQuery from "@/query/useGratitudeQuery";
 import Profile from "@/components/profile/Profile";
 import { SwiperWithThumbs } from "@/components/swiper";
 import { grey } from "@mui/material/colors";
+import { useRouter } from "next/navigation";
 
 // TODO: Gratitude에 이미지 프로퍼티가 추가되면 대체 필요
 const DUMMY_IMAGES = [
@@ -16,10 +17,16 @@ const DUMMY_IMAGES = [
 
 interface Props {
   gratId: number;
+  fundUuid: string;
 }
 
-export default function GratitudePanel({ gratId }: Props) {
-  const { data: gratitude } = useGratitudeQuery(gratId);
+export default function GratitudePanel({ gratId, fundUuid }: Props) {
+  const { data: gratitude } = useGratitudeQuery(gratId, fundUuid);
+  const router = useRouter();
+
+  const moveToGratitudeCreationPage = () => {
+    router.push(`/fundings/${fundUuid}/gratitude/creation`);
+  };
 
   return (
     <>
@@ -41,7 +48,11 @@ export default function GratitudePanel({ gratId }: Props) {
             등록된 감사인사가 없습니다.
           </Typography>
           {/*TODO: 로그인 기능이 추가되면 본인이 생성한 펀딩일 때만 등록 버튼이 보이도록 수정 필요*/}
-          <Button variant="contained" color="info">
+          <Button
+            variant="contained"
+            color="info"
+            onClick={moveToGratitudeCreationPage}
+          >
             등록하기
           </Button>
         </Stack>
