@@ -3,10 +3,20 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import GiftForm from "@/types/GiftForm";
 import GiftItem from "@/components/dragndrop/GiftItem";
+import GiftDto from "@/types/GiftDto";
 
-export default function SortableGiftForm({ id, giftInfo }: GiftForm) {
+interface Props {
+  id: number;
+  giftInfo: GiftDto;
+  onValueChange: (index: number, key: keyof GiftDto, value: any) => void;
+}
+
+export default function SortableGiftForm({
+  id,
+  giftInfo,
+  onValueChange,
+}: Props) {
   const {
     attributes,
     listeners,
@@ -24,7 +34,8 @@ export default function SortableGiftForm({ id, giftInfo }: GiftForm) {
 
   return (
     <div style={style} ref={setNodeRef} {...attributes} {...listeners}>
-      <GiftItem index={id} giftInfo={giftInfo} />
+      <span>Item {id}</span>
+      <GiftItem index={id} giftInfo={giftInfo} onValueChange={onValueChange} />
     </div>
   );
 }

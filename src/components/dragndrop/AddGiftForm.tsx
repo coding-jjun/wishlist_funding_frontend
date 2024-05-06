@@ -8,15 +8,6 @@ interface Props {
 }
 
 export default function AddGiftForm({ onSubmit }: Props) {
-  // const formData: GiftDto = { giftUrl: "", giftOpt: "", giftCont: "" };
-  // const [formDataList, setFormDataList] = useState<GiftDto[]>([formData]);
-
-  // const handleAddForm = () => {
-  //   const newFormDataList = [...formDataList, formData];
-  //   onSubmit();
-  //   setFormDataList(newFormDataList);
-  // };
-
   return (
     <Tooltip title="선물 추가" onClick={onSubmit}>
       <IconButton>
