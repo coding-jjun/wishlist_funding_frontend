@@ -4,6 +4,7 @@ import FundingInfoPanel from "@/app/(without-navbar)/fundings/[fundId]/view/Fund
 import type { Funding } from "@/types/Funding";
 import CommentPanel from "@/app/(without-navbar)/fundings/[fundId]/view/CommentPanel";
 import GratitudePanel from "@/app/(without-navbar)/fundings/[fundId]/view/GratitudePanel";
+import RollingPaperPanel from "@/app/(without-navbar)/fundings/[fundId]/view/RollingPaperPanel";
 
 interface Props {
   funding: Funding;
@@ -35,7 +36,11 @@ export default function FundingPageTab({ funding }: Props) {
           // TODO: Funding 객체 내에 gratId가 추가되면 funding.gratId를 전달하도록 수정 필요
           panel: <GratitudePanel gratId={1} />,
         },
-        { label: "롤링페이퍼", value: "롤링페이퍼", panel: <></> },
+        {
+          label: "롤링페이퍼",
+          value: "롤링페이퍼",
+          panel: <RollingPaperPanel fundUuid={funding.fundUuid} />,
+        },
       ]}
       selectedTab={tab}
       handleTabChange={handleTabChange}
