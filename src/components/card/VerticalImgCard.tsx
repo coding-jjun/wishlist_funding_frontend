@@ -11,6 +11,7 @@ import {
   LinearProgress,
   Typography,
 } from "@mui/material";
+import ProgressBarWithText from "@/components/progress/ProgressBarWithText";
 
 interface CardProps {
   image: string;
@@ -43,7 +44,7 @@ export default function VerticalImgCard({
       <CardActionArea>
         <CardMedia
           component="img"
-          height="250"
+          height="200"
           image={image}
           alt="Card Image"
         />
@@ -53,29 +54,17 @@ export default function VerticalImgCard({
           </Typography>
           <Typography
             gutterBottom
-            variant="h6"
+            variant="body1"
             component="div"
             fontWeight="bold"
           >
             {title}
           </Typography>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="body2" color="#FF626F" fontWeight="bold">
-              {progress}%
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              fontWeight="medium"
-            >
-              {closingDate()}
-            </Typography>
-          </Box>
-          <LinearProgress variant="determinate" value={progress} />
+          <ProgressBarWithText
+            progress={70}
+            endDate={new Date(2024, 4, 20, 12).toString()}
+            textSize="body2"
+          />
         </CardContent>
       </CardActionArea>
     </MaterialCard>
