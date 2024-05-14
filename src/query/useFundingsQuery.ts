@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Funding, FundingQueryParam } from "@/types/Funding";
+import { FundingQueryParam, FundingQueryResponse } from "@/types/Funding";
 import { CommonResponse } from "@/types/CommonResponse";
 
 const buildURL = (
@@ -26,10 +26,10 @@ const buildURL = (
 const fetchFundings = async (
   userId: number,
   queryParams: Partial<FundingQueryParam>,
-): Promise<Funding[]> => {
+): Promise<FundingQueryResponse> => {
   const url = buildURL(userId, queryParams);
 
-  const response = await axios.get<CommonResponse<Funding[]>>(url);
+  const response = await axios.get<CommonResponse<FundingQueryResponse>>(url);
 
   return response.data.data;
 };
@@ -37,8 +37,8 @@ const fetchFundings = async (
 const useFundingsQuery = (
   userId: number,
   queryParams: Partial<FundingQueryParam>,
-): UseQueryResult<Funding[]> => {
-  return useQuery<Funding[]>({
+): UseQueryResult<FundingQueryResponse> => {
+  return useQuery<FundingQueryResponse>({
     queryKey: ["fundings", userId],
     queryFn: () => fetchFundings(userId, queryParams),
   });
