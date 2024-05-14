@@ -16,6 +16,7 @@ interface Props {
   theme: string;
   endDate: string;
   progress: number;
+  handleClick: () => void;
 }
 
 export default function HorizontalImgCard({
@@ -25,10 +26,11 @@ export default function HorizontalImgCard({
   theme,
   endDate,
   progress,
+  handleClick,
 }: Props) {
   return (
     <Card variant="outlined" sx={{ borderRadius: 5 }}>
-      <CardActionArea sx={{ display: "flex" }}>
+      <CardActionArea sx={{ display: "flex" }} onClick={handleClick}>
         <CardMedia
           component="img"
           sx={{ width: 140 }}

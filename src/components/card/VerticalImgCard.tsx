@@ -1,25 +1,24 @@
 "use client";
 
-import calculateDate from "@/utils/calculateDate";
 import React from "react";
 import {
-  Box,
   Card as MaterialCard,
   CardActionArea,
   CardContent,
   CardMedia,
-  LinearProgress,
   Typography,
 } from "@mui/material";
 import ProgressBarWithText from "@/components/progress/ProgressBarWithText";
+import { FundTheme, getThemeName } from "@/types/Funding";
 
 interface CardProps {
   image: string;
   userId: string;
   title: string;
-  theme: string;
+  theme: FundTheme;
   endDate: string;
   progress: number;
+  handleClick: () => void;
 }
 
 export default function VerticalImgCard({
@@ -29,19 +28,11 @@ export default function VerticalImgCard({
   theme,
   endDate,
   progress,
+  handleClick,
 }: CardProps) {
-  const currentDate = new Date();
-  const remainingDays = calculateDate(currentDate, endDate);
-
-  const closingDate = () => {
-    if (remainingDays > 0) return `${remainingDays}일 남음`;
-    else if (remainingDays === 0) return "오늘 마감";
-    else return "만료됨";
-  };
-
   return (
     <MaterialCard variant="outlined" sx={{ borderRadius: 5 }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClick}>
         <CardMedia
           component="img"
           height="200"
@@ -50,7 +41,7 @@ export default function VerticalImgCard({
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {userId} | {theme}
+            {userId} | {getThemeName(theme)}
           </Typography>
           <Typography
             gutterBottom
@@ -61,8 +52,8 @@ export default function VerticalImgCard({
             {title}
           </Typography>
           <ProgressBarWithText
-            progress={70}
-            endDate={new Date(2024, 4, 20, 12).toString()}
+            progress={progress}
+            endDate={endDate}
             textSize="body2"
           />
         </CardContent>
