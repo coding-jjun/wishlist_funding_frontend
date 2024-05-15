@@ -25,7 +25,7 @@ export default function ProgressBarWithText({
   textSize,
 }: Props) {
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <Stack direction={"row"} justifyContent={"space-between"} sx={{ mb: 1 }}>
         <Typography
           variant={textSize ?? "body1"}
