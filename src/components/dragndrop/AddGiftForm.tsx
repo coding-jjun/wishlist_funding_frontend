@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { IconButton, Tooltip } from "@mui/material";
-import { AddBox } from "@mui/icons-material";
-import GiftDto from "@/types/GiftDto";
+import React from "react";
+import { Button } from "@mui/material";
 
 interface Props {
   onSubmit: () => void;
@@ -9,10 +7,16 @@ interface Props {
 
 export default function AddGiftForm({ onSubmit }: Props) {
   return (
-    <Tooltip title="선물 추가" onClick={onSubmit}>
-      <IconButton>
-        <AddBox />
-      </IconButton>
-    </Tooltip>
+    <Button
+      onClick={onSubmit}
+      fullWidth
+      color="primary"
+      sx={{
+        mt: 1,
+        border: "1px dashed",
+      }}
+    >
+      아이템 추가
+    </Button>
   );
 }
