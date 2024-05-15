@@ -1,23 +1,21 @@
 import { ButtonGroup, styled } from "@mui/material";
-import { red } from "@mui/material/colors";
 
 const ThemeButtonGroup = styled(ButtonGroup)({
-  marginTop: "15px",
-  marginBottom: "15px",
-  "& .MuiButton-outlined": {
-    borderColor: red[100],
+  "& .MuiButton-root": {
+    "&:focus": {
+      borderWidth: "1.3px",
+    },
+    borderWidth: "1.3px",
+    borderColor: "#fff",
+    flex: 1,
+    borderRadius: "50px",
+    color: "#4F4635",
+    backgroundColor: "#fff",
     margin: "5px",
-    borderRadius: "20px",
+    padding: "10px",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
   },
-  "& .MuiButton-outlined:hover": {
-    borderColor: red[300],
-    borderWidth: "1px",
-    color: red[300],
-  },
-  "& .MuiButton-outlined:active": {
-    backgroundColor: red[400],
-    color: "#fff",
-  },
+  marginBottom: "15px",
 });
 
 export default ThemeButtonGroup;
