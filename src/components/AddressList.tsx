@@ -14,15 +14,20 @@ export default function AddressList() {
   };
 
   return (
-    <div style={{ width: 300, padding: 20, backgroundColor: "white" }}>
+    <div
+      style={{
+        paddingLeft: 25,
+        paddingRight: 25,
+      }}
+    >
       {/*배송지 목록*/}
 
       {/*배송지 추가*/}
       {showAddAddress ? (
         <AddAddress onClose={handleClose} />
       ) : (
-        <Button variant="outlined" onClick={handleOpen}>
-          새 배송지 추가
+        <Button fullWidth variant="outlined" onClick={handleOpen}>
+          새로운 주소 +
         </Button>
       )}
     </div>
