@@ -20,7 +20,7 @@ export default function Home() {
   // 다른 사람들의 펀딩
   const { data: othersFunding } = useFundingsQuery(1, {
     fundPublFilter: "both",
-    limit: 2,
+    limit: 5,
   });
 
   return (
