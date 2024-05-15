@@ -33,15 +33,24 @@ export default function Postcode() {
 
   return (
     <div>
-      {/*우편번호*/}
-      <TextField
-        value={zipcode}
-        disabled={true}
-        placeholder="우편번호"
-        margin="dense"
-      />
-      <Button onClick={openModal}>주소 찾기</Button>
-
+      <Box display="flex" width="100%">
+        {/*우편번호*/}
+        <TextField
+          value={zipcode}
+          disabled={true}
+          placeholder="우편번호"
+          margin="dense"
+          size="small"
+          sx={{
+            flexGrow: 7,
+            borderRadius: 4,
+            backgroundColor: "#F8F8F8",
+          }}
+        />
+        <Button sx={{ flexGrow: 3 }} onClick={openModal}>
+          주소 찾기
+        </Button>
+      </Box>
       {/*주소검색 모달*/}
       <Modal open={isModalOpen} onClose={closeModal}>
         <Box
@@ -67,17 +76,28 @@ export default function Postcode() {
         value={roadAddr}
         fullWidth
         disabled={true}
-        placeholder="도로명 주소"
         margin="dense"
+        size="small"
+        placeholder="도로명 주소"
+        sx={{
+          borderRadius: 4,
+          backgroundColor: "#F8F8F8",
+        }}
       />
 
       {/*상세주소*/}
       <TextField
         margin="dense"
         fullWidth
+        size="small"
         onChange={handleChange}
         value={detailAddr}
         placeholder="상세주소"
+        sx={{
+          mb: 2,
+          borderRadius: 4,
+          backgroundColor: "#F8F8F8",
+        }}
       />
     </div>
   );

@@ -1,15 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import dayjs from "dayjs";
-import { Box, Button, Modal, TextField } from "@mui/material";
-import GiftDto from "@/types/GiftDto";
+import {
+  AppBar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { DetailActionBar } from "@/components/layout/action-bar";
 import useFundingCreateQuery from "@/query/useFundingCreatQuery";
-import { CreateFundingDto } from "@/types/CreateFundingDto";
 import DragGifts from "@/components/DragGifts";
-import { KeyboardArrowDown } from "@mui/icons-material";
+import {
+  ArrowBack,
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+} from "@mui/icons-material";
 import AddressList from "@/components/AddressList";
 import TextInput from "@/components/input/TextInput";
 import PublicButtons from "@/components/input/PublicButtons";
@@ -17,119 +27,150 @@ import DeadlineCalendar from "@/components/input/DeadlineCalendar";
 import ThemeButtons from "@/components/input/ThemeButtons";
 import AmountInput from "@/components/input/AmountInput";
 import { themeOptions } from "@/types/Theme";
+import { FundingForm } from "@/types/Funding";
+import GiftDto from "@/types/GiftDto";
+import BottomSheet from "@/components/bottomSheet/BottomSheet";
+import useBottomSheet from "@/hook/useBottomSheet";
 
 export default function FundingCreationPage() {
-  const methods = useForm();
-  const formData: GiftDto = { giftUrl: "", giftOpt: "", giftCont: "" };
+  const methods = useForm<FundingForm>({
+    defaultValues: {
+      gifts: [],
+      fundAddr: "서울특별시 관악구 신림동 18 101호",
+    },
+  });
 
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [amount, setAmount] = useState<number>(0);
-  const [pub, setPub] = useState<boolean>(true);
-  const [endDate, setEndDate] = useState(dayjs());
-  const [theme, setTheme] = useState<string>("");
-  const [formDataList, setFormDataList] = useState<GiftDto[]>([formData]);
+  const formData: GiftDto = {
+    id: 1,
+    giftUrl: "",
+    giftOpt: "",
+    giftCont: "",
+  };
+  function getInitialGifts() {
+    return [formData];
+  }
+  const [gifts, setGifts] = useState<GiftDto[]>(getInitialGifts);
+
+  useEffect(() => {
+    methods.setValue("gifts", gifts);
+  }, [methods.setValue]);
+
   const { mutate } = useFundingCreateQuery();
   const [showItems, setShowItems] = useState<boolean>(true);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { onDragEnd, controls, setIsOpen, isOpen } = useBottomSheet();
 
   const onSubmit = (body: any) => {
-    // mutate(body);
-    // setFormDataList([]);
+    let strFundGoal = body.fundGoal.replaceAll(",", "");
+    body.fundGoal = Number(strFundGoal);
+    mutate(body);
     console.log(body);
+    methods.reset();
   };
 
   function giftsToggle() {
     setShowItems(!showItems);
   }
 
-  const body: CreateFundingDto = {
-    fundTitle: title,
-    fundCont: content,
-    fundPubl: pub,
-    fundTheme: theme,
-    fundGoal: amount,
-    endAt: endDate.toDate(),
-    fundImg:
-      "https://img.danawa.com/prod_img/500000/924/538/img/28538924_1.jpg?_v=20231006030836",
-    gifts: formDataList,
+  const openBottomSheet = () => {
+    setIsOpen(true);
   };
 
-  const handleSubmit2 = () => {
-    mutate(body);
-    setTitle("");
-    setContent("");
-    setPub(true);
-    setEndDate(dayjs());
-    setTheme("");
-    setAmount(0);
-    setFormDataList([]);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeBottomSheet = () => {
+    setIsOpen(false);
   };
 
   return (
     <>
-      <h2>펀딩 개설</h2>
-      {/*제목/내용*/}
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <TextInput />
-          <PublicButtons />
-          <DeadlineCalendar />
-          <ThemeButtons themes={themeOptions} />
-          <AmountInput />
+      <AppBar position="fixed" elevation={0} sx={{ backgroundColor: "#fff" }}>
+        <Toolbar>
+          <IconButton edge="start" aria-label="back">
+            <ArrowBack color="primary" />
+          </IconButton>
+          <Typography
+            fontWeight={700}
+            variant="h6"
+            color="primary"
+            sx={{ flexGrow: 1, textAlign: "center" }}
+          >
+            펀딩 등록
+          </Typography>
+          <ArrowBack style={{ visibility: "hidden" }} />
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ padding: 1, mt: 8 }}>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <TextInput />
+              <PublicButtons />
+              <DeadlineCalendar />
+              <ThemeButtons themes={themeOptions} />
+              <AmountInput />
 
-          {/*기프트 아이템*/}
-          <Button startIcon={<KeyboardArrowDown />} onClick={giftsToggle}>
-            ITEMS
-          </Button>
-          <div style={{ display: showItems ? "block" : "none" }}>
-            <DragGifts />
-          </div>
+              {/*기프트 아이템*/}
+              <Grid item xs={12}>
+                <Button
+                  startIcon={
+                    showItems ? <KeyboardArrowUp /> : <KeyboardArrowDown />
+                  }
+                  onClick={giftsToggle}
+                  sx={{
+                    color: "#F6B70B",
+                    fontWeight: "bold",
+                  }}
+                >
+                  ITEMS
+                </Button>
+                <div style={{ display: showItems ? "block" : "none" }}>
+                  <DragGifts gifts={gifts} setGifts={setGifts} />
+                </div>
+              </Grid>
 
-          {/*배송지*/}
-          <div>
-            <h5>배송지</h5>
-            <TextField fullWidth />
-            <TextField fullWidth margin="dense" />
-            <Button onClick={openModal} variant="outlined">
-              변경
-            </Button>
-            <Modal open={isModalOpen} onClose={closeModal}>
-              <Box
-                sx={{
-                  position: "absolute",
-                  width: 400,
-                  bgcolor: "background.paper",
-                  border: "1px solid grey",
-                  boxShadow: 24,
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  p: 2,
-                }}
-              >
-                <AddressList />
-              </Box>
-            </Modal>
-          </div>
+              {/*배송지*/}
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  width="100%"
+                  sx={{ mt: 3, mb: 9 }}
+                >
+                  <TextField
+                    {...methods.register("fundAddr")}
+                    label="배송지"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    sx={{ flexGrow: 9 }}
+                    fullWidth
+                    disabled
+                  />
+                  <Button
+                    sx={{ flexGrow: 1, marginLeft: 0.5 }}
+                    onClick={openBottomSheet}
+                  >
+                    변경
+                  </Button>
+                </Box>
 
-          <div style={{ paddingBottom: 80 }}>
-            <Button variant="contained" type="submit" fullWidth>
-              작성하기
-            </Button>
-          </div>
-        </form>
-      </FormProvider>
-
-      <DetailActionBar buttonText="작성하기" handleSubmit={handleSubmit2} />
+                <BottomSheet
+                  isOpen={isOpen}
+                  onDragEnd={onDragEnd}
+                  controls={controls}
+                  closeBottomSheet={closeBottomSheet}
+                >
+                  <AddressList />
+                </BottomSheet>
+              </Grid>
+            </Grid>
+          </form>
+        </FormProvider>
+      </Box>
+      <div style={{ display: isOpen ? "none" : "block" }}>
+        <DetailActionBar
+          buttonText="작성하기"
+          handleSubmit={methods.handleSubmit(onSubmit)}
+        />
+      </div>
     </>
   );
 }

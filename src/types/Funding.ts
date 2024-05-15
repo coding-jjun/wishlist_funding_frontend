@@ -1,3 +1,5 @@
+import GiftDto from "@/types/GiftDto";
+
 export interface Funding {
   fundId: number;
   fundUuid: string;
@@ -10,6 +12,32 @@ export interface Funding {
   fundSum: number;
   endAt: string;
   regAt: string;
+}
+
+export interface FundingForm {
+  fundId: number;
+  fundTitle: string;
+  fundCont: string;
+  fundImg: string;
+  fundTheme: string;
+  fundPubl: boolean;
+  fundGoal: number;
+  endAt: string;
+  gifts: GiftDto[];
+  fundAddr: string;
+}
+
+export interface FundingForm {
+  fundId: number;
+  fundTitle: string;
+  fundCont: string;
+  fundImg: string;
+  fundTheme: string;
+  fundPubl: boolean;
+  fundGoal: number;
+  endAt: string;
+  gifts: GiftDto[];
+  fundAddr: string;
 }
 
 export enum FundTheme {
