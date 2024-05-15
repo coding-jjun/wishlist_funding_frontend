@@ -1,31 +1,85 @@
-import Card from "@/components/VerticalImgCard";
-import React from "react";
+"use client";
+import { useRouter } from "next/navigation";
+import { IconButton, Stack, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import calculatePercent from "@/utils/calculatePercent";
+import useFundingsQuery from "@/query/useFundingsQuery";
+import { HorizontalImgCard, VerticalImgCard } from "@/components/card";
+import { SectionHeader } from "@/components/layout/header";
+import useMyFundingQuery from "@/query/useMyFundingQuery";
+import { BoxButton } from "@/components/button";
 
-const Home: React.FC = () => {
-  // 임시 데이터
-  let price = 1000;
-  let fundSum = 700;
+export default function Home() {
+  const router = useRouter();
 
-  const cardData = {
-    image:
-      "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/airpods-max-hero-select-202011_FMT_WHH?wid=607&hei=556&fmt=jpeg&qlt=90&.v=1633623988000",
-    userId: "해롱쥐",
-    title: "에어팟 맥스 사고싶어요 💕",
-    theme: "생일",
-    endDate: "2024-03-30",
-    fundGoal: price.toLocaleString("ko-KR"),
-    fundSum: fundSum,
-    progress: (fundSum / price) * 100,
-  };
+  // TODO: user 기능이 추가되면 useMyFundingQuery와 useFundingsQuery에 전달하는 userId 수정 필요
+  // 나의 펀딩
+  const { data: myFunding } = useMyFundingQuery(1);
+
+  // 다른 사람들의 펀딩
+  const { data: othersFunding } = useFundingsQuery(1, {
+    fundPublFilter: "both",
+    limit: 5,
+  });
 
   return (
     <main>
-      <div>
-        <h1>Home</h1>
-        <Card {...cardData} />
-      </div>
+      <Stack direction="column" spacing={2}>
+        <SectionHeader
+          title="나의 펀딩"
+          rightSlot={
+            <IconButton sx={{ margin: 0, padding: 0 }}>
+              <NavigateNextIcon sx={{ fontSize: 28, color: grey[800] }} />
+            </IconButton>
+          }
+        />
+        {myFunding === undefined && (
+          <BoxButton
+            handleClick={() => router.push("/fundings/creation")}
+            content={
+              <Typography variant="body1" display="block" fontWeight={700}>
+                펀딩 개설하러 가기
+              </Typography>
+            }
+          />
+        )}
+        {myFunding?.map((funding) => (
+          <HorizontalImgCard
+            key={funding.fundUuid}
+            image={funding.fundImg ?? "/dummy/present.png"}
+            userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
+            title={funding.fundTitle}
+            theme={funding.fundTheme}
+            endDate={funding.endAt.toString()}
+            progress={calculatePercent(funding.fundSum, funding.fundGoal)}
+            handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
+          />
+        ))}
+        <SectionHeader
+          title="다른 사람들의 펀딩"
+          rightSlot={
+            <IconButton
+              sx={{ margin: 0, padding: 0 }}
+              onClick={() => router.push("/fundings")}
+            >
+              <NavigateNextIcon sx={{ fontSize: 28, color: grey[800] }} />
+            </IconButton>
+          }
+        />
+        {othersFunding?.fundings?.map((funding) => (
+          <VerticalImgCard
+            key={funding.fundUuid}
+            image={funding.fundImg ?? "/dummy/present.png"}
+            userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
+            title={funding.fundTitle}
+            theme={funding.fundTheme}
+            endDate={funding.endAt.toString()}
+            progress={calculatePercent(funding.fundSum, funding.fundGoal)}
+            handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
+          />
+        ))}
+      </Stack>
     </main>
   );
-};
-
-export default Home;
+}
