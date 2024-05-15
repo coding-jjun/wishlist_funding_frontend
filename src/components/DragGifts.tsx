@@ -1,4 +1,4 @@
-import React, { useId, useState } from "react";
+import React, { useId, useMemo, useState } from "react";
 
 import {
   DndContext,
@@ -8,6 +8,8 @@ import {
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  Active,
+  Over,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
@@ -15,24 +17,34 @@ import { DroppableGiftForm } from "@/components/dragndrop/DroppableGiftForm";
 import { arrayMove } from "@/utils/giftArray";
 import AddGiftForm from "@/components/dragndrop/AddGiftForm";
 
-import GiftForm from "@/types/GiftForm";
 import GiftDto from "@/types/GiftDto";
-import { FormProvider, useForm } from "react-hook-form";
 import GiftItem from "@/components/dragndrop/GiftItem";
 
-export default function DragGifts() {
+interface Props {
+  gifts: GiftDto[];
+  setGifts: (updateFunction: (currentGifts: GiftDto[]) => GiftDto[]) => void;
+}
+
+interface DragEvent {
+  active: Active;
+  over: Over | null;
+}
+
+export default function DragGifts({ gifts, setGifts }: Props) {
   const DndId = useId();
 
-  const formData: GiftDto = { giftUrl: "", giftOpt: "", giftCont: "" };
+  const formData: GiftDto = {
+    id: 1,
+    giftUrl: "",
+    giftOpt: "",
+    giftCont: "",
+  };
 
-  const methods = useForm();
-  const [gifts, setGifts] = useState<GiftForm[]>([
-    {
-      id: 1,
-      giftInfo: formData,
-    },
-  ]);
-  const [activeId, setActiveId] = useState<number | null>(null);
+  const [active, setActive] = useState<Active | null>(null);
+  const activeItem = useMemo(
+    () => gifts.find((gift) => gift.id === active?.id),
+    [active, gifts],
+  );
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -42,84 +54,79 @@ export default function DragGifts() {
     }),
   );
 
-  const onValueChange = (index: number, key: keyof GiftDto, value: any) => {
-    const updatedGifts = gifts.map((gift, i) =>
-      i === index ? { ...gift, [key]: value } : gift,
-    );
-    setGifts(updatedGifts);
+  const deleteGift = (index: number) => {
+    console.log("삭제다");
+    setGifts((currentGifts) => currentGifts.filter((gift, i) => i !== index));
   };
 
-  const addForm = () => {
-    setGifts((gifts) => [
-      ...gifts,
-      { id: gifts.length + 1, giftInfo: formData },
+  const handleAddForm = () => {
+    setGifts((currentGifts) => [
+      ...currentGifts,
+      {
+        id: currentGifts.length + 1,
+        giftUrl: "",
+        giftOpt: "",
+        giftCont: "",
+      },
     ]);
   };
 
-  const handleDragStart = (event: any) => setActiveId(event.active.id);
-
-  const handleDragCancel = () => setActiveId(null);
-
-  const handleDragOver = (event: any) => {
-    const { active, over } = event;
-    const overId = over?.id;
-
-    if (!overId) return;
-
-    const activeIndex = gifts.findIndex((gift) => gift.id === active.id);
-    const overIndex = gifts.findIndex((gift) => gift.id === overId);
-
-    // 인덱스가 유효하고 서로 다른 위치에 있을 경우만 이동 처리
-    if (activeIndex !== -1 && overIndex !== -1 && activeIndex !== overIndex) {
-      setGifts((prevGifts) => arrayMove(prevGifts, activeIndex, overIndex));
-    }
+  const handleDragStart = (event: DragEvent) => {
+    setActive(event.active);
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragCancel = () => {
+    setActive(null);
+  };
+
+  const handleDragEnd = (event: DragEvent) => {
     const { active, over } = event;
 
-    // 드래그가 같은 요소 내에서 종료되거나, 유효한 대상이 없는 경우 상태 업데이트 하지 않고 종료
     if (!over || active.id === over.id) {
-      setActiveId(null);
+      setActive(null);
       return;
     }
 
-    const activeIndex = gifts.findIndex((gift) => gift.id === active.id);
-    const overIndex = gifts.findIndex((gift) => gift.id === over.id);
+    if (active.id !== over?.id) {
+      const activeIndex = gifts.findIndex(({ id }) => id === active.id);
+      const overIndex = gifts.findIndex(({ id }) => id === over.id);
 
-    if (activeIndex !== -1 && overIndex !== -1) {
-      setGifts((prevGifts) => arrayMove(prevGifts, activeIndex, overIndex));
+      if (activeIndex !== -1 && overIndex !== -1) {
+        setGifts((prevGifts) => arrayMove(prevGifts, activeIndex, overIndex));
+      }
     }
-    setActiveId(null);
+    setActive(null);
   };
 
   return (
     <>
-      <AddGiftForm onSubmit={addForm} />
-      <FormProvider {...methods}>
-        <DndContext
-          id={DndId}
-          sensors={sensors}
-          onDragStart={handleDragStart}
-          onDragCancel={handleDragCancel}
-          onDragOver={handleDragOver}
-          onDragEnd={handleDragEnd}
-        >
-          <DroppableGiftForm gifts={gifts} onValueChange={onValueChange} />
-          <DragOverlay>
-            {activeId ? (
-              <GiftItem
-                index={gifts.findIndex((gift) => gift.id === activeId)}
-                giftInfo={
-                  gifts.find((gift) => gift.id === activeId)?.giftInfo ||
-                  formData
-                }
-                onValueChange={onValueChange}
-              />
-            ) : null}
-          </DragOverlay>
-        </DndContext>
-      </FormProvider>
+      <DndContext
+        id={DndId}
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragCancel={handleDragCancel}
+        onDragEnd={handleDragEnd}
+      >
+        <DroppableGiftForm
+          key={gifts.length}
+          gifts={gifts}
+          onDelete={() =>
+            deleteGift(gifts.findIndex((gift) => gift.id === active?.id))
+          }
+        />
+        <DragOverlay>
+          {activeItem ? (
+            <GiftItem
+              index={activeItem.id}
+              gifts={gifts}
+              onDelete={() =>
+                deleteGift(gifts.findIndex((gift) => gift.id === active?.id))
+              }
+            />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+      <AddGiftForm onSubmit={handleAddForm} />
     </>
   );
 }

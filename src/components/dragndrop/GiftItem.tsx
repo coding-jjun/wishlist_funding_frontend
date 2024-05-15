@@ -1,62 +1,68 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Card, CardContent, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import GiftDto from "@/types/GiftDto";
+import DragHandler from "@/components/dragndrop/DragHandler";
 
 interface GiftItemProps {
   index: number;
-  giftInfo: GiftDto;
-  onValueChange: (index: number, field: keyof GiftDto, value: string) => void;
+  gifts: GiftDto[];
+  onDelete: (index: number) => void;
 }
 
-export default function GiftItem({
-  index,
-  giftInfo,
-  onValueChange,
-}: GiftItemProps) {
-  const { register, setValue, getValues } = useFormContext();
-
-  const handleInputChange =
-    (field: keyof GiftDto) => (event: ChangeEvent<HTMLInputElement>) => {
-      const { value } = event.target;
-      setValue(`gifts[${index}].${field}`, value);
-      onValueChange(index, field, value);
-    };
+export default function GiftItem({ gifts, index, onDelete }: GiftItemProps) {
+  const { register, watch } = useFormContext();
 
   return (
-    <Card variant="outlined" style={{ marginBottom: "10px" }}>
+    <Card
+      sx={{
+        borderRadius: 5,
+        boxShadow: "5px 15px 15px rgba(0,0,0,0.05)",
+        marginBottom: "15px",
+      }}
+    >
       <CardContent>
+        <DragHandler id={index} />
         <TextField
-          {...register(`gifts[${index}].giftUrl`)}
-          label="URL"
+          {...register(`gifts[${index - 1}].giftUrl`)}
+          placeholder="url"
+          size="small"
           fullWidth
-          defaultValue={giftInfo.giftUrl}
-          onChange={handleInputChange("giftUrl")}
           margin="dense"
           InputLabelProps={{
             shrink: true,
           }}
+          sx={{
+            borderRadius: 4,
+            backgroundColor: "#ECF0EF",
+          }}
         />
         <TextField
-          {...register(`gifts[${index}].giftOpt`)}
-          label="상품 옵션"
+          {...register(`gifts[${index - 1}].giftOpt`)}
+          placeholder="제품 옵션"
+          size="small"
           fullWidth
-          defaultValue={giftInfo.giftOpt}
-          onChange={handleInputChange("giftOpt")}
           margin="dense"
           InputLabelProps={{
             shrink: true,
           }}
+          sx={{
+            borderRadius: 4,
+            backgroundColor: "#ECF0EF",
+          }}
         />
         <TextField
-          {...register(`gifts[${index}].giftCont`)}
-          label="내용"
+          {...register(`gifts[${index - 1}].giftCont`)}
+          placeholder="상품 설명"
+          size="small"
           fullWidth
-          defaultValue={giftInfo.giftCont}
-          onChange={handleInputChange("giftCont")}
           margin="dense"
           InputLabelProps={{
             shrink: true,
+          }}
+          sx={{
+            borderRadius: 4,
+            backgroundColor: "#ECF0EF",
           }}
         />
       </CardContent>
