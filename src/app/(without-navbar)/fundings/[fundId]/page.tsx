@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { Stack } from "@mui/material";
-import useFundingDetailQuery from "@/query/useFundingsQuery";
+import useFundingDetailQuery from "@/query/useFundingDetailQuery";
 import FundingPageTab from "@/app/(without-navbar)/fundings/[fundId]/view/FundingPageTab";
 import FundingTitle from "@/app/(without-navbar)/fundings/[fundId]/view/FundingTitle";
 import FundingProgress from "@/app/(without-navbar)/fundings/[fundId]/view/FundingProgress";
