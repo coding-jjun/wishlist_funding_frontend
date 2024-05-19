@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -9,12 +9,20 @@ import { FormHelperText, Grid } from "@mui/material";
 
 export default function DeadlineCalendar() {
   const today = dayjs();
-  const { register, setValue } = useFormContext();
+  const { register, watch, setValue } = useFormContext();
+
+  const endAtValue = watch("endAt");
+
+  useEffect(() => {
+    if (!endAtValue) {
+      setValue("endAt", today.toDate());
+    }
+  }, [setValue, endAtValue, today]);
 
   const handleEndDateChange = (date: Dayjs | null) => {
     if (date) {
       const endDateToServer: Dayjs = date;
-      setValue("endAt", endDateToServer);
+      setValue("endAt", endDateToServer.toDate());
     }
   };
 
