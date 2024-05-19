@@ -26,7 +26,7 @@ export default function GratitudeCreationPage({ params }: { params: Params }) {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
-  const { mutate } = useAddGratitude(params.fundId);
+  const { mutate, isPending } = useAddGratitude(params.fundId);
 
   const onClickBox = () => {
     if (inputRef != null && inputRef.current != null) {
@@ -73,6 +73,8 @@ export default function GratitudeCreationPage({ params }: { params: Params }) {
     };
 
     mutate(dto);
+
+    router.push(`/fundings/${params.fundId}`);
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,7 +161,11 @@ export default function GratitudeCreationPage({ params }: { params: Params }) {
         />
       </Stack>
       <ActionBar>
-        <ActionBarButton variant="contained" onClick={handleSubmit}>
+        <ActionBarButton
+          variant="contained"
+          loading={isPending}
+          onClick={handleSubmit}
+        >
           등록하기
         </ActionBarButton>
       </ActionBar>
