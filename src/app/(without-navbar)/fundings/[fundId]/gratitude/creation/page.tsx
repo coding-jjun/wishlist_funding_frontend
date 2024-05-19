@@ -10,6 +10,7 @@ import { ActionBarButton } from "@/components/layout/action-bar/ActionBarButton"
 import ActionBar from "@/components/layout/action-bar/ActionBar";
 import useAddGratitude from "@/query/useAddGratitude";
 import { GratitudeDto } from "@/types/Gratitude";
+import useUploadImage from "@/hook/useUploadImage";
 
 interface Params {
   fundId: string;
@@ -17,6 +18,7 @@ interface Params {
 
 export default function GratitudeCreationPage({ params }: { params: Params }) {
   const router = useRouter();
+  const { uploadImages, uploadedImages } = useUploadImage();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -62,12 +64,12 @@ export default function GratitudeCreationPage({ params }: { params: Params }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await uploadImages(uploadedFiles);
     const dto: GratitudeDto = {
       gratTitle: title,
       gratCont: content,
-      // TODO: 추후 ArrayBuffer로 변경 필요
-      gratImg: imageUrls,
+      gratImg: uploadedImages,
     };
 
     mutate(dto);
