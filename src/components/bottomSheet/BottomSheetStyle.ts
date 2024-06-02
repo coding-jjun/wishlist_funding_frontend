@@ -17,7 +17,7 @@ const Wrapper = styled("div")({
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)",
   height: `${BOTTOM_SHEET_HEIGHT}px`,
   margin: "0 auto",
-  overflow: "auto",
+  overflow: "hidden",
 });
 
 const HeaderWrapper = styled("div")({
@@ -37,6 +37,7 @@ const HandleBar = styled("div")({
   margin: "auto",
 });
 
+// 배경 터치 시 모달 닫기
 const Overlay = styled("div")({
   position: "fixed",
   top: 0,
@@ -48,8 +49,8 @@ const Overlay = styled("div")({
 });
 
 const ContentWrapper = styled("div")({
-  height: "80vh",
-  overflow: "auto",
+  flex: 1,
+  overflowY: "auto",
 });
 
 const MotionWrapper = motion(Wrapper);

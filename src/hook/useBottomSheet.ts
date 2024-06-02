@@ -1,4 +1,4 @@
-import { useAnimation, AnimationControls } from "framer-motion";
+import { useAnimation, AnimationControls, PanInfo } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import usePreviousValue from "@/hook/usePreviousValue";
