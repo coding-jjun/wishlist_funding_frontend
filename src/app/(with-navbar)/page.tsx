@@ -7,7 +7,6 @@ import calculatePercent from "@/utils/calculatePercent";
 import useFundingsQuery from "@/query/useFundingsQuery";
 import { HorizontalImgCard, VerticalImgCard } from "@/components/card";
 import { SectionHeader } from "@/components/layout/header";
-import useMyFundingQuery from "@/query/useMyFundingQuery";
 import { BoxButton } from "@/components/button";
 
 export default function Home() {
@@ -15,10 +14,13 @@ export default function Home() {
 
   // TODO: user 기능이 추가되면 useMyFundingQuery와 useFundingsQuery에 전달하는 userId 수정 필요
   // 나의 펀딩
-  const { data: myFunding } = useMyFundingQuery(1);
+  const { data: myFundingQueryResponse } = useFundingsQuery(1, {
+    fundPublFilter: "mine",
+    limit: 5,
+  });
 
   // 다른 사람들의 펀딩
-  const { data: othersFunding } = useFundingsQuery(1, {
+  const { data: othersFundingQueryResponse } = useFundingsQuery(2, {
     fundPublFilter: "both",
     limit: 5,
   });
@@ -34,7 +36,7 @@ export default function Home() {
             </IconButton>
           }
         />
-        {myFunding === undefined && (
+        {myFundingQueryResponse === undefined && (
           <BoxButton
             handleClick={() => router.push("/fundings/creation")}
             content={
@@ -44,18 +46,20 @@ export default function Home() {
             }
           />
         )}
-        {myFunding?.map((funding) => (
-          <HorizontalImgCard
-            key={funding.fundUuid}
-            image={funding.fundImg ?? "/dummy/present.png"}
-            userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
-            title={funding.fundTitle}
-            theme={funding.fundTheme}
-            endDate={funding.endAt.toString()}
-            progress={calculatePercent(funding.fundSum, funding.fundGoal)}
-            handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
-          />
-        ))}
+        {myFundingQueryResponse?.pages
+          ?.flatMap((page) => page.fundings)
+          .map((funding) => (
+            <HorizontalImgCard
+              key={funding.fundUuid}
+              image={funding.fundImg ?? "/dummy/present.png"}
+              userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
+              title={funding.fundTitle}
+              theme={funding.fundTheme}
+              endDate={funding.endAt.toString()}
+              progress={calculatePercent(funding.fundSum, funding.fundGoal)}
+              handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
+            />
+          ))}
         <SectionHeader
           title="다른 사람들의 펀딩"
           rightSlot={
@@ -67,18 +71,20 @@ export default function Home() {
             </IconButton>
           }
         />
-        {othersFunding?.fundings?.map((funding) => (
-          <VerticalImgCard
-            key={funding.fundUuid}
-            image={funding.fundImg ?? "/dummy/present.png"}
-            userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
-            title={funding.fundTitle}
-            theme={funding.fundTheme}
-            endDate={funding.endAt.toString()}
-            progress={calculatePercent(funding.fundSum, funding.fundGoal)}
-            handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
-          />
-        ))}
+        {othersFundingQueryResponse?.pages
+          ?.flatMap((page) => page.fundings)
+          .map((funding) => (
+            <VerticalImgCard
+              key={funding.fundUuid}
+              image={funding.fundImg ?? "/dummy/present.png"}
+              userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
+              title={funding.fundTitle}
+              theme={funding.fundTheme}
+              endDate={funding.endAt.toString()}
+              progress={calculatePercent(funding.fundSum, funding.fundGoal)}
+              handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
+            />
+          ))}
       </Stack>
     </main>
   );

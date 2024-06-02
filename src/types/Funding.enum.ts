@@ -23,14 +23,19 @@ export const getFundThemeKey = (value: FundThemeValue): FundTheme => {
 /**
  * 공개범위
  */
-export type FundingPublFilter = "all" | "friends" | "both";
-export type FundingPublFilterValue = "전체" | "친구공개" | "전체공개";
+export type FundingPublFilter = "all" | "friends" | "both" | "mine";
+export type FundingPublFilterValue =
+  | "전체"
+  | "친구공개"
+  | "전체공개"
+  | "나의 펀딩";
 
 const fundingPublFilterMap: Record<FundingPublFilter, FundingPublFilterValue> =
   {
     all: "전체",
     friends: "친구공개",
     both: "전체공개",
+    mine: "나의 펀딩",
   };
 
 export function getPublFilterName(
