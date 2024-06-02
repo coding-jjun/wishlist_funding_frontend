@@ -37,7 +37,7 @@ export default function NavigationBar() {
         <BottomNavigationAction
           value="feeds"
           icon={<PeopleAltOutlinedIcon />}
-          onClick={() => router.push("/feeds")}
+          onClick={() => router.push("/fundings")}
         />
         <BottomNavigationAction
           value="new"
