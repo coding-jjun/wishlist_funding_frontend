@@ -139,17 +139,17 @@ export function FilterBottomSheet({ handleClose }: Props) {
 }
 const FilterChip = React.memo(
   styled(Chip)(({ theme }) => ({
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: "4px",
   })),
 );
 
 const FilterSection = styled(Stack)(({ theme }) => ({
-  marginBottom: theme.spacing(3),
+  marginBottom: "24px",
 }));
 
 const SubTitle = styled(Typography)(({ theme }) => ({
   color: grey[700],
-  paddingRight: theme.spacing(1),
+  paddingRight: "8px",
 }));
 
 const ApplyButton = styled(Button)(({ theme }) => ({
@@ -167,6 +167,6 @@ const Wrapper = styled(Box)({
 const ContentWrapper = styled(Stack)(({ theme }) => ({
   marginTop: "10px",
   flexDirection: "column",
-  spacing: theme.spacing(3),
+  spacing: "24px",
   flex: 1,
 }));
