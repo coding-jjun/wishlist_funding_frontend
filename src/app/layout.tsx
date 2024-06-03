@@ -9,8 +9,8 @@ import { OverlayProvider } from "@/components/overlay";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Giftogether",
-  description: "Giftogether",
+  title: "기프투게더",
+  description: "기프투게더",
 };
 
 export default function RootLayout({
