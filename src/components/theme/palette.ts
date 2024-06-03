@@ -7,11 +7,12 @@ const palette: PaletteOptions = {
     contrastText: "#FFFFFF",
   },
   secondary: {
-    main: "#FFC2C7",
+    main: grey[900],
+    contrastText: "#FFFFFF",
   },
   info: {
     main: grey[500],
-    contrastText: "white",
+    contrastText: "#FFFFFF",
   },
 };
 

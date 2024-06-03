@@ -1,3 +1,10 @@
+import {
+  FundingPublFilter,
+  FundingSort,
+  FundingStatus,
+  FundTheme,
+} from "@/types/Funding.enum";
+
 export interface Funding {
   fundId: number;
   fundUuid: string;
@@ -12,27 +19,11 @@ export interface Funding {
   regAt: string;
 }
 
-export enum FundTheme {
-  Birthday = "Birthday",
-  Anniversary = "Anniversary",
-  Donation = "Donation",
-}
-
-const themeName: Record<FundTheme, string> = {
-  [FundTheme.Birthday]: "생일",
-  [FundTheme.Anniversary]: "기념일",
-  [FundTheme.Donation]: "기부",
-};
-
-export const getThemeName = (theme: FundTheme): string => {
-  return themeName[theme];
-};
-
 export interface FundingQueryParam {
-  fundPublFilter: "all" | "friends" | "both";
+  fundPublFilter: FundingPublFilter;
   fundThemes: FundTheme[];
-  status: "ongoing" | "ended";
-  sort: "endAtAsc" | "endAtDesc" | "regAtAsc" | "regAtDesc";
+  status: FundingStatus;
+  sort: FundingSort;
   limit: number;
   lastFundId: number;
   lastEndAt: string;
@@ -42,4 +33,5 @@ export interface FundingQueryResponse {
   fundings: Funding[];
   count: number;
   lastFundId: number;
+  lastEndAt?: string;
 }
