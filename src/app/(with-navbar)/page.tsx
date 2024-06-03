@@ -1,5 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { Pagination } from "swiper/modules";
+import styled from "@emotion/styled";
 import { IconButton, Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -8,6 +10,9 @@ import useFundingsQuery from "@/query/useFundingsQuery";
 import { HorizontalImgCard, VerticalImgCard } from "@/components/card";
 import { SectionHeader } from "@/components/layout/header";
 import { BoxButton } from "@/components/button";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export default function Home() {
   const router = useRouter();
@@ -16,7 +21,6 @@ export default function Home() {
   // 나의 펀딩
   const { data: myFundingQueryResponse } = useFundingsQuery(1, {
     fundPublFilter: "mine",
-    limit: 5,
   });
 
   // 다른 사람들의 펀딩
@@ -27,7 +31,7 @@ export default function Home() {
 
   return (
     <main>
-      <Stack direction="column" spacing={2}>
+      <Stack direction="column" spacing={1}>
         <SectionHeader
           title="나의 펀딩"
           rightSlot={
@@ -35,6 +39,7 @@ export default function Home() {
               <NavigateNextIcon sx={{ fontSize: 28, color: grey[800] }} />
             </IconButton>
           }
+          barSx={{ paddingBottom: "5px" }}
         />
         {myFundingQueryResponse === undefined && (
           <BoxButton
@@ -46,20 +51,26 @@ export default function Home() {
             }
           />
         )}
-        {myFundingQueryResponse?.pages
-          ?.flatMap((page) => page.fundings)
-          .map((funding) => (
-            <HorizontalImgCard
-              key={funding.fundUuid}
-              image={funding.fundImg ?? "/dummy/present.png"}
-              userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
-              title={funding.fundTitle}
-              theme={funding.fundTheme}
-              endDate={funding.endAt.toString()}
-              progress={calculatePercent(funding.fundSum, funding.fundGoal)}
-              handleClick={() => router.push(`/fundings/${funding.fundUuid}`)}
-            />
-          ))}
+        <MyFundingSwiper pagination={true} modules={[Pagination]}>
+          {myFundingQueryResponse?.pages
+            ?.flatMap((page) => page.fundings)
+            .map((funding) => (
+              <SwiperSlide key={`slide-${funding.fundUuid}`}>
+                <HorizontalImgCard
+                  key={funding.fundUuid}
+                  image={funding.fundImg ?? "/dummy/present.png"}
+                  userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
+                  title={funding.fundTitle}
+                  theme={funding.fundTheme}
+                  endDate={funding.endAt.toString()}
+                  progress={calculatePercent(funding.fundSum, funding.fundGoal)}
+                  handleClick={() =>
+                    router.push(`/fundings/${funding.fundUuid}`)
+                  }
+                />
+              </SwiperSlide>
+            ))}
+        </MyFundingSwiper>
         <SectionHeader
           title="다른 사람들의 펀딩"
           rightSlot={
@@ -70,6 +81,7 @@ export default function Home() {
               <NavigateNextIcon sx={{ fontSize: 28, color: grey[800] }} />
             </IconButton>
           }
+          barSx={{ paddingBottom: "5px" }}
         />
         {othersFundingQueryResponse?.pages
           ?.flatMap((page) => page.fundings)
@@ -89,3 +101,13 @@ export default function Home() {
     </main>
   );
 }
+
+const MyFundingSwiper = styled(Swiper)`
+  .swiper-pagination {
+    position: relative;
+    margin-top: 10px;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: #424242;
+  }
+`;
