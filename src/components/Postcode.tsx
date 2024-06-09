@@ -1,12 +1,36 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 import { Button, TextField, Modal, Box } from "@mui/material";
+import { Address } from "@/types/Address";
 
-export default function Postcode() {
-  const [zipcode, setZipcode] = useState<string>("");
-  const [roadAddr, setRoadAddr] = useState<string>("");
-  const [detailAddr, setDetailAddr] = useState<string>("");
+interface Props {
+  address?: Address;
+  onComplete: (data: {
+    addrZip: string;
+    addrRoad: string;
+    addrDetl: string;
+  }) => void;
+}
+
+export default function Postcode({ address, onComplete }: Props) {
+  const [addrZip, setAddrZip] = useState<string>(address?.addrZip || "");
+  const [addrRoad, setAddrRoad] = useState<string>(address?.addrRoad || "");
+  const [addrDetl, setAddrDetl] = useState<string>(address?.addrDetl || "");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setAddrZip(address?.addrZip || "");
+    setAddrRoad(address?.addrRoad || "");
+    setAddrDetl(address?.addrDetl || "");
+  }, [address]);
+
+  useEffect(() => {
+    onComplete({
+      addrZip,
+      addrRoad,
+      addrDetl,
+    });
+  }, [addrZip, addrRoad, addrDetl]);
 
   const postCodeStyle = {
     height: "480px",
@@ -21,13 +45,13 @@ export default function Postcode() {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDetailAddr(e.target.value);
+    setAddrDetl(e.target.value);
   };
 
   const handleComplete = (data: any) => {
     const { zonecode, roadAddress } = data;
-    setZipcode(zonecode);
-    setRoadAddr(roadAddress);
+    setAddrZip(zonecode);
+    setAddrRoad(roadAddress);
     setIsModalOpen(false);
   };
 
@@ -36,7 +60,7 @@ export default function Postcode() {
       <Box display="flex" width="100%">
         {/*우편번호*/}
         <TextField
-          value={zipcode}
+          value={addrZip}
           disabled={true}
           placeholder="우편번호"
           margin="dense"
@@ -73,12 +97,12 @@ export default function Postcode() {
 
       {/*도로명 주소*/}
       <TextField
-        value={roadAddr}
+        value={addrRoad}
         fullWidth
         disabled={true}
+        placeholder="도로명 주소"
         margin="dense"
         size="small"
-        placeholder="도로명 주소"
         sx={{
           borderRadius: 4,
           backgroundColor: "#F8F8F8",
@@ -87,12 +111,12 @@ export default function Postcode() {
 
       {/*상세주소*/}
       <TextField
-        margin="dense"
-        fullWidth
-        size="small"
+        value={addrDetl}
         onChange={handleChange}
-        value={detailAddr}
         placeholder="상세주소"
+        fullWidth
+        margin="dense"
+        size="small"
         sx={{
           mb: 2,
           borderRadius: 4,
