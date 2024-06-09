@@ -8,12 +8,13 @@ import {
 } from "@mui/material";
 import React from "react";
 import ProgressBarWithText from "@/components/progress/ProgressBarWithText";
+import { FundTheme, getFundThemeValue } from "@/types/Funding.enum";
 
 interface Props {
   image: string;
   userId: string;
   title: string;
-  theme: string;
+  theme: FundTheme;
   endDate: string;
   progress: number;
   handleClick: () => void;
@@ -40,7 +41,7 @@ export default function HorizontalImgCard({
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
             <Typography variant="body2" color="text.secondary">
-              {userId} | {theme}
+              {userId} | {getFundThemeValue(theme)}
             </Typography>
             <Typography
               gutterBottom
