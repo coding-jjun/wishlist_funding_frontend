@@ -8,3 +8,9 @@ export interface Gratitude {
   regAt: Date;
   isDel: boolean;
 }
+
+export interface GratitudeDto {
+  gratTitle: string;
+  gratCont: string;
+  gratImg: string[];
+}

@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import ProgressBarWithText from "@/components/progress/ProgressBarWithText";
-import { FundTheme, getThemeName } from "@/types/Funding";
+import { FundTheme, getFundThemeValue } from "@/types/Funding.enum";
 
 interface CardProps {
   image: string;
@@ -41,7 +41,7 @@ export default function VerticalImgCard({
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {userId} | {getThemeName(theme)}
+            {userId} | {getFundThemeValue(theme)}
           </Typography>
           <Typography
             gutterBottom

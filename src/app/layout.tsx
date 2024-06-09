@@ -4,12 +4,13 @@ import "./globals.css";
 import { ThemeProvider } from "@mui/material";
 import theme from "@/components/theme";
 import { QueryClientProvider, RecoilRootProvider } from "@/components/provider";
+import { OverlayProvider } from "@/components/overlay";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Giftogether",
-  description: "Giftogether",
+  title: "기프투게더",
+  description: "기프투게더",
 };
 
 export default function RootLayout({
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className} style={{ overflowX: "hidden" }}>
         <RecoilRootProvider>
           <ThemeProvider theme={theme}>
-            <QueryClientProvider>{children}</QueryClientProvider>
+            <OverlayProvider>
+              <QueryClientProvider>{children}</QueryClientProvider>
+            </OverlayProvider>
           </ThemeProvider>
         </RecoilRootProvider>
       </body>
