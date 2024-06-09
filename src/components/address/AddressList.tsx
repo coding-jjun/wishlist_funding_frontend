@@ -37,6 +37,19 @@ export default function AddressList({
     setShowEditAddress(false);
   };
 
+  const sortedAddresses = useMemo(() => {
+    if (!addresses) return [];
+
+    const defaultAddress = addresses.find((addr) => addr.isDef);
+    const otherAddresses = addresses
+      .filter((addr) => !addr.isDef)
+      .sort((a, b) => b.addrId - a.addrId);
+
+    return defaultAddress
+      ? [defaultAddress, ...otherAddresses]
+      : otherAddresses;
+  }, [addresses]);
+
   return (
     <div
       style={{
@@ -65,7 +78,7 @@ export default function AddressList({
           </Button>
 
           {/*배송지 목록*/}
-          {addresses?.map((addr) => (
+          {sortedAddresses?.map((addr) => (
             <AddressWrapper
               key={addr.addrId}
               address={addr}
