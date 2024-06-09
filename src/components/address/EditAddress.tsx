@@ -117,11 +117,6 @@ export default function EditAddress({ userId, address, onClose }: Props) {
   };
 
   const handleUpdate = () => {
-    if (addrId === undefined) {
-      console.error("유효하지 않은 addrId 입니다.");
-      return;
-    }
-
     const body = {
       addrNick,
       recvName,
@@ -137,14 +132,9 @@ export default function EditAddress({ userId, address, onClose }: Props) {
         onClose();
       },
     });
-    console.log(body);
   };
 
   const handleDelete = () => {
-    if (addrId === undefined) {
-      console.error("유효하지 않은 addrId 입니다.");
-      return;
-    }
     deleteAddress(addrId, {
       onSuccess: () => {
         onClose();
