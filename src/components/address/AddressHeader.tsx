@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Chip, Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import getTimeAgoText from "@/utils/getTimeAgoText";
 
@@ -22,13 +22,9 @@ export default function AddressHeader({ addrNick, isDef }: Props) {
       >
         {addrNick}
       </Typography>
-      <Typography
-        variant={"body2"}
-        color={grey[500]}
-        sx={{ padding: 0, margin: 0 }}
-      >
-        {isDef && "현재 배송지"}
-      </Typography>
+      {isDef && (
+        <Chip label="기본 배송지" size="small" sx={{ borderRadius: 2 }} />
+      )}
     </Stack>
   );
 }
