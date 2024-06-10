@@ -33,8 +33,12 @@ export default function FundingPageTab({ funding }: Props) {
         {
           label: "감사인사",
           value: "감사인사",
-          // TODO: Funding 객체 내에 gratId가 추가되면 funding.gratId를 전달하도록 수정 필요
-          panel: <GratitudePanel gratId={1} />,
+          panel: (
+            <GratitudePanel
+              gratId={funding.fundId}
+              fundUuid={funding.fundUuid}
+            />
+          ),
         },
         {
           label: "롤링페이퍼",

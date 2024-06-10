@@ -11,9 +11,12 @@ const fetchGratitude = async (gratId: number): Promise<Gratitude> => {
   return response.data.data;
 };
 
-const useGratitudeQuery = (gratId: number): UseQueryResult<Gratitude> => {
+const useGratitudeQuery = (
+  gratId: number,
+  fundUuid: string,
+): UseQueryResult<Gratitude> => {
   return useQuery<Gratitude>({
-    queryKey: ["gratitude", gratId],
+    queryKey: ["gratitude", fundUuid],
     queryFn: () => fetchGratitude(gratId),
   });
 };

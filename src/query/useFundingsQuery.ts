@@ -1,5 +1,11 @@
 import axios from "axios";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+  DefaultError,
+  InfiniteData,
+  QueryKey,
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import { FundingQueryParam, FundingQueryResponse } from "@/types/Funding";
 import { CommonResponse } from "@/types/CommonResponse";
 
@@ -7,7 +13,7 @@ const buildURL = (
   userId: number,
   params: Partial<FundingQueryParam>,
 ): string => {
-  const baseUrl = `/api/funding/user/${userId}`;
+  const baseUrl = `/api/user/${userId}/funding`;
   const queryParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
@@ -34,13 +40,40 @@ const fetchFundings = async (
   return response.data.data;
 };
 
+// PageParam 타입 정의
+interface PageParam {
+  lastFundId: number | undefined;
+  lastEndAt: string | undefined;
+}
+
 const useFundingsQuery = (
   userId: number,
   queryParams: Partial<FundingQueryParam>,
-): UseQueryResult<FundingQueryResponse> => {
-  return useQuery<FundingQueryResponse>({
-    queryKey: ["fundings", userId],
-    queryFn: () => fetchFundings(userId, queryParams),
+): UseInfiniteQueryResult<InfiniteData<FundingQueryResponse>> => {
+  return useInfiniteQuery<
+    FundingQueryResponse,
+    DefaultError,
+    InfiniteData<FundingQueryResponse>,
+    QueryKey,
+    PageParam
+  >({
+    queryKey: ["fundings", userId, queryParams],
+    queryFn: ({
+      pageParam = { lastFundId: undefined, lastEndAt: undefined },
+    }) =>
+      fetchFundings(userId, {
+        ...queryParams,
+        lastFundId: pageParam.lastFundId,
+        lastEndAt: pageParam.lastEndAt,
+      }),
+    initialPageParam: { lastFundId: undefined, lastEndAt: undefined },
+    getNextPageParam: (lastPage) => {
+      if (lastPage.count < (queryParams?.limit ?? 1)) {
+        return undefined;
+      }
+
+      return { lastFundId: lastPage.lastFundId, lastEndAt: lastPage.lastEndAt };
+    },
   });
 };
 
