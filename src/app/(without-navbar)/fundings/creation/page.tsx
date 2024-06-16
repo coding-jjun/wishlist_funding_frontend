@@ -20,10 +20,8 @@ import useFundingCreateQuery from "@/query/useFundingCreatQuery";
 import DragGifts from "@/components/DragGifts";
 import {
   ArrowBack,
-  BorderBottom,
   KeyboardArrowDown,
   KeyboardArrowUp,
-  Label,
 } from "@mui/icons-material";
 import AddressList from "@/components/address/AddressList";
 import TextInput from "@/components/input/TextInput";
@@ -82,9 +80,6 @@ export default function FundingCreationPage(props: Props) {
     const fundAddr = `${address.addrRoad} ${address.addrDetl} (${address.addrZip})`;
     methods.setValue("fundRecvName", address.recvName);
     methods.setValue("fundRecvPhone", address.recvPhone);
-    methods.setValue("fundAddrRoad", address.addrRoad);
-    methods.setValue("fundAddrDetl", address.addrDetl);
-    methods.setValue("fundAddrZip", address.addrZip);
     methods.setValue("fundAddr", fundAddr);
   };
 
