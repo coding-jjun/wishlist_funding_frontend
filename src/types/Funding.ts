@@ -31,6 +31,12 @@ export interface FundingForm {
   fundGoal: number;
   endAt: string;
   gifts: GiftDto[];
+  fundRecvName: string;
+  fundRecvPhone: string;
+  fundRecvReq: string;
+  fundAddrZip: string;
+  fundAddrRoad: string;
+  fundAddrDetl: string;
   fundAddr: string;
 }
 

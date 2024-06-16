@@ -21,6 +21,9 @@ const useUpdateAddress = (addrId: number, userId: number) => {
         queryKey: ["addresses", userId],
       });
     },
+    onError: (err) => {
+      console.error("배송지 수정 에러 발생:", err);
+    },
   });
 };
 

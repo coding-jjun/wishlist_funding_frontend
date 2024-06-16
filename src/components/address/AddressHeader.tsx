@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import getTimeAgoText from "@/utils/getTimeAgoText";
 
 interface Props {
   addrNick: string;

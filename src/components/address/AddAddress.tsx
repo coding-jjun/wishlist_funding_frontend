@@ -100,7 +100,6 @@ export default function AddAddress({ onClose }: Props) {
       isDef,
     };
     mutate(body);
-    console.log(body);
     onClose();
   };
 
