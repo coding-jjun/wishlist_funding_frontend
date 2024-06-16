@@ -27,7 +27,7 @@ export default function AddressHeader({ addrNick, isDef }: Props) {
         color={grey[500]}
         sx={{ padding: 0, margin: 0 }}
       >
-        {isDef && "현재 배송지"}
+        {isDef && "기본 배송지"}
       </Typography>
     </Stack>
   );
