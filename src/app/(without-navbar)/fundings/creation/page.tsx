@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { DetailActionBar } from "@/components/layout/action-bar";
 import useFundingCreateQuery from "@/query/useFundingCreatQuery";
+import { useRouter } from "next/navigation";
 import DragGifts from "@/components/DragGifts";
 import {
   ArrowBack,
@@ -30,7 +31,7 @@ import DeadlineCalendar from "@/components/input/DeadlineCalendar";
 import ThemeButtons from "@/components/input/ThemeButtons";
 import AmountInput from "@/components/input/AmountInput";
 import { themeOptions } from "@/types/Theme";
-import { FundingForm } from "@/types/Funding";
+import { Funding, FundingForm } from "@/types/Funding";
 import GiftDto from "@/types/GiftDto";
 
 import { styled } from "@mui/material/styles";
@@ -79,6 +80,7 @@ function getInitialGifts() {
 }
 
 export default function FundingCreationPage(props: Props) {
+  const router = useRouter();
   {
     /*TODO: 사용자 기능 추가되면 userId 수정 필요*/
   }
@@ -122,6 +124,7 @@ export default function FundingCreationPage(props: Props) {
   }, [methods.setValue]);
 
   const { mutate } = useFundingCreateQuery();
+
   const [showItems, setShowItems] = useState<boolean>(true);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -148,8 +151,12 @@ export default function FundingCreationPage(props: Props) {
       fundRecvPhone: selectedAddress?.recvPhone,
       fundRecvReq: selectedAddress?.recvReq,
     };
-    mutate(submitData);
-    console.log(submitData);
+    mutate(submitData, {
+      onSuccess: (data) => {
+        router.push(`/fundings/${data.data.fundUuid}`);
+      },
+    });
+
     methods.reset();
   };
 
