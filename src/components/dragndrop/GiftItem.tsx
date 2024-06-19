@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import GiftDto from "@/types/GiftDto";
@@ -7,11 +7,11 @@ import DragHandler from "@/components/dragndrop/DragHandler";
 interface GiftItemProps {
   index: number;
   gifts: GiftDto[];
-  onDelete: (index: number) => void;
+  onDelete: () => void;
 }
 
-export default function GiftItem({ gifts, index, onDelete }: GiftItemProps) {
-  const { register, watch } = useFormContext();
+export default function GiftItem({ index, gifts, onDelete }: GiftItemProps) {
+  const { register } = useFormContext();
 
   return (
     <Card
@@ -22,7 +22,7 @@ export default function GiftItem({ gifts, index, onDelete }: GiftItemProps) {
       }}
     >
       <CardContent>
-        <DragHandler id={index} />
+        <DragHandler id={index} onDelete={onDelete} />
         <TextField
           {...register(`gifts[${index - 1}].giftUrl`)}
           placeholder="url"

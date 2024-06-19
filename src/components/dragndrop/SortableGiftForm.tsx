@@ -6,7 +6,7 @@ import GiftDto from "@/types/GiftDto";
 interface Props {
   id: number;
   gifts: GiftDto[];
-  onDelete: (index: number) => void;
+  onDelete: () => void;
 }
 
 export default function SortableGiftForm({ id, gifts, onDelete }: Props) {

@@ -66,15 +66,30 @@ const Puller = styled("div")(({ theme }) => ({
   left: "calc(50% - 15px)",
 }));
 
+const formData: GiftDto = {
+  id: 1,
+  giftOrd: 1,
+  giftUrl: "",
+  giftOpt: "",
+  giftCont: "",
+};
+
+function getInitialGifts() {
+  return [formData];
+}
+
 export default function FundingCreationPage(props: Props) {
   {
     /*TODO: 사용자 기능 추가되면 userId 수정 필요*/
   }
   const userId: number = 1;
   const { window } = props;
-  const [open, setOpen] = useState(false);
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
   const { data: addresses } = useAddressesQuery(userId);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
   const setAddressValues = (address: Address) => {
     const fundAddr = `${address.addrRoad} ${address.addrDetl} (${address.addrZip})`;
@@ -82,8 +97,6 @@ export default function FundingCreationPage(props: Props) {
     methods.setValue("fundRecvPhone", address.recvPhone);
     methods.setValue("fundAddr", fundAddr);
   };
-
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
   useEffect(() => {
     if (addresses) {
@@ -101,30 +114,7 @@ export default function FundingCreationPage(props: Props) {
     }
   }, [selectedAddress]);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
-  const methods = useForm<FundingForm>({
-    defaultValues: {
-      gifts: [],
-    },
-  });
-
-  const formData: GiftDto = {
-    id: 1,
-    giftUrl: "",
-    giftOpt: "",
-    giftCont: "",
-  };
-
-  function getInitialGifts() {
-    return [formData];
-  }
-
+  const methods = useForm<FundingForm>();
   const [gifts, setGifts] = useState<GiftDto[]>(getInitialGifts);
 
   useEffect(() => {
@@ -133,6 +123,14 @@ export default function FundingCreationPage(props: Props) {
 
   const { mutate } = useFundingCreateQuery();
   const [showItems, setShowItems] = useState<boolean>(true);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpenBottomSheet(newOpen);
+  };
+
+  const toggleGifts = () => {
+    setShowItems(!showItems);
+  };
 
   const onSubmit = (body: any) => {
     body.fundGoal = Number(body.fundGoal.replaceAll(",", ""));
@@ -150,10 +148,6 @@ export default function FundingCreationPage(props: Props) {
     console.log(submitData);
     methods.reset();
   };
-
-  function giftsToggle() {
-    setShowItems(!showItems);
-  }
 
   return (
     <>
@@ -202,7 +196,7 @@ export default function FundingCreationPage(props: Props) {
                     startIcon={
                       showItems ? <KeyboardArrowUp /> : <KeyboardArrowDown />
                     }
-                    onClick={giftsToggle}
+                    onClick={toggleGifts}
                     sx={{
                       color: "#F6B70B",
                       fontWeight: "bold",
@@ -261,7 +255,7 @@ export default function FundingCreationPage(props: Props) {
                   <SwipeableDrawer
                     container={container}
                     anchor="bottom"
-                    open={open}
+                    open={openBottomSheet}
                     onClose={toggleDrawer(false)}
                     onOpen={toggleDrawer(true)}
                     swipeAreaWidth={0}
@@ -294,7 +288,7 @@ export default function FundingCreationPage(props: Props) {
                         userId={userId}
                         onSelectAddress={(address) => {
                           setSelectedAddress(address);
-                          setOpen(false);
+                          setOpenBottomSheet(false);
                         }}
                       />
                     </StyledBox>
@@ -305,7 +299,7 @@ export default function FundingCreationPage(props: Props) {
           </FormProvider>
         </Box>
       </Root>
-      <div style={{ display: open ? "none" : "block" }}>
+      <div style={{ display: openBottomSheet ? "none" : "block" }}>
         <DetailActionBar
           buttonText="작성하기"
           handleSubmit={methods.handleSubmit(onSubmit)}

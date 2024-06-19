@@ -8,9 +8,10 @@ import { CSS } from "@dnd-kit/utilities";
 
 interface Props {
   id: number;
+  onDelete: (index: number) => void;
 }
 
-export default function DragHandler({ id }: Props) {
+export default function DragHandler({ id, onDelete }: Props) {
   const {
     attributes,
     listeners,
@@ -36,10 +37,7 @@ export default function DragHandler({ id }: Props) {
           <DragIndicatorIcon />
         </IconButton>
       </div>
-      <IconButton
-        // onClick={() => onDelete(index)}
-        size="small"
-      >
+      <IconButton onClick={() => onDelete(id)} size="small">
         <CloseIcon />
       </IconButton>
     </div>

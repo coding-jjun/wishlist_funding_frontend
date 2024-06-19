@@ -1,22 +1,23 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FundingForm } from "@/types/Funding";
 import { CommonResponse } from "@/types/CommonResponse";
 
-const fetchFundingCreate = async (body: FundingForm): Promise<FundingForm> => {
-  const response = await axios.post<CommonResponse<FundingForm>>(
+const fetchFundingCreate = async (
+  body: FundingForm,
+): Promise<CommonResponse<FundingForm>> => {
+  const { data } = await axios.post<CommonResponse<FundingForm>>(
     `/api/funding`,
     body,
   );
-
-  return response.data.data;
+  return data;
 };
 
 const useFundingCreateQuery = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<FundingForm, AxiosError, FundingForm, void>({
-    mutationFn: (body) => fetchFundingCreate(body),
+  return useMutation({
+    mutationFn: (body: FundingForm) => fetchFundingCreate(body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["fundings"],

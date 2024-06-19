@@ -32,14 +32,6 @@ interface DragEvent {
 
 export default function DragGifts({ gifts, setGifts }: Props) {
   const DndId = useId();
-
-  const formData: GiftDto = {
-    id: 1,
-    giftUrl: "",
-    giftOpt: "",
-    giftCont: "",
-  };
-
   const [active, setActive] = useState<Active | null>(null);
   const activeItem = useMemo(
     () => gifts.find((gift) => gift.id === active?.id),
@@ -54,16 +46,12 @@ export default function DragGifts({ gifts, setGifts }: Props) {
     }),
   );
 
-  const deleteGift = (index: number) => {
-    console.log("삭제다");
-    setGifts((currentGifts) => currentGifts.filter((gift, i) => i !== index));
-  };
-
   const handleAddForm = () => {
     setGifts((currentGifts) => [
       ...currentGifts,
       {
         id: currentGifts.length + 1,
+        giftOrd: currentGifts.length + 1,
         giftUrl: "",
         giftOpt: "",
         giftCont: "",
@@ -92,10 +80,27 @@ export default function DragGifts({ gifts, setGifts }: Props) {
       const overIndex = gifts.findIndex(({ id }) => id === over.id);
 
       if (activeIndex !== -1 && overIndex !== -1) {
-        setGifts((prevGifts) => arrayMove(prevGifts, activeIndex, overIndex));
+        setGifts((prevGifts) => {
+          const newGifts = arrayMove(prevGifts, activeIndex, overIndex);
+          return newGifts.map((gift, index) => ({
+            ...gift,
+            giftOrd: index + 1,
+          }));
+        });
       }
     }
     setActive(null);
+  };
+
+  const deleteGift = (index: number) => {
+    setGifts((prevGifts) =>
+      prevGifts
+        .filter((_, i) => i !== index)
+        .map((gift, idx) => ({
+          ...gift,
+          giftOrd: idx + 1,
+        })),
+    );
   };
 
   return (
@@ -110,9 +115,7 @@ export default function DragGifts({ gifts, setGifts }: Props) {
         <DroppableGiftForm
           key={gifts.length}
           gifts={gifts}
-          onDelete={() =>
-            deleteGift(gifts.findIndex((gift) => gift.id === active?.id))
-          }
+          onDelete={(index) => deleteGift(index)}
         />
         <DragOverlay>
           {activeItem ? (

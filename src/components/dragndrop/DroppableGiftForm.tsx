@@ -18,7 +18,7 @@ export function DroppableGiftForm({ gifts, onDelete }: Prop) {
           key={gift.id}
           id={gift.id}
           gifts={gifts}
-          onDelete={onDelete}
+          onDelete={() => onDelete(index)}
         />
       ))}
     </SortableContext>
