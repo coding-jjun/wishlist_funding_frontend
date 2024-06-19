@@ -31,7 +31,7 @@ import DeadlineCalendar from "@/components/input/DeadlineCalendar";
 import ThemeButtons from "@/components/input/ThemeButtons";
 import AmountInput from "@/components/input/AmountInput";
 import { themeOptions } from "@/types/Theme";
-import { Funding, FundingForm } from "@/types/Funding";
+import { FundingForm } from "@/types/Funding";
 import GiftDto from "@/types/GiftDto";
 
 import { styled } from "@mui/material/styles";
@@ -176,7 +176,11 @@ export default function FundingCreationPage(props: Props) {
         />
         <AppBar position="fixed" elevation={0} sx={{ backgroundColor: "#fff" }}>
           <Toolbar>
-            <IconButton edge="start" aria-label="back">
+            <IconButton
+              edge="start"
+              aria-label="back"
+              onClick={() => router.back()}
+            >
               <ArrowBack color="primary" />
             </IconButton>
             <Typography
