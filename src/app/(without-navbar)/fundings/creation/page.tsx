@@ -133,6 +133,10 @@ export default function FundingCreationPage(props: Props) {
   };
 
   const onSubmit = (body: any) => {
+    /*TODO: 기프트 이미지 기능 추가 필요*/
+    body.fundImg = [
+      "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-card-40-iphone15prohero-202309_FMT_WHH?wid=508&hei=472&fmt=p-jpg&qlt=95&.v=1693086369818",
+    ];
     body.fundGoal = Number(body.fundGoal.replaceAll(",", ""));
     const { fundAddrZip, fundAddrRoad, fundAddrDetl, ...rest } = body;
     const submitData = {

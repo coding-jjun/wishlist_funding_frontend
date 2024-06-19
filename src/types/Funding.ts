@@ -25,7 +25,7 @@ export interface FundingForm {
   fundId: number;
   fundTitle: string;
   fundCont: string;
-  fundImg: string;
+  fundImg: string[];
   fundTheme: string;
   fundPubl: boolean;
   fundGoal: string;
