@@ -1,4 +1,4 @@
-import type { SyntheticEvent } from "react";
+import type { CSSProperties, SyntheticEvent } from "react";
 import { Box } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import type { TabInfo } from "@/components/tab/Tab.types";
@@ -9,12 +9,14 @@ interface Props {
   tabs: TabInfo[];
   selectedTab: string | number;
   handleTabChange: (event: SyntheticEvent, value: any) => void;
+  tabPanelSx?: CSSProperties;
 }
 
 export default function StickyTabs({
   tabs,
   selectedTab,
   handleTabChange,
+  tabPanelSx,
 }: Props) {
   return (
     <TabContext value={selectedTab}>
@@ -24,12 +26,13 @@ export default function StickyTabs({
           position: "sticky",
           borderBottom: 1,
           borderColor: "divider",
-          backgroundColor: "white",
+          backgroundColor: "#FFFFFF",
+          zIndex: 999,
         }}
       >
         <TabItems tabs={tabs} handleTabChange={handleTabChange} />
       </Box>
-      <TabPanels tabs={tabs} />
+      <TabPanels tabs={tabs} sx={tabPanelSx} />
     </TabContext>
   );
 }
