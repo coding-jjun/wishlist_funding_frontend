@@ -15,11 +15,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
 import Postcode from "@/components/Postcode";
 import { Address } from "@/types/Address";
 import useUpdateAddress from "@/query/useUpdateAddress";
 import useDeleteAddress from "@/query/useDeleteAddress";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 interface Props {
   userId: number;
@@ -157,7 +157,7 @@ export default function EditAddress({ userId, address, onClose }: Props) {
       >
         <Toolbar>
           <IconButton edge="start" onClick={handleClose} aria-label="close">
-            <ArrowBack />
+            <ArrowBackIosNewIcon />
           </IconButton>
           <Typography
             fontWeight={500}
@@ -166,7 +166,7 @@ export default function EditAddress({ userId, address, onClose }: Props) {
           >
             배송지 수정
           </Typography>
-          <ArrowBack style={{ visibility: "hidden" }} />
+          <ArrowBackIosNewIcon style={{ visibility: "hidden" }} />
         </Toolbar>
       </AppBar>
 

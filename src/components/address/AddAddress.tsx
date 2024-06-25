@@ -15,8 +15,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import Postcode from "@/components/Postcode";
-import { ArrowBack } from "@mui/icons-material";
 import useAddAddress from "@/query/useAddAddress";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 interface Props {
   onClose: () => void;
@@ -118,7 +118,7 @@ export default function AddAddress({ onClose }: Props) {
       >
         <Toolbar>
           <IconButton edge="start" onClick={handleClose} aria-label="close">
-            <ArrowBack />
+            <ArrowBackIosNewIcon />
           </IconButton>
           <Typography
             fontWeight={500}
@@ -127,7 +127,7 @@ export default function AddAddress({ onClose }: Props) {
           >
             새 배송지 등록
           </Typography>
-          <ArrowBack style={{ visibility: "hidden" }} />
+          <ArrowBackIosNewIcon style={{ visibility: "hidden" }} />
         </Toolbar>
       </AppBar>
 
