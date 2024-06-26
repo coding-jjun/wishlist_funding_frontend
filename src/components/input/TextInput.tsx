@@ -1,26 +1,33 @@
 import { useFormContext } from "react-hook-form";
-import { Box, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 
 export default function TextInput() {
   const { register } = useFormContext();
 
   return (
-    <Box>
-      <TextField
-        defaultValue=""
-        label="제목"
-        fullWidth
-        {...register("fundTitle")}
-      />
-      <TextField
-        label="내용"
-        fullWidth
-        multiline
-        rows={4}
-        margin="normal"
-        defaultValue=""
-        {...register("fundCont")}
-      />
-    </Box>
+    <>
+      <Grid item xs={12}>
+        <TextField
+          label="제목"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          fullWidth
+          {...register("fundTitle")}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          label="내용"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          fullWidth
+          multiline
+          rows={4}
+          {...register("fundCont")}
+        />
+      </Grid>
+    </>
   );
 }

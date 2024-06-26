@@ -1,135 +1,154 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import dayjs from "dayjs";
-import { Box, Button, Modal, TextField } from "@mui/material";
-import GiftDto from "@/types/GiftDto";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Grid,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { DetailActionBar } from "@/components/layout/action-bar";
 import useFundingCreateQuery from "@/query/useFundingCreatQuery";
-import { CreateFundingDto } from "@/types/CreateFundingDto";
-import DragGifts from "@/components/DragGifts";
-import { KeyboardArrowDown } from "@mui/icons-material";
-import AddressList from "@/components/AddressList";
-import TextInput from "@/components/input/TextInput";
-import PublicButtons from "@/components/input/PublicButtons";
-import DeadlineCalendar from "@/components/input/DeadlineCalendar";
-import ThemeButtons from "@/components/input/ThemeButtons";
-import AmountInput from "@/components/input/AmountInput";
-import { themeOptions } from "@/types/Theme";
+import { useRouter } from "next/navigation";
+import { FundingForm } from "@/types/Funding";
+import GiftDto from "@/types/GiftDto";
+
+import { styled } from "@mui/material/styles";
+import { Global } from "@emotion/react";
+import { Address } from "@/types/Address";
+import useAddressesQuery from "@/query/useAddressesQuery";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import InputComponent from "@/app/(without-navbar)/fundings/creation/view/InputComponent";
+import GiftComponent from "@/app/(without-navbar)/fundings/creation/view/GiftComponent";
+import AddressComponent from "@/app/(without-navbar)/fundings/creation/view/AddressComponent";
+import { DRAWER_BLEEDING } from "@/constants/constants";
+
+const Root = styled("div")(() => ({
+  height: "100%",
+}));
+
+const formData: GiftDto = {
+  id: 1,
+  giftOrd: 1,
+  giftUrl: "",
+  giftOpt: "",
+  giftCont: "",
+};
+
+function getInitialGifts() {
+  return [formData];
+}
 
 export default function FundingCreationPage() {
-  const methods = useForm();
-  const formData: GiftDto = { giftUrl: "", giftOpt: "", giftCont: "" };
+  const router = useRouter();
+  {
+    /*TODO: 사용자 기능 추가되면 userId 수정 필요*/
+  }
+  const userId: number = 1;
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [amount, setAmount] = useState<number>(0);
-  const [pub, setPub] = useState<boolean>(true);
-  const [endDate, setEndDate] = useState(dayjs());
-  const [theme, setTheme] = useState<string>("");
-  const [formDataList, setFormDataList] = useState<GiftDto[]>([formData]);
+  const { data: addresses } = useAddressesQuery(userId);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+
+  const methods = useForm<FundingForm>();
+  const [gifts, setGifts] = useState<GiftDto[]>(getInitialGifts);
+
+  useEffect(() => {
+    methods.setValue("gifts", gifts);
+  }, [methods.setValue]);
+
   const { mutate } = useFundingCreateQuery();
-  const [showItems, setShowItems] = useState<boolean>(true);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const onSubmit = (body: any) => {
-    // mutate(body);
-    // setFormDataList([]);
-    console.log(body);
-  };
-
-  function giftsToggle() {
-    setShowItems(!showItems);
-  }
-
-  const body: CreateFundingDto = {
-    fundTitle: title,
-    fundCont: content,
-    fundPubl: pub,
-    fundTheme: theme,
-    fundGoal: amount,
-    endAt: endDate.toDate(),
-    fundImg:
-      "https://img.danawa.com/prod_img/500000/924/538/img/28538924_1.jpg?_v=20231006030836",
-    gifts: formDataList,
-  };
-
-  const handleSubmit2 = () => {
-    mutate(body);
-    setTitle("");
-    setContent("");
-    setPub(true);
-    setEndDate(dayjs());
-    setTheme("");
-    setAmount(0);
-    setFormDataList([]);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+    /*TODO: 기프트 이미지 기능 추가 필요*/
+    body.fundImg = [
+      "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-card-40-iphone15prohero-202309_FMT_WHH?wid=508&hei=472&fmt=p-jpg&qlt=95&.v=1693086369818",
+    ];
+    body.fundGoal = Number(body.fundGoal.replaceAll(",", ""));
+    const { fundAddrZip, fundAddrRoad, fundAddrDetl, ...rest } = body;
+    const submitData = {
+      ...rest,
+      fundAddrZip: selectedAddress?.addrZip,
+      fundAddrRoad: selectedAddress?.addrRoad,
+      fundAddrDetl: selectedAddress?.addrDetl,
+      fundRecvName: selectedAddress?.recvName,
+      fundRecvPhone: selectedAddress?.recvPhone,
+      fundRecvReq: selectedAddress?.recvReq,
+    };
+    mutate(submitData, {
+      onSuccess: (data) => {
+        router.push(`/fundings/${data.data.fundUuid}`);
+      },
+    });
+    methods.reset();
   };
 
   return (
     <>
-      <h2>펀딩 개설</h2>
-      {/*제목/내용*/}
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <TextInput />
-          <PublicButtons />
-          <DeadlineCalendar />
-          <ThemeButtons themes={themeOptions} />
-          <AmountInput />
+      <Root>
+        <CssBaseline />
+        <Global
+          styles={{
+            ".MuiDrawer-root > .MuiPaper-root": {
+              height: `calc(85% - ${DRAWER_BLEEDING}px)`,
+              overflow: "visible",
+              borderTopLeftRadius: "8px",
+              borderTopRightRadius: "8px",
+            },
+          }}
+        />
+        <AppBar position="fixed" elevation={0} sx={{ backgroundColor: "#fff" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              aria-label="back"
+              onClick={() => router.back()}
+            >
+              <ArrowBackIosNewIcon color="primary" />
+            </IconButton>
+            <Typography
+              fontWeight={700}
+              variant="h6"
+              color="primary"
+              sx={{ flexGrow: 1, textAlign: "center" }}
+            >
+              펀딩 등록
+            </Typography>
+            <ArrowBackIosNewIcon style={{ visibility: "hidden" }} />
+          </Toolbar>
+        </AppBar>
 
-          {/*기프트 아이템*/}
-          <Button startIcon={<KeyboardArrowDown />} onClick={giftsToggle}>
-            ITEMS
-          </Button>
-          <div style={{ display: showItems ? "block" : "none" }}>
-            <DragGifts />
-          </div>
+        <Box sx={{ padding: 2, mt: 8 }}>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <Grid container spacing={2}>
+                {/*입력폼*/}
+                <InputComponent />
 
-          {/*배송지*/}
-          <div>
-            <h5>배송지</h5>
-            <TextField fullWidth />
-            <TextField fullWidth margin="dense" />
-            <Button onClick={openModal} variant="outlined">
-              변경
-            </Button>
-            <Modal open={isModalOpen} onClose={closeModal}>
-              <Box
-                sx={{
-                  position: "absolute",
-                  width: 400,
-                  bgcolor: "background.paper",
-                  border: "1px solid grey",
-                  boxShadow: 24,
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  p: 2,
-                }}
-              >
-                <AddressList />
-              </Box>
-            </Modal>
-          </div>
+                {/*기프트 아이템*/}
+                <GiftComponent gifts={gifts} setGifts={setGifts} />
 
-          <div style={{ paddingBottom: 80 }}>
-            <Button variant="contained" type="submit" fullWidth>
-              작성하기
-            </Button>
-          </div>
-        </form>
-      </FormProvider>
-
-      <DetailActionBar buttonText="작성하기" handleSubmit={handleSubmit2} />
+                {/*배송지*/}
+                <AddressComponent
+                  userId={userId}
+                  addresses={addresses}
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
+                />
+              </Grid>
+            </form>
+          </FormProvider>
+        </Box>
+      </Root>
+      <div style={{ display: openBottomSheet ? "none" : "block" }}>
+        <DetailActionBar
+          buttonText="작성하기"
+          handleSubmit={methods.handleSubmit(onSubmit)}
+        />
+      </div>
     </>
   );
 }
