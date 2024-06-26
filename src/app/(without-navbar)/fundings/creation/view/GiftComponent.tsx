@@ -1,6 +1,6 @@
 import { Button, Grid } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import DragGifts from "@/components/DragGifts";
+import DragGifts from "@/components/dragndrop/DragGifts";
 import React, { useState } from "react";
 import GiftDto from "@/types/GiftDto";
 

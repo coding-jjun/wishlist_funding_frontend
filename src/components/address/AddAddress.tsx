@@ -14,7 +14,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import Postcode from "@/components/Postcode";
+import Postcode from "@/components/address/Postcode";
 import useAddAddress from "@/query/useAddAddress";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
