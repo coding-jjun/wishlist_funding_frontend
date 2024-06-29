@@ -1,3 +1,5 @@
+import GiftDto from "@/types/GiftDto";
+
 import {
   FundingPublFilter,
   FundingSort,
@@ -17,6 +19,25 @@ export interface Funding {
   fundSum: number;
   endAt: string;
   regAt: string;
+}
+
+export interface FundingForm {
+  fundId: number;
+  fundTitle: string;
+  fundCont: string;
+  fundImg: string[];
+  fundTheme: string;
+  fundPubl: boolean;
+  fundGoal: string;
+  endAt: string;
+  gifts: GiftDto[];
+  fundRecvName: string;
+  fundRecvPhone: string;
+  fundRecvReq: string;
+  fundAddrZip: string;
+  fundAddrRoad: string;
+  fundAddrDetl: string;
+  fundAddr: string;
 }
 
 export interface FundingQueryParam {

@@ -4,21 +4,16 @@ const MuiTextField: Components["MuiTextField"] = {
   styleOverrides: {
     root: {
       "& label.Mui-focused": {
-        color: "#FF626F",
-      },
-      "& .MuiInput-underline:after": {
-        borderBottomColor: "#FF626F",
+        color: "#4F4635",
+        fontWeight: "bold",
       },
       "& .MuiOutlinedInput-root": {
-        borderRadius: "10px",
+        borderRadius: "15px",
         "& fieldset": {
           borderColor: "#E0E3E7",
         },
-        "&:hover fieldset": {
-          borderColor: "#FFC2C7",
-        },
         "&.Mui-focused fieldset": {
-          borderColor: "#FFC2C7",
+          borderColor: "#D0D0D0",
         },
       },
     },

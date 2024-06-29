@@ -1,14 +1,35 @@
-import { User } from "@/types/User";
-
 export interface Address {
   addrId: number;
-  addrUser: User;
+  isDef: boolean;
   addrNick: string;
+  recvName: string;
+  addrZip: string;
   addrRoad: string;
   addrDetl: string;
-  addrZip: string;
-  recvName: string;
   recvPhone: string;
-  recvReq?: string;
+  recvReq: string;
+  userId: number;
+}
+
+export interface CreateAddressDto {
   isDef: boolean;
+  addrNick: string;
+  recvName: string;
+  addrZip: string;
+  addrRoad: string;
+  addrDetl: string;
+  recvPhone: string;
+  recvReq: string;
+  userId: number;
+}
+
+export interface UpdateAddressDto {
+  addrNick: string;
+  isDef: boolean;
+  recvName: string;
+  addrZip: string;
+  addrRoad: string;
+  addrDetl: string;
+  recvPhone: string;
+  recvReq: string;
 }
