@@ -4,8 +4,13 @@ import { Button, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 import "./font.css";
+import { CSSProperties } from "react";
 
-export default function Logo() {
+interface Props {
+  textSx?: CSSProperties;
+}
+
+export default function Logo({ textSx }: Props) {
   const router = useRouter();
 
   const goToMain = () => {
@@ -19,6 +24,7 @@ export default function Logo() {
         fontWeight={700}
         color={grey[800]}
         fontFamily={"yg-jalnan"}
+        sx={{ ...textSx }}
       >
         기프투게더
       </Typography>
