@@ -34,7 +34,7 @@ export default function HorizontalImgCard({
       <CardActionArea sx={{ display: "flex" }} onClick={handleClick}>
         <CardMedia
           component="img"
-          sx={{ width: 140 }}
+          sx={{ width: 140, height: 140, flexShrink: 0, maxWidth: 140 }}
           image={image}
           alt="펀딩 썸네일"
         />
