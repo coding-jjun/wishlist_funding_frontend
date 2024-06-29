@@ -23,6 +23,8 @@ export function FilterSelect({ label, handleClick, selected, sx }: Props) {
         px: 1,
         color: selected ? "#FFFFFF" : undefined,
         backgroundColor: selected ? grey[800] : "#FFFFFF",
+        flexShrink: 0,
+        whiteSpace: "nowrap",
         ...sx,
       }}
     >
