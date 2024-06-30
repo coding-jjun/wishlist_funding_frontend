@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CommonResponse } from "@/types/CommonResponse";
 
 interface UploadResponse {
-  url: string[];
+  urls: string[];
 }
 
 const useImageUpload = () => {
@@ -11,7 +11,7 @@ const useImageUpload = () => {
 
   const uploadImages = async (files: File[]) => {
     const formData = new FormData();
-    files.forEach((file) => formData.append("file", file));
+    files.forEach((file) => formData.append("files", file));
 
     const response = await axios.post<CommonResponse<UploadResponse>>(
       "/api/image",
@@ -23,7 +23,8 @@ const useImageUpload = () => {
       },
     );
 
-    setUploadedImages(response.data.data.url);
+    setUploadedImages(response.data.data.urls);
+    return response.data.data.urls;
   };
 
   return { uploadImages, uploadedImages };
