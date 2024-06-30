@@ -40,7 +40,6 @@ export interface UserDto {
 }
 
 export interface UpdateUserDto {
-  userId: number;
   userNick: string;
   userPw: string;
   userName: string;
@@ -48,7 +47,8 @@ export interface UpdateUserDto {
   userBirth: Date;
   userEmail: string;
   userAcc?: number;
-  userImg: string;
+  userImg?: string;
+  defaultImgId?: number;
 }
 
 export interface CreateUserDto {
