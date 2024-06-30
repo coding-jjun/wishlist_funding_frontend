@@ -25,7 +25,8 @@ const ProfileBottomSheet = ({ userId, handleClose, handleSubmit }: Props) => {
   const { uploadImages } = useUploadImage();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [localUploadedImages, setLocalUploadedImages] = useState<string[]>([]);
+  const [isDefaultImage, setIsDefaultImage] = useState<boolean>(true);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -33,18 +34,30 @@ const ProfileBottomSheet = ({ userId, handleClose, handleSubmit }: Props) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (reader.result && typeof reader.result === "string") {
-          setUploadedImages((prev) => [...prev, reader.result as string]);
+          setLocalUploadedImages((prev) => [...prev, reader.result as string]);
           setSelectedImage(reader.result as string);
         }
       };
       reader.readAsDataURL(file);
+      setIsDefaultImage(false);
     }
   };
 
   const onClickSubmit = async () => {
-    const file = inputRef.current?.files?.[0];
-    if (file) await uploadImages([file]);
-    handleSubmit(uploadedImages[0]);
+    if (!selectedImage) {
+      return;
+    }
+
+    if (isDefaultImage) {
+      handleSubmit(selectedImage);
+    } else {
+      const file = inputRef.current?.files?.[0];
+      if (file) {
+        const uploadedImages = await uploadImages([file]);
+        handleSubmit(uploadedImages[0]);
+      }
+    }
+
     handleClose();
   };
 
@@ -65,7 +78,7 @@ const ProfileBottomSheet = ({ userId, handleClose, handleSubmit }: Props) => {
             onChange={handleFileChange}
           />
         </Grid>
-        {uploadedImages.map((url, index) => (
+        {localUploadedImages.map((url, index) => (
           <Grid
             item
             xs={3}

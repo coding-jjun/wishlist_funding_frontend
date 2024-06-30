@@ -9,18 +9,29 @@ interface Props {
 export default function MyProfileImage({ user }: Props) {
   const { mutate: updateUser } = useUpdateUser(user.userId);
 
-  const handleProfileImageChange = (img: string) => {
+  const handleProfileImageChange = (img: string | number) => {
     // TODO: 업데이트할 때 업데이트하는 정보만 전달할 수 없을지..?
-    updateUser({
-      userId: user.userId,
-      userNick: user.userNick,
-      userPw: user.userPw,
-      userName: user.userName,
-      userPhone: user.userPhone,
-      userBirth: user.userBirth ? new Date(user.userBirth) : new Date(),
-      userEmail: user.userEmail,
-      userImg: img,
-    });
+    if (typeof img === "number") {
+      updateUser({
+        userNick: user.userNick,
+        userPw: user.userPw,
+        userName: user.userName,
+        userPhone: user.userPhone,
+        userBirth: user.userBirth ? new Date(user.userBirth) : new Date(),
+        userEmail: user.userEmail,
+        defaultImgId: img,
+      });
+    } else {
+      updateUser({
+        userNick: user.userNick,
+        userPw: user.userPw,
+        userName: user.userName,
+        userPhone: user.userPhone,
+        userBirth: user.userBirth ? new Date(user.userBirth) : new Date(),
+        userEmail: user.userEmail,
+        userImg: img,
+      });
+    }
   };
 
   return (
