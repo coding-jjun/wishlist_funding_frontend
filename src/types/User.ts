@@ -40,15 +40,14 @@ export interface UserDto {
 }
 
 export interface UpdateUserDto {
-  userId: number;
   userNick: string;
-  userPw: string;
   userName: string;
   userPhone: string;
-  userBirth: Date;
   userEmail: string;
+  userBirth?: Date;
   userAcc?: number;
-  userImg: string;
+  userImg?: string;
+  defaultImgId?: number;
 }
 
 export interface CreateUserDto {
@@ -60,6 +59,7 @@ export interface CreateUserDto {
   userBirth?: Date;
   userAcc?: number;
   userImg?: string;
+  defaultImgId?: number;
 }
 
 export interface CreateUserForm {
@@ -72,4 +72,5 @@ export interface CreateUserForm {
   userAccBank?: BankType;
   userAccNum?: string;
   userImg?: string;
+  defaultImgId?: number;
 }
