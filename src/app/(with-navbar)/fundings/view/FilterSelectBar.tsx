@@ -42,32 +42,41 @@ export default function FilterSelectBar() {
     <Stack
       direction="row"
       spacing={1}
-      justifyContent={"flex-end"}
-      sx={{ display: "flex" }}
+      justifyContent={"flex-start"}
+      sx={{
+        flexGrow: 1,
+        overflowX: "auto",
+        whiteSpace: "nowrap",
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+        msOverflowStyle: "none",
+        scrollbarWidth: "none",
+      }}
     >
       <FilterSelect
         label="테마"
         handleClick={openBottomSheet}
         selected={themes.length !== 3}
-        sx={{ flexGrow: 1 }}
+        sx={{ flexShrink: 0 }}
       />
       <FilterSelect
         label={visibility === "전체" ? "공개범위" : visibility}
         handleClick={openBottomSheet}
         selected={visibility !== "전체"}
-        sx={{ flexGrow: 1 }}
+        sx={{ flexShrink: 0 }}
       />
       <FilterSelect
         label={status === "진행 중" ? "진행상태" : status}
         handleClick={openBottomSheet}
         selected={status !== "진행 중"}
-        sx={{ flexGrow: 1 }}
+        sx={{ flexShrink: 0 }}
       />
       <FilterSelect
         label={sort}
         handleClick={openBottomSheet}
         selected={sort !== "마감일순"}
-        sx={{ flexGrow: 1 }}
+        sx={{ flexShrink: 0 }}
       />
     </Stack>
   );
