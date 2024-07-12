@@ -3,7 +3,6 @@ import {
   AppBar,
   Box,
   Button,
-  ButtonGroup,
   IconButton,
   Toolbar,
   Typography,
@@ -51,7 +50,7 @@ export default function AlarmHistoryPage() {
               onClick={() => setFilter(category.value)}
               style={{
                 fontWeight: category.value === filter ? "bold" : "normal",
-                backgroundColor: category.value === filter ? "#F5F8FC" : "#fff",
+                backgroundColor: category.value === filter ? "#ECF0EF" : "#fff",
                 borderColor: category.value === filter ? "#4F4635" : "#d0d0d0",
                 color: category.value === filter ? "#4F4635" : "#4F4635",
                 borderWidth: category.value === filter ? "1.5px" : "1px",

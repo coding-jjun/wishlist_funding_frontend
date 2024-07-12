@@ -19,16 +19,25 @@ export default function NotificationContent({
       justifyContent="flex-start"
       alignItems="center"
       spacing={1}
+      sx={{ flexWrap: "nowrap" }}
     >
       {fundTitle ? (
-        <Typography fontWeight={500} sx={{ padding: 0, margin: 0 }}>
+        <Typography
+          fontWeight={500}
+          sx={{ padding: 0, margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}
+        >
           [{fundTitle}]
         </Typography>
       ) : null}
-      <Typography fontWeight={700} sx={{ padding: 0, margin: 0 }}>
+      <Typography
+        fontWeight={700}
+        sx={{ padding: 0, margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}
+      >
         {sender}
       </Typography>
-      {NotificationMessages[notiType]}
+      <Typography sx={{ whiteSpace: "nowrap", flexShrink: 0 }}>
+        {NotificationMessages[notiType]}
+      </Typography>
     </Stack>
   );
 }

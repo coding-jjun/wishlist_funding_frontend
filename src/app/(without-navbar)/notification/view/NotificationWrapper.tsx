@@ -4,7 +4,7 @@ import { Notification } from "@/types/Notification";
 import NotificationContent from "@/app/(without-navbar)/notification/view/NotificationContent";
 import { grey } from "@mui/material/colors";
 import getTimeAgoText from "@/utils/getTimeAgoText";
-import NotificationButton from "@/app/(without-navbar)/notification/view/NotificationButton";
+import IncomingFollowButtons from "@/app/(without-navbar)/notification/view/IncomingFollowButtons";
 import { NotiType, ReqType } from "@/types/Notification.enum";
 import { useRouter } from "next/navigation";
 
@@ -71,7 +71,7 @@ export default function NotificationWrapper({ notification }: Props) {
           {getTimeAgoText(notiTime.toString())}
         </Typography>
       </div>
-      {reqType == ReqType.NotResponse && <NotificationButton />}
+      {reqType == ReqType.NotResponse && <IncomingFollowButtons />}
     </Stack>
   );
 }
