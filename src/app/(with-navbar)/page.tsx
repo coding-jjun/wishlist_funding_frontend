@@ -51,7 +51,11 @@ export default function Home() {
             }
           />
         )}
-        <MyFundingSwiper pagination={true} modules={[Pagination]}>
+        <MyFundingSwiper
+          pagination={true}
+          modules={[Pagination]}
+          style={{ width: "100%", height: "100%" }}
+        >
           {myFundingQueryResponse?.pages
             ?.flatMap((page) => page.fundings)
             .map((funding) => (
