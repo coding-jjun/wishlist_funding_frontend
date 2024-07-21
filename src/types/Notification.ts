@@ -1,4 +1,4 @@
-import { NotiType, ReqType } from "@/types/Notification.enum";
+import { NotiFilter, NotiType } from "@/types/Notification.enum";
 
 export interface Notification {
   notiId: number;
@@ -7,8 +7,18 @@ export interface Notification {
   sendNick: string;
   senderImg: string;
   notiType: NotiType;
-  reqType: ReqType;
-  // subId: number;
+  subId?: string;
   notiTime: Date;
   fundTitle?: string;
+}
+
+export interface NotificationQueryParam {
+  lastId: number;
+  notiFilter: NotiFilter;
+}
+
+export interface NotificationResponse {
+  noti: Notification[];
+  count: number;
+  lastId: number; // 무한 스크롤 용 마지막 알림의 notiId
 }
