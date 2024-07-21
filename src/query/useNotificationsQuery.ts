@@ -1,21 +1,76 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+  DefaultError,
+  InfiniteData,
+  QueryKey,
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import axios from "axios";
 import { CommonResponse } from "@/types/CommonResponse";
-import { Notification } from "@/types/Notification";
+import {
+  NotificationQueryParam,
+  NotificationResponse,
+} from "@/types/Notification";
 
-const fetchNotifications = async (userId: number): Promise<Notification[]> => {
-  const response = await axios.get<CommonResponse<Notification[]>>(
-    `/api/notification/${userId}`,
-  );
+// 쿼리 스트링
+const buildURL = (
+  userId: number,
+  params: Partial<NotificationQueryParam>,
+): string => {
+  const baseUrl = `/api/notification/${userId}`;
+  const queryParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined) {
+      if (Array.isArray(value)) {
+        value.forEach((item: string) => queryParams.append(key, item));
+      } else {
+        queryParams.append(key, String(value));
+      }
+    }
+  });
+
+  return `${baseUrl}?${queryParams.toString()}`;
+};
+
+const fetchNotifications = async (
+  userId: number,
+  queryParams: Partial<NotificationQueryParam>,
+): Promise<NotificationResponse> => {
+  const url = buildURL(userId, queryParams);
+  const response = await axios.get<CommonResponse<NotificationResponse>>(url);
   return response.data.data;
 };
 
+interface PageParam {
+  lastId: number | undefined;
+}
+
 const useNotificationsQuery = (
   userId: number,
-): UseQueryResult<Notification[]> => {
-  return useQuery<Notification[]>({
-    queryKey: ["notifications", userId],
-    queryFn: () => fetchNotifications(userId),
+  queryParams: Partial<NotificationQueryParam>,
+): UseInfiniteQueryResult<InfiniteData<NotificationResponse>> => {
+  return useInfiniteQuery<
+    NotificationResponse,
+    DefaultError,
+    InfiniteData<NotificationResponse>,
+    QueryKey,
+    PageParam
+  >({
+    queryKey: ["notifications", userId, queryParams],
+    queryFn: ({ pageParam = { lastId: undefined } }) =>
+      fetchNotifications(userId, {
+        ...queryParams,
+        lastId: pageParam.lastId,
+      }),
+    initialPageParam: { lastId: undefined },
+    getNextPageParam: (lastPage) => {
+      if (lastPage.count < (queryParams?.lastId ?? 1)) {
+        return undefined;
+      }
+
+      return { lastId: lastPage.lastId };
+    },
   });
 };
 

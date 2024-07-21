@@ -5,7 +5,7 @@ import NotificationContent from "@/app/(without-navbar)/notification/view/Notifi
 import { grey } from "@mui/material/colors";
 import getTimeAgoText from "@/utils/getTimeAgoText";
 import IncomingFollowButtons from "@/app/(without-navbar)/notification/view/IncomingFollowButtons";
-import { NotiType, ReqType } from "@/types/Notification.enum";
+import { NotiType } from "@/types/Notification.enum";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -14,28 +14,17 @@ interface Props {
 
 export default function NotificationWrapper({ notification }: Props) {
   const router = useRouter();
-  const {
-    notiId,
-    recvId,
-    sendId,
-    senderImg,
-    sendNick,
-    notiType,
-    reqType,
-    // subId: fundUuid,
-    notiTime,
-    fundTitle,
-  } = notification;
+  const { sendId, senderImg, sendNick, notiType, subId, notiTime, fundTitle } =
+    notification;
 
   const handleClick = () => {
     if (
       notiType === NotiType.IncomingFollow ||
       notiType === NotiType.AcceptFollow
     ) {
-      /*TODO: 기능 추가되면 userId, fundUuid 수정 필요*/
-      router.push(`/profile/1`);
-    } else if (fundTitle) {
-      router.push(`/fundings/607d519a-ddd3-40c3-ac33-c832d8c5b57c`);
+      router.push(`/profile/${sendId}`);
+    } else if (subId) {
+      router.push(`/fundings/${subId}`);
     }
   };
 
@@ -55,13 +44,13 @@ export default function NotificationWrapper({ notification }: Props) {
         alt={`${sendNick}-profile`}
         src={senderImg ?? "/dummy/profile.png"}
         sx={{ width: 30, height: 30 }}
-        onClick={() => router.push(`/profile/1`)}
+        onClick={() => router.push(`/profile/${sendId}`)}
       />
       <div style={{ width: "100%" }} onClick={handleClick}>
         <NotificationContent
           sender={sendNick}
           notiType={notiType}
-          fundTitle={fundTitle || undefined}
+          fundTitle={fundTitle}
         />
         <Typography
           variant={"body2"}
@@ -71,7 +60,7 @@ export default function NotificationWrapper({ notification }: Props) {
           {getTimeAgoText(notiTime.toString())}
         </Typography>
       </div>
-      {reqType == ReqType.NotResponse && <IncomingFollowButtons />}
+      {notiType === NotiType.IncomingFollow && <IncomingFollowButtons />}
     </Stack>
   );
 }

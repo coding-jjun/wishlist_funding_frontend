@@ -14,30 +14,30 @@ export default function NotificationContent({
   fundTitle,
 }: Props) {
   return (
-    <Stack
-      direction="row"
-      justifyContent="flex-start"
-      alignItems="center"
-      spacing={1}
-      sx={{ flexWrap: "nowrap" }}
+    <div
+      style={{
+        display: "inline",
+      }}
     >
-      {fundTitle ? (
+      {fundTitle && (
         <Typography
-          fontWeight={500}
-          sx={{ padding: 0, margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}
+          component="span"
+          fontWeight={600}
+          sx={{ padding: 0, marginRight: 1 }}
         >
           [{fundTitle}]
         </Typography>
-      ) : null}
+      )}
       <Typography
+        component="span"
         fontWeight={700}
-        sx={{ padding: 0, margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}
+        sx={{ padding: 0, margin: 0 }}
       >
         {sender}
       </Typography>
-      <Typography sx={{ whiteSpace: "nowrap", flexShrink: 0 }}>
+      <Typography component="span" sx={{ padding: 0, margin: 0 }}>
         {NotificationMessages[notiType]}
       </Typography>
-    </Stack>
+    </div>
   );
 }
