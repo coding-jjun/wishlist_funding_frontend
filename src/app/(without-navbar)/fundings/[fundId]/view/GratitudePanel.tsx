@@ -16,12 +16,11 @@ const DUMMY_IMAGES = [
 ];
 
 interface Props {
-  gratId: number;
   fundUuid: string;
 }
 
-export default function GratitudePanel({ gratId, fundUuid }: Props) {
-  const { data: gratitude } = useGratitudeQuery(gratId, fundUuid);
+export default function GratitudePanel({ fundUuid }: Props) {
+  const { data: gratitude } = useGratitudeQuery(fundUuid);
   const router = useRouter();
 
   const moveToGratitudeCreationPage = () => {
