@@ -13,9 +13,18 @@ import { BoxButton } from "@/components/button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
+
+  useEffect(() => {
+    const userCookie = Cookies.get("user");
+    const accessToken = Cookies.get("access_token");
+    const refreshToken = Cookies.get("refresh_token");
+    console.log(userCookie, accessToken, refreshToken);
+  }, []);
 
   // TODO: user 기능이 추가되면 useMyFundingQuery와 useFundingsQuery에 전달하는 userId 수정 필요
   // 나의 펀딩
