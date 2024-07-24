@@ -18,7 +18,7 @@ interface Params {
 
 export default function GratitudeCreationPage({ params }: { params: Params }) {
   const router = useRouter();
-  const { uploadImages, uploadedImages } = useUploadImage();
+  const { uploadImages } = useUploadImage();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -65,11 +65,11 @@ export default function GratitudeCreationPage({ params }: { params: Params }) {
   };
 
   const handleSubmit = async () => {
-    await uploadImages(uploadedFiles);
+    const urls = await uploadImages(uploadedFiles);
     const dto: GratitudeDto = {
       gratTitle: title,
       gratCont: content,
-      gratImg: uploadedImages,
+      gratImg: urls,
     };
 
     mutate(dto);
