@@ -30,8 +30,8 @@ export enum BankType {
   Tossbank = "Tossbank", // 토스뱅크
   Scbank = "Scbank", // SC제일은행
   Kbank = "Kbank", // 케이뱅크
-  Post = "Post", // 우체국
-  Jeonbook = "Jeonbook", // 전북은행
-  Sbi = "Sbi", // SBI 저축은행
-  NhInvest = "NhInvest", //  NH투자은행
+  Sbi = "Sbi", // SBI저축은행
+  Kopo = "Kopo", // 우체국은행
+  Jeonbuk = "Jeonbuk", // 전북은행
+  Nhinvest = "Nhinvest", // NH투자증권
 }

@@ -13,9 +13,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { HorizontalImgCard, VerticalImgCard } from "@/components/card";
 import calculatePercent from "@/utils/calculatePercent";
 import styled from "@emotion/styled";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 export default function MainPageContent() {
   const router = useRouter();
+
+  // TODO: 테스트 코드 삭제
+  useEffect(() => {
+    const userCookie = Cookies.get("user");
+    const accessToken = Cookies.get("access_token");
+    const refreshToken = Cookies.get("refresh_token");
+    console.log(userCookie, accessToken, refreshToken);
+  }, []);
 
   // TODO: user 기능이 추가되면 useMyFundingQuery와 useFundingsQuery에 전달하는 userId 수정 필요
   // 나의 펀딩
