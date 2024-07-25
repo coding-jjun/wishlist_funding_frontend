@@ -20,7 +20,8 @@ export default function NotificationWrapper({ notification }: Props) {
   const handleClick = () => {
     if (
       notiType === NotiType.IncomingFollow ||
-      notiType === NotiType.AcceptFollow
+      notiType === NotiType.AcceptFollow ||
+      notiType === NotiType.NewFriend
     ) {
       router.push(`/profile/${sendId}`);
     } else if (subId) {
@@ -60,7 +61,9 @@ export default function NotificationWrapper({ notification }: Props) {
           {getTimeAgoText(notiTime.toString())}
         </Typography>
       </div>
-      {notiType === NotiType.IncomingFollow && <IncomingFollowButtons />}
+      {notiType === NotiType.IncomingFollow && (
+        <IncomingFollowButtons sendId={sendId} />
+      )}
     </Stack>
   );
 }

@@ -10,19 +10,22 @@ export enum NotiType {
   NewComment = "NewComment", // 댓글 알림
   DonatedFundClose = "DonatedFundClose",
   CheckGratitude = "CheckGratitude", // 내가 후원한 펀딩 감사인사 확인
+  NewFriend = "NewFriend", // 친구 수락
+  DeleteFriend = "DeleteFriend", // 친구 삭제
 }
 
 export const NotificationMessages: Record<NotiType, string> = {
-  [NotiType.IncomingFollow]: "님이 친구를 신청했어요 👫🏻",
+  [NotiType.IncomingFollow]: "님이 친구를 신청했어요 👋🏻",
   [NotiType.AcceptFollow]: "님이 친구요청을 수락했어요.",
   [NotiType.FundClose]: "내가 후원한 펀딩이 마감되었어요.",
   [NotiType.FundAchieve]: "내가 올린 펀딩이 목표 금액을 달성했어요 🎉",
   [NotiType.NewDonate]: "님이 참여했어요.",
-  [NotiType.WriteGratitude]:
-    "${작성자}님, 선물에 대한 감사인사를 작성해보세요 ✍🏻",
+  [NotiType.WriteGratitude]: "에 참여한 분들에게 감사인사를 작성해보세요 ✍🏻",
   [NotiType.NewComment]: "님이 댓글을 남겼어요 🏷",
   [NotiType.DonatedFundClose]: "님의 펀딩이 마감되었어요.",
   [NotiType.CheckGratitude]: "님이 감사인사를 작성했어요.",
+  [NotiType.NewFriend]: "님과 친구가 되었어요 👫🏻",
+  [NotiType.DeleteFriend]: "",
 };
 /**
  * 필터링

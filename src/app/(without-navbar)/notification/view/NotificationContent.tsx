@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { NotificationMessages, NotiType } from "@/types/Notification.enum";
 
 interface Props {
