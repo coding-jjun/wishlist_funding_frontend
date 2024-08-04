@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Chip, Stack, styled, Typography } from "@mui/material";
 import { BottomSheet, useOverlay } from "@/components/overlay";
-import BankBottomSheet from "@/app/(with-navbar)/signup/view/BankBottomSheet";
-import { BankInfo } from "./banks";
+import BankBottomSheet from "@/app/(with-navbar)/signup/view/input/BankBottomSheet";
 import { useFormContext } from "react-hook-form";
 import { CreateUserForm } from "@/types/User";
+import { BankInfo } from "@/app/(with-navbar)/signup/constants/banks";
 
 export default function BankSelectBar() {
   const { setValue } = useFormContext<CreateUserForm>();

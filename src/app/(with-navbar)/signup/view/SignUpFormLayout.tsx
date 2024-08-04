@@ -1,14 +1,13 @@
 import React, { ReactNode } from "react";
 import { ArrowBackIosNew as ArrowBackIosNewIcon } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  IconButton,
-  Stack,
-  styled,
-  Typography,
-} from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
+import {
+  Container,
+  FormContainer,
+  NextButton,
+} from "@/app/(with-navbar)/signup/styles";
+import SectionTitle from "@/app/(with-navbar)/signup/view/SectionTitle";
 
 interface Props {
   title: string;
@@ -19,7 +18,7 @@ interface Props {
   onNext: () => void;
 }
 
-export default function SignUpForm({
+export default function SignUpFormLayout({
   title,
   currStep,
   totalStep,
@@ -34,16 +33,8 @@ export default function SignUpForm({
           <ArrowBackIosNewIcon />
         </IconButton>
       </TopFixedStack>
-      <Title>
-        <Typography
-          variant="h5"
-          component="h1"
-          sx={{ my: "20px", fontWeight: 700 }}
-        >
-          {title}
-        </Typography>
-      </Title>
       <FormContainer>
+        <SectionTitle>{title}</SectionTitle>
         {formContent}
         {currStep === totalStep ? (
           <Stack direction="row" justifyContent="space-between">
@@ -76,45 +67,7 @@ export default function SignUpForm({
             </NextButton>
           </Stack>
         )}
-
-        {/*<NextButton*/}
-        {/*  variant="contained"*/}
-        {/*  color="secondary"*/}
-        {/*  onClick={onNext}*/}
-        {/*  sx={{ width: "40%" }}*/}
-        {/*>*/}
-        {/*  {`다음(${currStep} / ${totalStep})`}*/}
-        {/*</NextButton>*/}
       </FormContainer>
     </Container>
   );
 }
-
-const Container = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "flex-start",
-  height: "100vh",
-  backgroundColor: "#fff",
-});
-
-const Title = styled(Box)({
-  width: "90%",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-});
-
-const FormContainer = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  width: "90%",
-});
-
-const NextButton = styled(Button)({
-  marginTop: "30px",
-  marginBottom: "20px",
-  borderRadius: "10px",
-  padding: "12px",
-});
