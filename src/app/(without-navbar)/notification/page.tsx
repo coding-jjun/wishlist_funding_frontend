@@ -57,6 +57,14 @@ export default function AlarmHistoryPage() {
     setFilter(value);
   };
 
+  const filterButtonStyle = (isActive: boolean) => ({
+    fontWeight: isActive ? "bold" : "normal",
+    backgroundColor: isActive ? "#ECF0EF" : "#fff",
+    borderColor: isActive ? "#4F4635" : "#d0d0d0",
+    color: isActive ? "#4F4635" : "#4F4635",
+    borderWidth: isActive ? "1.5px" : "1px",
+  });
+
   return (
     <>
       <AppBar
@@ -81,13 +89,7 @@ export default function AlarmHistoryPage() {
             <Button
               key={key}
               onClick={() => handleFilterChange(key as NotiFilter)}
-              style={{
-                fontWeight: key === filter ? "bold" : "normal",
-                backgroundColor: key === filter ? "#ECF0EF" : "#fff",
-                borderColor: key === filter ? "#4F4635" : "#d0d0d0",
-                color: key === filter ? "#4F4635" : "#4F4635",
-                borderWidth: key === filter ? "1.5px" : "1px",
-              }}
+              style={filterButtonStyle(key === filter)}
             >
               {getNotiFilterValue(key as NotiFilter)}
             </Button>
