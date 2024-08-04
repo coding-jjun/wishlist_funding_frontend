@@ -17,6 +17,7 @@ import {
 } from "@mui/icons-material";
 import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Container = styled(Box)({
   display: "flex",
@@ -70,11 +71,28 @@ const CustomLink = styled(Link)({
 });
 
 const LoginComponent = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const handleClickLogin = async () => {
+    try {
+      const response = await axios.post(`/server/login`, {
+        userNick: email,
+        userPw: password,
+      });
+
+      if (response.status === 200) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -97,6 +115,8 @@ const LoginComponent = () => {
           variant="outlined"
           margin="normal"
           fullWidth
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <CustomTextField
           label="비밀번호"
@@ -104,6 +124,8 @@ const LoginComponent = () => {
           margin="normal"
           type={showPassword ? "text" : "password"}
           fullWidth
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -118,7 +140,12 @@ const LoginComponent = () => {
             ),
           }}
         />
-        <StyledButton variant="contained" fullWidth color="secondary">
+        <StyledButton
+          variant="contained"
+          fullWidth
+          color="secondary"
+          onClick={handleClickLogin}
+        >
           로그인
         </StyledButton>
         <Box display="flex" justifyContent="center" mt="10px" gap="10px">
