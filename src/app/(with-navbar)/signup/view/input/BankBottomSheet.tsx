@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, Button, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { BankInfo, banks } from "./banks";
+import { BankInfo, banks } from "@/app/(with-navbar)/signup/constants/banks";
 
 interface Props {
   selectBank: (bank: BankInfo) => void;
