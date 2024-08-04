@@ -15,6 +15,8 @@ interface Props {
   onNext: () => void;
 }
 
+const USER_DEFAULT_IMG_ID = 24;
+
 export default function AdditionalInfo({ onPrev, onNext }: Props) {
   const { handleSubmit } = useFormContext<CreateUserForm>();
   const { mutate: addUser } = useAddUser();
@@ -30,15 +32,29 @@ export default function AdditionalInfo({ onPrev, onNext }: Props) {
       userImg,
     } = data;
 
-    const dto: CreateUserDto = {
-      userEmail,
-      userPw,
-      userName,
-      userNick,
-      userPhone,
-      userBirth,
-      userImg,
-    };
+    let dto: CreateUserDto;
+
+    if (userImg) {
+      dto = {
+        userEmail,
+        userPw,
+        userName,
+        userNick,
+        userPhone,
+        userBirth,
+        userImg,
+      };
+    } else {
+      dto = {
+        userEmail,
+        userPw,
+        userName,
+        userNick,
+        userPhone,
+        userBirth,
+        defaultImgId: USER_DEFAULT_IMG_ID,
+      };
+    }
 
     addUser(dto);
     onNext();
