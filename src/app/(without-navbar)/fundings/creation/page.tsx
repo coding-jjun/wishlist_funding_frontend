@@ -1,15 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Grid,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, CssBaseline, Grid } from "@mui/material";
 import { DetailActionBar } from "@/components/layout/action-bar";
 import useFundingCreateQuery from "@/query/useFundingCreatQuery";
 import { useRouter } from "next/navigation";
@@ -20,11 +12,11 @@ import { styled } from "@mui/material/styles";
 import { Global } from "@emotion/react";
 import { Address } from "@/types/Address";
 import useAddressesQuery from "@/query/useAddressesQuery";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import InputComponent from "@/app/(without-navbar)/fundings/creation/view/InputComponent";
 import GiftComponent from "@/app/(without-navbar)/fundings/creation/view/GiftComponent";
 import AddressComponent from "@/app/(without-navbar)/fundings/creation/view/AddressComponent";
 import { DRAWER_BLEEDING } from "@/constants/constants";
+import Appbar from "@/components/layout/appbar/appbar";
 
 const Root = styled("div")(() => ({
   height: "100%",
@@ -100,26 +92,8 @@ export default function FundingCreationPage() {
             },
           }}
         />
-        <AppBar position="fixed" elevation={0} sx={{ backgroundColor: "#fff" }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              aria-label="back"
-              onClick={() => router.back()}
-            >
-              <ArrowBackIosNewIcon color="primary" />
-            </IconButton>
-            <Typography
-              fontWeight={700}
-              variant="h6"
-              color="primary"
-              sx={{ flexGrow: 1, textAlign: "center" }}
-            >
-              펀딩 등록
-            </Typography>
-            <ArrowBackIosNewIcon style={{ visibility: "hidden" }} />
-          </Toolbar>
-        </AppBar>
+
+        <Appbar title={"펀딩 등록"} />
 
         <Box sx={{ padding: 2, mt: 8 }}>
           <FormProvider {...methods}>

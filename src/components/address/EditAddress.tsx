@@ -15,7 +15,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import Postcode from "@/components/Postcode";
+import Postcode from "@/components/address/Postcode";
 import { Address } from "@/types/Address";
 import useUpdateAddress from "@/query/useUpdateAddress";
 import useDeleteAddress from "@/query/useDeleteAddress";

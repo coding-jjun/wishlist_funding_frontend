@@ -5,7 +5,7 @@ const nextConfig = {
         return [
             {
                 source: "/api/:path*",
-                destination: "http://api.giftogether.co.kr/:path*",
+                destination: "https://api.giftogether.co.kr/:path*",
             },
         ];
     },

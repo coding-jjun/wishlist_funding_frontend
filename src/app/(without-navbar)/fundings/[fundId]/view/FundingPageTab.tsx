@@ -33,12 +33,7 @@ export default function FundingPageTab({ funding }: Props) {
         {
           label: "감사인사",
           value: "감사인사",
-          panel: (
-            <GratitudePanel
-              gratId={funding.fundId}
-              fundUuid={funding.fundUuid}
-            />
-          ),
+          panel: <GratitudePanel fundUuid={funding.fundUuid} />,
         },
         {
           label: "롤링페이퍼",
