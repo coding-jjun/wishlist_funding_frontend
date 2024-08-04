@@ -41,6 +41,7 @@ export interface UserDto {
 
 export interface UpdateUserDto {
   userNick: string;
+  userPw: string;
   userName: string;
   userPhone: string;
   userEmail: string;

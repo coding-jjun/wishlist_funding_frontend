@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const body = await request.json();
 
@@ -17,9 +17,12 @@ export async function POST(request) {
       status: 200,
     });
 
-    response.headers["set-cookie"].forEach((cookie) => {
-      res.headers.append("Set-Cookie", cookie);
-    });
+    const setCookieHeader = response.headers["set-cookie"];
+    if (setCookieHeader) {
+      setCookieHeader.forEach((cookie: string) => {
+        res.headers.append("Set-Cookie", cookie);
+      });
+    }
 
     return res;
   } catch (error) {

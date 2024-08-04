@@ -33,6 +33,7 @@ export default function OAuthSignUpPage() {
 
   const onSubmit = (data: CreateUserForm) => {
     const {
+      userPw,
       userEmail,
       userName,
       userNick,
@@ -50,6 +51,7 @@ export default function OAuthSignUpPage() {
     // TODO: 프로필 이미지 관련 설정
     const dto: UpdateUserDto = {
       userNick,
+      userPw,
       userName,
       userPhone,
       userEmail,
