@@ -83,7 +83,7 @@ const LoginComponent = () => {
   const handleClickLogin = async () => {
     try {
       const response = await axios.post(`/server/login`, {
-        userNick: email,
+        userEmail: email,
         userPw: password,
       });
 
