@@ -6,7 +6,7 @@ import { CommonResponse } from "@/types/CommonResponse";
 const updateUser = async (
   dto: UpdateUserDto,
 ): Promise<CommonResponse<UserDto>> => {
-  const { data } = await axios.patch("/api/signup/extra", dto, {
+  const { data } = await axios.patch("/api/auth/signup/extra", dto, {
     withCredentials: true,
   });
   return data;

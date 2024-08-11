@@ -30,7 +30,11 @@ const BirthdayField = () => {
               slotProps={{
                 toolbar: { toolbarFormat: "YYYY.MM.DD", hidden: false },
               }}
-              onChange={onChange}
+              onChange={(date) => {
+                if (date) {
+                  onChange(dayjs(date).format("YYYY-MM-DD"));
+                }
+              }}
               defaultValue={dayjs(new Date())}
               value={dayjs(value)}
               sx={{
