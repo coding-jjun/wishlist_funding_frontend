@@ -31,10 +31,7 @@ const useDeleteFriend = (userId: number, frdId: number) => {
     mutationFn: () => deleteFriend(userId, frdId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["friendStatus", userId, frdId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["friends", userId],
+        queryKey: ["friend", userId, frdId],
       });
     },
   });

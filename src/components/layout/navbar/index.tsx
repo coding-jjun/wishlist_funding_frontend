@@ -13,8 +13,6 @@ import { StyledBottomNavigation } from "@/components/layout/navbar/bottom-naviga
 
 export default function NavigationBar() {
   const router = useRouter();
-  // TODO: 로그인한 userId로 수정 필요
-  const userId: number = 1;
   const [tab, setTab] = useState("home");
 
   // 모바일 사이트에서 접속했는지 / 앱에서 접속했는지 여부
@@ -49,7 +47,8 @@ export default function NavigationBar() {
         <BottomNavigationAction
           value="profile"
           icon={<AccountCircleOutlinedIcon />}
-          onClick={() => router.push(`/profile/${userId}`)}
+          // TODO: example-id를 로그인된 아이디로 수정 필요
+          onClick={() => router.push("/profile/example-id")}
         />
         <BottomNavigationAction
           value="setting"

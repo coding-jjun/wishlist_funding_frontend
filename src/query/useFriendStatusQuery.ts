@@ -22,7 +22,7 @@ const useFriendStatusQuery = (
   friendId: number,
 ): UseQueryResult<FriendStatus> => {
   return useQuery<FriendStatus>({
-    queryKey: ["friendStatus", userId, friendId],
+    queryKey: ["friend", userId, friendId],
     queryFn: () => fetchFriendStatus(userId, friendId),
   });
 };

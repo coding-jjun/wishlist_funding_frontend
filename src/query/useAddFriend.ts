@@ -28,10 +28,7 @@ const useAddFriend = (userId: number, frdId: number) => {
     mutationFn: () => addFriend(userId, frdId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["friendStatus", userId, frdId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["friends", userId],
+        queryKey: ["friend", userId, frdId],
       });
     },
   });
