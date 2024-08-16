@@ -19,11 +19,7 @@ export default function UserProfile({ user, userId, friendId }: Props) {
           <UserName variant="h6">{user?.userNick ?? "sample_id"}</UserName>
           <FriendCount userId={userId} />
         </Box>
-        <FriendActionButton
-          userId={userId}
-          userNick={user?.userNick}
-          friendId={friendId}
-        />
+        <FriendActionButton userId={userId} friendId={friendId} />
       </UserInfoContainer>
       <MyProfileImage user={user} />
     </UserProfileContainer>
