@@ -6,7 +6,7 @@ import { BottomSheet, useOverlay } from "@/components/overlay";
 import ProfileBottomSheet from "@/app/(with-navbar)/profile/[userId]/view/ProfileBottomSheet";
 
 interface Props {
-  imgSrc: string;
+  imgSrc?: string;
   onSubmit: (img: string) => void;
   userId?: number;
 }

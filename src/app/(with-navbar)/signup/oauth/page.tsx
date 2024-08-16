@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IconButton, Link } from "@mui/material";
 import { ArrowBackIosNew as ArrowBackIosNewIcon } from "@mui/icons-material";
-import { CreateUserForm, UpdateUserDto } from "@/types/User";
+import { CreateUserForm, UpdateUserDto, UserDto } from "@/types/User";
 import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
 import {
   Container,
@@ -13,6 +13,9 @@ import {
 import RequiredInfoForm from "@/app/(with-navbar)/signup/oauth/view/RequiredInfoForm";
 import ExtraInfoForm from "@/app/(with-navbar)/signup/oauth/view/ExtraInfoForm";
 import useUpdateSignUpUser from "@/query/useUpdateSignUpUser";
+import { useCookie } from "@/hook/useCookie";
+import useAddAccount from "@/query/useAddAccount";
+import { CreateAccountDto } from "@/types/Account";
 
 const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
   userEmail: "",
@@ -22,17 +25,35 @@ const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
   userPhone: "",
 };
 
+const USER_DEFAULT_IMG_ID = 24;
+
 export default function OAuthSignUpPage() {
   const methods = useForm<CreateUserForm>({
     defaultValues: DEFAULT_CREATE_USER_DTO,
   });
 
+  const user = useCookie<UserDto>("user");
+
+  useEffect(() => {
+    if (user) {
+      methods.reset({
+        userName: user.userName,
+        userNick: user.userNick,
+        userEmail: user.userEmail,
+        userPhone: user.userPhone,
+        userImg: user.userImg,
+        userBirth: user.userBirth ?? new Date(),
+      });
+    }
+  }, [user, methods]);
+
   const { handleSubmit } = methods;
 
   const { mutate: updateUser } = useUpdateSignUpUser();
+  const { mutateAsync: registerAccount } = useAddAccount();
 
-  const onSubmit = (data: CreateUserForm) => {
-    const {
+  const onSubmit = async (data: CreateUserForm) => {
+    let {
       userPw,
       userEmail,
       userName,
@@ -45,20 +66,47 @@ export default function OAuthSignUpPage() {
       defaultImgId,
     } = data;
 
-    // TODO: 계좌 생성 API 요청 보내는 작업 필요
-    const userAcc = 1;
+    try {
+      let userAcc: number | undefined;
 
-    // TODO: 프로필 이미지 관련 설정
-    const dto: UpdateUserDto = {
-      userNick,
-      userPw,
-      userName,
-      userPhone,
-      userEmail,
-      userBirth,
-    };
+      if (userAccBank && userAccNum && user?.userId) {
+        userAcc = await createAccount({
+          userId: user?.userId,
+          bank: userAccBank,
+          accNum: userAccNum,
+        });
+      }
 
-    updateUser(dto);
+      if (!userImg) {
+        defaultImgId = USER_DEFAULT_IMG_ID;
+      }
+
+      const dto: UpdateUserDto = {
+        userNick,
+        userPw,
+        userName,
+        userPhone,
+        userEmail,
+        userBirth,
+        userAcc,
+        userImg,
+        defaultImgId,
+      };
+
+      updateUser(dto);
+    } catch (error) {
+      console.error("OAuth 회원가입 에러 발생", error);
+    }
+  };
+
+  // 계좌 생성 요청을 Promise로 감싸서 처리
+  const createAccount = async (dto: CreateAccountDto): Promise<number> => {
+    return new Promise<number>((resolve, reject) => {
+      registerAccount(dto, {
+        onSuccess: (accId: number) => resolve(accId),
+        onError: (error) => reject(error),
+      });
+    });
   };
 
   return (

@@ -11,7 +11,6 @@ export default function RequiredInfoForm() {
       <SectionTitle>필수 정보를 입력해주세요.</SectionTitle>
       <NameField />
       <NicknameField />
-      <EmailField />
       <PhoneNumberField />
     </>
   );

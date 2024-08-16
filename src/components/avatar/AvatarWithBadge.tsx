@@ -2,7 +2,7 @@ import React, { CSSProperties, ReactNode } from "react";
 import { Avatar, Badge } from "@mui/material";
 
 interface Props {
-  imgSrc: string;
+  imgSrc?: string;
   badge: ReactNode;
   onClick?: () => void;
   avatarSx?: CSSProperties;

@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import debounce from "lodash/debounce";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
-import { CreateUserForm } from "@/types/User";
+import { CreateUserForm, UserDto } from "@/types/User";
 import { GreyTextField } from "@/components/textfield";
 import { CommonResponse } from "@/types/CommonResponse";
 import { InputLabel } from "@/app/(with-navbar)/signup/view/input/InputLabel";
+import { ErrorData } from "@/types/ErrorData";
+import { useCookie } from "@/hook/useCookie";
 
 const validateNickname = async (nickname: string | undefined) => {
   if (!nickname) {
@@ -22,6 +24,12 @@ const validateNickname = async (nickname: string | undefined) => {
       return "이미 존재하는 닉네임입니다.";
     }
   } catch (e) {
+    if (axios.isAxiosError(e) && (e as AxiosError<ErrorData>).response) {
+      const axiosError = e as AxiosError<ErrorData>;
+      if (axiosError.response) {
+        return axiosError.response.data.message;
+      }
+    }
     return "서버와의 통신에 실패했습니다.";
   }
 
@@ -38,6 +46,8 @@ const NicknameField = () => {
 
   const userNick = useWatch({ control, name: "userNick" });
 
+  const cookieUser = useCookie<UserDto>("user");
+
   const debouncedValidate = useCallback(
     debounce(async (value: string) => {
       const validationResult = await validateNickname(value);
@@ -51,13 +61,17 @@ const NicknameField = () => {
   );
 
   useEffect(() => {
-    if (userNick) {
+    // 쿠키에 저장된 닉네임과 입력된 값이 같다면 (즉, 본인의 닉네임이라면 유효성 검증을 하지 않음)
+    if (userNick && userNick !== cookieUser?.userNick) {
       debouncedValidate(userNick);
+    } else {
+      clearErrors("userNick");
     }
+
     return () => {
       debouncedValidate.cancel();
     };
-  }, [userNick, debouncedValidate]);
+  }, [userNick, debouncedValidate, cookieUser, clearErrors]);
 
   return (
     <div>
