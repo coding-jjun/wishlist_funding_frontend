@@ -5,7 +5,7 @@ import { Gratitude } from "@/types/Gratitude";
 
 const fetchGratitude = async (fundUuid: string): Promise<Gratitude> => {
   const response = await axios.get<CommonResponse<Gratitude>>(
-    `/api/gratitude?fundUuid=${fundUuid}`,
+    `/api/gratitude/${fundUuid}`,
   );
 
   return response.data.data;
