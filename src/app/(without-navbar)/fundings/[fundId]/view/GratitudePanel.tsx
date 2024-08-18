@@ -7,14 +7,6 @@ import { SwiperWithThumbs } from "@/components/swiper";
 import { grey } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 
-// TODO: Gratitude에 이미지 프로퍼티가 추가되면 대체 필요
-const DUMMY_IMAGES = [
-  "/dummy/slide1.avif",
-  "/dummy/slide2.avif",
-  "/dummy/slide3.avif",
-  "/dummy/slide4.avif",
-];
-
 interface Props {
   fundUuid: string;
 }
@@ -31,11 +23,12 @@ export default function GratitudePanel({ fundUuid }: Props) {
     <>
       {gratitude ? (
         <Stack direction="column" spacing={2}>
-          {/*TODO: Funding 객체 또는 Gratitude 객체에 유저 정보가 추가되면 userName 하드코딩 제거 필요*/}
-          <Profile userName="홍길동" regAt={gratitude?.regAt?.toString()} />
+          <Typography variant="h6" fontWeight={700}>
+            {gratitude?.gratTitle}
+          </Typography>
           <Typography variant="body1">{gratitude?.gratCont}</Typography>
           <SwiperWithThumbs
-            slides={DUMMY_IMAGES.map((image) => ({
+            slides={gratitude.imgUrl.map((image) => ({
               key: `swiper-${image}`,
               component: <CoverImage src={image} alt="감사인사" />,
             }))}

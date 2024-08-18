@@ -1,18 +1,20 @@
 import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { CommonResponse } from "@/types/CommonResponse";
-import { Gratitude } from "@/types/Gratitude";
+import { GetGratitudeDto } from "@/types/Gratitude";
 
-const fetchGratitude = async (fundUuid: string): Promise<Gratitude> => {
-  const response = await axios.get<CommonResponse<Gratitude>>(
+const fetchGratitude = async (fundUuid: string): Promise<GetGratitudeDto> => {
+  const response = await axios.get<CommonResponse<GetGratitudeDto>>(
     `/api/gratitude/${fundUuid}`,
   );
 
   return response.data.data;
 };
 
-const useGratitudeQuery = (fundUuid: string): UseQueryResult<Gratitude> => {
-  return useQuery<Gratitude>({
+const useGratitudeQuery = (
+  fundUuid: string,
+): UseQueryResult<GetGratitudeDto> => {
+  return useQuery<GetGratitudeDto>({
     queryKey: ["gratitude", fundUuid],
     queryFn: () => fetchGratitude(fundUuid),
   });
