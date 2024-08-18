@@ -12,7 +12,6 @@ export default function MyProfileImage({ user }: Props) {
   const handleProfileImageChange = (img: string) => {
     // TODO: 업데이트할 때 업데이트하는 정보만 전달할 수 없을지..?
     updateUser({
-      userId: user.userId,
       userNick: user.userNick,
       userPw: user.userPw,
       userName: user.userName,

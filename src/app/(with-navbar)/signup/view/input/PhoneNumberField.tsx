@@ -1,10 +1,11 @@
 import React from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Controller, useFormContext } from "react-hook-form";
 import { GreyTextField } from "@/components/textfield";
 import { CommonResponse } from "@/types/CommonResponse";
 import { InputLabel } from "@/app/(with-navbar)/signup/view/input/InputLabel";
 import { CreateUserForm } from "@/types/User";
+import { ErrorData } from "@/types/ErrorData";
 
 const validate = async (phoneNumber: string | undefined) => {
   if (!phoneNumber) {
@@ -23,6 +24,12 @@ const validate = async (phoneNumber: string | undefined) => {
       return "이미 가입된 휴대폰 번호입니다.";
     }
   } catch (e) {
+    if (axios.isAxiosError(e) && (e as AxiosError<ErrorData>).response) {
+      const axiosError = e as AxiosError<ErrorData>;
+      if (axiosError.response) {
+        return axiosError.response.data.message;
+      }
+    }
     return "서버와의 통신에 실패했습니다.";
   }
 

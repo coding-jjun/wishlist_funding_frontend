@@ -35,3 +35,9 @@ export enum BankType {
   Jeonbuk = "Jeonbuk", // 전북은행
   Nhinvest = "Nhinvest", // NH투자증권
 }
+
+export interface CreateAccountDto {
+  userId: number;
+  bank: BankType;
+  accNum: string;
+}
