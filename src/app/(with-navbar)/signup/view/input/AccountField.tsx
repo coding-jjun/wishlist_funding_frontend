@@ -9,6 +9,10 @@ import { InputLabel } from "@/app/(with-navbar)/signup/view/input/InputLabel";
 const AccountField = () => {
   const { control } = useFormContext<CreateUserForm>();
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value = event.target.value.replace(/\D/g, "");
+  };
+
   return (
     <FormControl>
       <InputLabel>계좌번호</InputLabel>
@@ -20,6 +24,11 @@ const AccountField = () => {
           render={({ field }) => (
             <GreyTextField
               {...field}
+              onChange={(e) => {
+                handleInputChange(e);
+                field.onChange(e);
+              }}
+              value={field.value || ""}
               helperText="- 없이 입력해주세요."
               variant="outlined"
               fullWidth

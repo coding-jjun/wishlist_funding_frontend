@@ -16,7 +16,7 @@ export default function BankBottomSheet({ selectBank, closeOverlay }: Props) {
 
   return (
     <BankSelectorContainer>
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={2} justifyContent="flex-start">
         {banks.map((bank) => (
           <Grid item key={bank.name} xs={6} sm={6} md={6}>
             <BankButton variant="outlined" onClick={() => handleClick(bank)}>

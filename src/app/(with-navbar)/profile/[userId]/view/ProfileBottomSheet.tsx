@@ -43,8 +43,10 @@ const ProfileBottomSheet = ({ userId, handleClose, handleSubmit }: Props) => {
 
   const onClickSubmit = async () => {
     const file = inputRef.current?.files?.[0];
-    if (file) await uploadImages([file]);
-    handleSubmit(uploadedImages[0]);
+    if (file) {
+      const imgUrls = await uploadImages([file]);
+      handleSubmit(imgUrls[0]);
+    }
     handleClose();
   };
 
