@@ -32,7 +32,7 @@ export default function GratitudePanel({ fundUuid }: Props) {
       {gratitude ? (
         <Stack direction="column" spacing={2}>
           {/*TODO: Funding 객체 또는 Gratitude 객체에 유저 정보가 추가되면 userName 하드코딩 제거 필요*/}
-          <Profile userName="홍길동" regAt={gratitude?.regAt.toString()} />
+          <Profile userName="홍길동" regAt={gratitude?.regAt?.toString()} />
           <Typography variant="body1">{gratitude?.gratCont}</Typography>
           <SwiperWithThumbs
             slides={DUMMY_IMAGES.map((image) => ({
