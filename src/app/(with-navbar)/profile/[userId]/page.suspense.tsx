@@ -14,9 +14,10 @@ interface Params {
 }
 
 export default function MyPageContent({ params }: Params) {
+  // TODO: 현재 로그인되어 있는 userId로 수정 필요
   const userId = Number(params.userId);
-  // TODO: 현재 로그인되어 있는 유저의 아이디로 수정 필요
-  const friendId = 2;
+  // TODO: 접속한 친구 프로필 페이지의 userId로 수정 필요(friendId)
+  const friendId = 1;
 
   const [tab, setTab] = useState<FundingStatusValue>("진행 중");
 
