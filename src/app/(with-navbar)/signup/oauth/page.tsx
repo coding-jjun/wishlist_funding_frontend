@@ -39,7 +39,6 @@ export default function OAuthSignUpPage() {
       methods.reset({
         userName: user.userName,
         userNick: user.userNick,
-        userEmail: user.userEmail,
         userPhone: user.userPhone,
         userImg: user.userImg,
         userBirth: user.userBirth ?? new Date(),
@@ -55,7 +54,6 @@ export default function OAuthSignUpPage() {
   const onSubmit = async (data: CreateUserForm) => {
     let {
       userPw,
-      userEmail,
       userName,
       userNick,
       userPhone,
@@ -67,10 +65,8 @@ export default function OAuthSignUpPage() {
     } = data;
 
     try {
-      let userAcc: number | undefined;
-
       if (userAccBank && userAccNum && user?.userId) {
-        userAcc = await createAccount({
+        await createAccount({
           userId: user?.userId,
           bank: userAccBank,
           accNum: userAccNum,
@@ -86,9 +82,7 @@ export default function OAuthSignUpPage() {
         userPw,
         userName,
         userPhone,
-        userEmail,
         userBirth,
-        userAcc,
         userImg,
         defaultImgId,
       };
@@ -99,7 +93,6 @@ export default function OAuthSignUpPage() {
     }
   };
 
-  // 계좌 생성 요청을 Promise로 감싸서 처리
   const createAccount = async (dto: CreateAccountDto): Promise<number> => {
     return new Promise<number>((resolve, reject) => {
       registerAccount(dto, {
