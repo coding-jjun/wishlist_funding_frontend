@@ -5,13 +5,15 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 
 import { CSS } from "@dnd-kit/utilities";
+import GiftDto from "@/types/GiftDto";
 
 interface Props {
+  gifts: GiftDto[];
   id: number;
   onDelete: (index: number) => void;
 }
 
-export default function DragHandler({ id, onDelete }: Props) {
+export default function DragHandler({ gifts, id, onDelete }: Props) {
   const {
     attributes,
     listeners,
@@ -37,9 +39,15 @@ export default function DragHandler({ id, onDelete }: Props) {
           <DragIndicatorIcon />
         </IconButton>
       </div>
-      <IconButton onClick={() => onDelete(id)} size="small">
-        <CloseIcon />
-      </IconButton>
+      {gifts.length === 1 ? (
+        <IconButton disabled>
+          <CloseIcon />
+        </IconButton>
+      ) : (
+        <IconButton onClick={() => onDelete(id)} size="small">
+          <CloseIcon />
+        </IconButton>
+      )}
     </div>
   );
 }
