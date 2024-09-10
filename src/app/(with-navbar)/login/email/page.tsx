@@ -15,9 +15,11 @@ import {
   VisibilityOff,
   ArrowBackIosNew as ArrowBackIosNewIcon,
 } from "@mui/icons-material";
-import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
+import { useToast } from "@/components/toast";
+import { ErrorData } from "@/types/ErrorData";
 
 const Container = styled(Box)({
   display: "flex",
@@ -74,7 +76,9 @@ const LoginComponent = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
+
   const router = useRouter();
+  const { addToast } = useToast();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -82,7 +86,7 @@ const LoginComponent = () => {
 
   const handleClickLogin = async () => {
     try {
-      const response = await axios.post(`/server/login`, {
+      const response = await axios.post(`/api/auth/login`, {
         userEmail: email,
         userPw: password,
       });
@@ -90,8 +94,13 @@ const LoginComponent = () => {
       if (response.status === 200) {
         router.push("/");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      if (axios.isAxiosError(e) && (e as AxiosError<ErrorData>).response) {
+        const axiosError = e as AxiosError<ErrorData>;
+        if (axiosError.response) {
+          addToast(axiosError.response.data.message);
+        }
+      }
     }
   };
 

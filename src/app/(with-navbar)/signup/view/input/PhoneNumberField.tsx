@@ -7,9 +7,18 @@ import { InputLabel } from "@/app/(with-navbar)/signup/view/input/InputLabel";
 import { CreateUserForm } from "@/types/User";
 import { ErrorData } from "@/types/ErrorData";
 
+const validatePhoneNumberFormat = (phoneNumber: string): boolean => {
+  const regex = /^010-\d{4}-\d{4}$/;
+  return regex.test(phoneNumber);
+};
+
 const validate = async (phoneNumber: string | undefined) => {
   if (!phoneNumber) {
-    return "전화번호는 필수 입력 항목입니다.";
+    return "휴대폰 번호는 필수 입력 항목입니다.";
+  }
+
+  if (!validatePhoneNumberFormat(phoneNumber)) {
+    return "휴대폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)";
   }
 
   try {
@@ -42,6 +51,18 @@ const PhoneNumberField = () => {
     formState: { errors },
   } = useFormContext<CreateUserForm>();
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let input = event.target.value.replace(/\D/g, "");
+
+    if (input.length > 3 && input.length <= 7) {
+      input = input.replace(/(\d{3})(\d{1,4})/, "010-$2");
+    } else if (input.length > 7) {
+      input = input.replace(/(\d{3})(\d{4})(\d{1,4})/, "010-$2-$3");
+    }
+
+    event.target.value = input;
+  };
+
   return (
     <div>
       <InputLabel>휴대폰 번호</InputLabel>
@@ -55,6 +76,11 @@ const PhoneNumberField = () => {
         render={({ field }) => (
           <GreyTextField
             {...field}
+            onChange={(e) => {
+              handleInputChange(e);
+              field.onChange(e);
+            }}
+            value={field.value || ""}
             error={!!errors.userPhone}
             helperText={errors.userPhone?.message?.toString() || ""}
             InputLabelProps={{ shrink: false }}
