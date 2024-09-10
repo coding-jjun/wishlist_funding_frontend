@@ -5,6 +5,7 @@ import { ThemeProvider } from "@mui/material";
 import theme from "@/components/theme";
 import { QueryClientProvider, RecoilRootProvider } from "@/components/provider";
 import { OverlayProvider } from "@/components/overlay";
+import { ToastProvider } from "@/components/toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
         <RecoilRootProvider>
           <ThemeProvider theme={theme}>
             <OverlayProvider>
-              <QueryClientProvider>{children}</QueryClientProvider>
+              <ToastProvider>
+                <QueryClientProvider>{children}</QueryClientProvider>
+              </ToastProvider>
             </OverlayProvider>
           </ThemeProvider>
         </RecoilRootProvider>
