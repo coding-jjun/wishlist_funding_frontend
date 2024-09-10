@@ -24,10 +24,7 @@ export default function MyProfileImage({ user }: Props) {
 
   return (
     <ProfileImage
-      imgSrc={
-        user.image?.imgUrl ??
-        "https://cdn.gukjenews.com/news/photo/202405/2989378_3066370_552.jpg"
-      }
+      imgSrc={user.image?.imgUrl}
       onSubmit={handleProfileImageChange}
       userId={user.userId}
     />

@@ -16,6 +16,7 @@ interface Props {
   formContent: ReactNode;
   onPrev: () => void;
   onNext: () => void;
+  loading?: boolean;
 }
 
 export default function SignUpFormLayout({
@@ -25,6 +26,7 @@ export default function SignUpFormLayout({
   formContent,
   onPrev,
   onNext,
+  loading,
 }: Props) {
   return (
     <Container>
@@ -42,6 +44,7 @@ export default function SignUpFormLayout({
               variant="outlined"
               color="secondary"
               onClick={onNext}
+              loading={loading}
               sx={{ width: "35%" }}
             >
               건너뛰기
@@ -49,6 +52,7 @@ export default function SignUpFormLayout({
             <NextButton
               variant="contained"
               color="secondary"
+              loading={loading}
               onClick={onNext}
               sx={{ width: "35%" }}
             >
