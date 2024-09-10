@@ -10,7 +10,7 @@ import GiftDto from "@/types/GiftDto";
 interface Props {
   gifts: GiftDto[];
   id: number;
-  onDelete: (index: number) => void;
+  onDelete: (id: number) => void;
 }
 
 export default function DragHandler({ gifts, id, onDelete }: Props) {

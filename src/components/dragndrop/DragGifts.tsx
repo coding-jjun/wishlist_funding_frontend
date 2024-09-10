@@ -1,4 +1,4 @@
-import React, { useId, useMemo, useState } from "react";
+import React, { useEffect, useId, useMemo, useState } from "react";
 
 import {
   DndContext,
@@ -31,12 +31,17 @@ interface DragEvent {
 }
 
 export default function DragGifts({ gifts, setGifts }: Props) {
-  const DndId = useId();
+  const DndId = useId(); // 각 dndContext에 고유한 id를 할당하기 위한 훅
   const [active, setActive] = useState<Active | null>(null);
+  // 현재 드래그 중인 기프트 항목 추적
   const activeItem = useMemo(
     () => gifts.find((gift) => gift.id === active?.id),
     [active, gifts],
   );
+
+  useEffect(() => {
+    console.log("gifts: ", gifts);
+  }, [gifts]);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -46,17 +51,24 @@ export default function DragGifts({ gifts, setGifts }: Props) {
     }),
   );
 
+  // 새로운 기프트 카드 추가
   const handleAddForm = () => {
-    setGifts((currentGifts) => [
-      ...currentGifts,
-      {
-        id: currentGifts.length + 1,
-        giftOrd: currentGifts.length + 1,
-        giftUrl: "",
-        giftOpt: "",
-        giftCont: "",
-      },
-    ]);
+    setGifts((currentGifts) => {
+      const sortedGifts = [...currentGifts].sort((a, b) => b.id - a.id);
+      const newId = currentGifts.length > 0 ? sortedGifts[0].id + 1 : 0;
+
+      return [
+        ...currentGifts,
+        {
+          id: newId,
+          giftOrd: currentGifts.length + 1,
+          giftImg: null,
+          giftUrl: "",
+          giftOpt: "",
+          giftCont: "",
+        },
+      ];
+    });
   };
 
   const handleDragStart = (event: DragEvent) => {
@@ -67,6 +79,8 @@ export default function DragGifts({ gifts, setGifts }: Props) {
     setActive(null);
   };
 
+  // 드래그된 항목의 id와 드롭된 위치의 id를 비교한 후 gifts 배열의 순서 변경
+  // 순서를 변경한 후 giftOrd 다시 업데이트
   const handleDragEnd = (event: DragEvent) => {
     const { active, over } = event;
 
@@ -81,7 +95,9 @@ export default function DragGifts({ gifts, setGifts }: Props) {
 
       if (activeIndex !== -1 && overIndex !== -1) {
         setGifts((prevGifts) => {
-          const newGifts = arrayMove(prevGifts, activeIndex, overIndex);
+          const newGifts = arrayMove(prevGifts, activeIndex, overIndex); // 순서 바꾼 new 배열
+
+          // 입력폼 & giftOrd 변경
           return newGifts.map((gift, index) => ({
             ...gift,
             giftOrd: index + 1,
@@ -92,14 +108,25 @@ export default function DragGifts({ gifts, setGifts }: Props) {
     setActive(null);
   };
 
-  const deleteGift = (index: number) => {
+  // 기프트 삭제 후, 나머지 기프트 항목들의 giftOrd 재정렬
+  const deleteGift = (targetId: number) => {
+    const targetIdx = gifts.findIndex((gift) => gift.id === targetId);
+
     setGifts((prevGifts) =>
       prevGifts
-        .filter((_, i) => i !== index)
-        .map((gift, idx) => ({
-          ...gift,
-          giftOrd: idx + 1,
-        })),
+        // 배열을 순회하며 targetId 제거 후 새로운 배열 반환
+        .filter((gift) => gift.id !== targetId)
+        .map((gift, idx) => {
+          // targetIdx 이후 항목들만 ord 재정렬
+          if (idx >= targetIdx) {
+            return {
+              ...gift,
+              giftOrd: idx + 1,
+            };
+          }
+          // targetIdx 이전 항목은 ord 유지
+          return gift;
+        }),
     );
   };
 
@@ -112,19 +139,19 @@ export default function DragGifts({ gifts, setGifts }: Props) {
         onDragCancel={handleDragCancel}
         onDragEnd={handleDragEnd}
       >
-        <DroppableGiftForm
-          key={gifts.length}
-          gifts={gifts}
-          onDelete={(index) => deleteGift(index)}
-        />
+        <DroppableGiftForm gifts={gifts} onDelete={(id) => deleteGift(id)} />
         <DragOverlay>
           {activeItem ? (
             <GiftItem
+              id={activeItem.id}
               index={activeItem.id}
               gifts={gifts}
-              onDelete={() =>
-                deleteGift(gifts.findIndex((gift) => gift.id === active?.id))
-              }
+              onDelete={() => {
+                const targetGift = gifts.find((gift) => gift.id === active?.id);
+                if (targetGift) {
+                  deleteGift(targetGift.id);
+                }
+              }}
             />
           ) : null}
         </DragOverlay>
