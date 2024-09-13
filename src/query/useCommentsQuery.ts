@@ -3,18 +3,18 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { CommonResponse } from "@/types/CommonResponse";
 import { Comment } from "@/types/Comment";
 
-const fetchComments = async (fundId: number): Promise<Comment[]> => {
+const fetchComments = async (fundUuid: string): Promise<Comment[]> => {
   const response = await axios.get<CommonResponse<Comment[]>>(
-    `/api/comment?fundId=${fundId}`,
+    `/api/comment/${fundUuid}`,
   );
 
   return response.data.data;
 };
 
-const useCommentsQuery = (fundId: number): UseQueryResult<Comment[]> => {
+const useCommentsQuery = (fundUuid: string): UseQueryResult<Comment[]> => {
   return useQuery<Comment[]>({
-    queryKey: ["comments", fundId],
-    queryFn: () => fetchComments(fundId),
+    queryKey: ["comments", fundUuid],
+    queryFn: () => fetchComments(fundUuid),
   });
 };
 

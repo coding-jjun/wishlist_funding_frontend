@@ -5,20 +5,19 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import useAddComment from "@/query/useAddComment";
 
 interface Props {
-  fundId: number;
+  fundUuid: string;
 }
 
-export default function CommentInput({ fundId }: Props) {
+export default function CommentInput({ fundUuid }: Props) {
   const [content, setContent] = useState<string>("");
-  const { mutate } = useAddComment(fundId);
+  const { mutate } = useAddComment(fundUuid);
 
   return (
     <OutlinedInput
       placeholder="댓글 등록"
       endAdornment={
         <InputAdornment position="end" variant="filled">
-          {/*TODO: 사용자 기능 추가되면 authorId 수정 필요*/}
-          <IconButton onClick={() => mutate({ fundId, authorId: 1, content })}>
+          <IconButton onClick={() => mutate({ content })}>
             <ArrowCircleUpIcon />
           </IconButton>
         </InputAdornment>

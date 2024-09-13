@@ -15,7 +15,10 @@ export default function CommentContent({ comId, content }: Props) {
   const [editingComId, setEditingComId] = useRecoilState(editingComIdAtom);
   const [editingContent, setEditingContent] = useState<string>(content);
   const currentFunding = useRecoilValue(currentFundingAtom);
-  const { mutate: updateComment } = useUpdateComment(currentFunding?.fundId);
+  const { mutate: updateComment } = useUpdateComment(
+    currentFunding?.fundUuid,
+    comId,
+  );
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -31,11 +34,7 @@ export default function CommentContent({ comId, content }: Props) {
   const handleUpdate = () => {
     if (editingComId === null || currentFunding?.fundId === undefined) return;
 
-    updateComment({
-      comId: editingComId,
-      fundId: currentFunding?.fundId,
-      content: editingContent,
-    });
+    updateComment(editingContent);
 
     handleClose();
   };

@@ -3,15 +3,15 @@ import CommentWrapper from "@/components/comment/CommentWrapper";
 import CommentInput from "@/components/comment/CommentInput";
 
 interface Props {
-  fundId: number;
+  fundUuid: string;
 }
 
-export default function CommentPanel({ fundId }: Props) {
-  const { data: comments } = useCommentsQuery(fundId);
+export default function CommentPanel({ fundUuid }: Props) {
+  const { data: comments } = useCommentsQuery(fundUuid);
 
   return (
     <>
-      <CommentInput fundId={fundId} />
+      <CommentInput fundUuid={fundUuid} />
       {comments?.map((comment) => (
         <CommentWrapper
           key={`comment-box-${comment.comId}`}
