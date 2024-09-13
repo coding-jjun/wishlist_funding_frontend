@@ -19,8 +19,8 @@ export function arrayMove(
 ): GiftDto[] {
   if (oldIndex === newIndex) return array;
 
-  const item = array[oldIndex];
-  let result = removeAtIndex(array, oldIndex);
-  result = insertAtIndex(result, newIndex, item);
+  const targetItem = array[oldIndex]; // 이동 대상
+  let result = removeAtIndex(array, oldIndex); // targetItem 지운 배열
+  result = insertAtIndex(result, newIndex, targetItem); // targetItem을 드래그 한 자리로 넣은 배열
   return result;
 }
