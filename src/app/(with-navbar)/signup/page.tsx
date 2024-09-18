@@ -51,16 +51,6 @@ export default function SignUpPage() {
               setStep("nameAndNickname");
             }}
             onNext={() => {
-              setStep("additional");
-            }}
-          />
-        )}
-        {step === "additional" && (
-          <AdditionalInfo
-            onPrev={() => {
-              setStep("phone");
-            }}
-            onNext={() => {
               setStep("end");
             }}
           />

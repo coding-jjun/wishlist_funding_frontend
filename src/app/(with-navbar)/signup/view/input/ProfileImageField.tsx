@@ -6,7 +6,9 @@ import { InputLabel } from "@/app/(with-navbar)/signup/view/input/InputLabel";
 import { CreateUserForm } from "@/types/User";
 
 const ProfileImageField = () => {
-  const { setValue, getValues } = useFormContext<CreateUserForm>();
+  const { setValue, watch } = useFormContext<CreateUserForm>();
+
+  const userImg = watch("userImg");
 
   const handleChangeImage = (img: string) => {
     setValue("userImg", img);
@@ -16,10 +18,7 @@ const ProfileImageField = () => {
     <Stack>
       <InputLabel>프로필 이미지</InputLabel>
       <div>
-        <ProfileImage
-          imgSrc={getValues("userImg")}
-          onSubmit={handleChangeImage}
-        />
+        <ProfileImage imgSrc={userImg} onSubmit={handleChangeImage} />
       </div>
     </Stack>
   );

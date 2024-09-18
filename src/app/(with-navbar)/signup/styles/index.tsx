@@ -1,4 +1,5 @@
-import { Box, Button, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 export const Container = styled(Box)({
   display: "flex",
@@ -24,7 +25,7 @@ export const FormContainer = styled(Box)({
   width: "90%",
 });
 
-export const NextButton = styled(Button)({
+export const NextButton = styled(LoadingButton)({
   marginTop: "30px",
   marginBottom: "20px",
   borderRadius: "10px",

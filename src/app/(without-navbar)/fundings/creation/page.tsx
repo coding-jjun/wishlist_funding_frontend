@@ -22,16 +22,17 @@ const Root = styled("div")(() => ({
   height: "100%",
 }));
 
-const formData: GiftDto = {
+const DEFAULT_CREATE_GIFT_DTO: GiftDto = {
   id: 1,
   giftOrd: 1,
+  giftImg: null,
   giftUrl: "",
   giftOpt: "",
   giftCont: "",
 };
 
 function getInitialGifts() {
-  return [formData];
+  return [DEFAULT_CREATE_GIFT_DTO];
 }
 
 export default function FundingCreationPage() {
@@ -46,19 +47,29 @@ export default function FundingCreationPage() {
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
   const methods = useForm<FundingForm>();
+
   const [gifts, setGifts] = useState<GiftDto[]>(getInitialGifts);
 
   useEffect(() => {
-    methods.setValue("gifts", gifts);
-  }, [methods.setValue]);
+    const currentValues = methods.getValues("gifts"); // 현재 폼의 값
+
+    const mergedValues = gifts.map((gift, index) => {
+      const existGift = currentValues[index]; // 현재 폼에 입력된 값이 있는지 확인
+      return {
+        ...gift,
+        giftOpt: existGift?.giftOpt || gift.giftOpt, // 입력값 있으면 유지
+        giftUrl: existGift?.giftUrl || gift.giftUrl,
+        giftCont: existGift?.giftCont || gift.giftCont,
+      };
+    });
+
+    // gifts 배열이 바뀔 때만 폼을 업데이트하고, 폼이 채워져있는건 그대로 유지
+    methods.setValue("gifts", mergedValues);
+  }, [gifts, methods]);
 
   const { mutate } = useFundingCreateQuery();
 
   const onSubmit = (body: any) => {
-    /*TODO: 기프트 이미지 기능 추가 필요*/
-    body.fundImg = [
-      "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-card-40-iphone15prohero-202309_FMT_WHH?wid=508&hei=472&fmt=p-jpg&qlt=95&.v=1693086369818",
-    ];
     body.fundGoal = Number(body.fundGoal.replaceAll(",", ""));
     const { fundAddrZip, fundAddrRoad, fundAddrDetl, ...rest } = body;
     const submitData = {
@@ -75,7 +86,6 @@ export default function FundingCreationPage() {
         router.push(`/fundings/${data.data.fundUuid}`);
       },
     });
-    methods.reset();
   };
 
   return (

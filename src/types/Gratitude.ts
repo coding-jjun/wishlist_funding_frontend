@@ -14,3 +14,10 @@ export interface GratitudeDto {
   gratCont: string;
   gratImg: string[];
 }
+
+export interface GetGratitudeDto {
+  fundUuid: string;
+  gratTitle: string;
+  gratCont: string;
+  imgUrl: string[];
+}

@@ -14,6 +14,7 @@ export default function AddGiftForm({ onSubmit }: Props) {
       sx={{
         mt: 1,
         border: "1px dashed",
+        borderRadius: "8px",
       }}
     >
       아이템 추가
