@@ -22,7 +22,7 @@ export default function CommentWrapper({ comment }: Props) {
     >
       <Avatar
         alt={`${authorName}-profile`}
-        src={authorImg ?? "/dummy/profile.png"}
+        src={authorImg ?? "/dummy/profile.webp"}
         sx={{ width: 30, height: 30 }}
       />
       <div style={{ width: "100%" }}>

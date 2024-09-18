@@ -18,7 +18,7 @@ const defaultFunding: Funding = {
   fundUuid: "d",
   fundTitle: "펀딩 제목",
   fundCont: "펀딩 내용",
-  fundImg: "/dummy/present.png",
+  fundImg: "/dummy/present.webp",
   fundTheme: "Anniversary",
   fundPubl: true,
   fundGoal: 100,

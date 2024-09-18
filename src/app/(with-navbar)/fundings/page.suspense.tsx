@@ -64,7 +64,7 @@ export default function FundingListContent() {
         .map((funding) => (
           <VerticalImgCard
             key={funding.fundUuid}
-            image={funding.fundImg ?? "/dummy/present.png"}
+            image={funding.fundImg ?? "/dummy/present.webp"}
             userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
             title={funding.fundTitle}
             theme={funding.fundTheme}
