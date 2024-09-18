@@ -65,9 +65,8 @@ export default function OAuthSignUpPage() {
     } = data;
 
     try {
-      if (userAccBank && userAccNum && user?.userId) {
+      if (userAccBank && userAccNum) {
         await createAccount({
-          userId: user?.userId,
           bank: userAccBank,
           accNum: userAccNum,
         });

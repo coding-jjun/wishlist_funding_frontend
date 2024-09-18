@@ -71,9 +71,8 @@ export default function AdditionalInfoPage() {
     try {
       setLoading(true);
 
-      if (userAccBank && userAccNum && user?.userId) {
+      if (userAccBank && userAccNum) {
         await createAccount({
-          userId: user?.userId,
           bank: userAccBank,
           accNum: userAccNum,
         });
