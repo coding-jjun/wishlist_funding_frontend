@@ -3,9 +3,9 @@ import { SyntheticEvent, useState } from "react";
 import StickyTabs from "@/components/tab/StickyTabs";
 import { FundingStatusValue } from "@/types/Funding.enum";
 import useFundingsQuery from "@/query/useFundingsQuery";
-import useUserQuery from "@/query/useUserQuery";
 import UserProfile from "./view/UserProfile";
 import { FundingList } from "./view/FundingList";
+import useCurrentUserQuery from "@/query/useCurrentUserQuery";
 
 interface Params {
   params: {
@@ -21,7 +21,7 @@ export default function MyPageContent({ params }: Params) {
 
   const [tab, setTab] = useState<FundingStatusValue>("진행 중");
 
-  const { data: user } = useUserQuery(userId);
+  const { data: user } = useCurrentUserQuery();
 
   const { data: ongoingFundingsQueryResponse } = useFundingsQuery(1, {
     fundPublFilter: "mine",
