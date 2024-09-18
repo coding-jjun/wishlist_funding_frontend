@@ -15,20 +15,20 @@ const LOGIN_PROVIDERS: LoginButtonProps[] = [
   {
     name: "카카오",
     url: "/api/auth/kakao",
-    icon: "/images/auth/kakao_logo.png",
+    icon: "/images/auth/kakao_logo.webp",
     bgColor: "#FDDC3F",
   },
   {
     name: "네이버",
     url: "/api/auth/naver",
-    icon: "/images/auth/naver_logo.png",
+    icon: "/images/auth/naver_logo.webp",
     bgColor: "#00B819",
     textColor: "#FFF",
   },
   {
     name: "구글",
     url: "/api/auth/google",
-    icon: "/images/auth/google_logo.png",
+    icon: "/images/auth/google_logo.webp",
     bgColor: "#FFF",
     border: "1px solid #D2D5D6",
   },
