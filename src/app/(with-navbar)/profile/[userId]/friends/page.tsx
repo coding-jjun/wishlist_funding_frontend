@@ -39,7 +39,7 @@ export default function FriendsListPage({ params }: Params) {
             >
               <ListItemAvatar>
                 <Avatar
-                  src={friend.userImg ?? "/dummy/profile.png"}
+                  src={friend.userImg ?? "/dummy/profile.webp"}
                   sx={{ width: 30, height: 30 }}
                 />
               </ListItemAvatar>

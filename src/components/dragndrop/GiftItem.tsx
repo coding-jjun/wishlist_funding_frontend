@@ -30,7 +30,7 @@ export default function GiftItem({
     name: `gifts[${index - 1}].giftUrl`,
   });
 
-  const DUMMY: string = "/dummy/present.png";
+  const DUMMY: string = "/dummy/present.webp";
 
   const [thumbnail, setThumbnail] = useState<string | null>(null);
 

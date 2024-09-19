@@ -26,7 +26,7 @@ export default function Profile({
       {/*프로필 이미지*/}
       <Avatar
         alt={`${userName}-profile-avatar`}
-        src={profileImg ?? "/dummy/profile.png"}
+        src={profileImg ?? "/dummy/profile.webp"}
         sx={{ width: 30, height: 30 }}
       />
       <Stack

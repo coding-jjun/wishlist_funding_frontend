@@ -43,7 +43,7 @@ export default function NotificationWrapper({ notification }: Props) {
     >
       <Avatar
         alt={`${sendNick}-profile`}
-        src={senderImg ?? "/dummy/profile.png"}
+        src={senderImg ?? "/dummy/profile.webp"}
         sx={{ width: 30, height: 30 }}
         onClick={() => router.push(`/profile/${sendId}`)}
       />
