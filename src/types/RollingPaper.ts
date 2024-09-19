@@ -8,3 +8,12 @@ export interface RollingPaper {
   rollMsg: string;
   delAt?: Date;
 }
+
+export interface RollingPaperDto {
+  rollId: number;
+  rollMsg: string;
+  regAt: Date;
+  donAmnt: number;
+  userNick: string;
+  rollImg: string;
+}

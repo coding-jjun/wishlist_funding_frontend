@@ -12,10 +12,10 @@ import {
 } from "@/app/(with-navbar)/signup/styles";
 import RequiredInfoForm from "@/app/(with-navbar)/signup/oauth/view/RequiredInfoForm";
 import ExtraInfoForm from "@/app/(with-navbar)/signup/oauth/view/ExtraInfoForm";
-import useUpdateSignUpUser from "@/query/useUpdateSignUpUser";
 import { useCookie } from "@/hook/useCookie";
 import useAddAccount from "@/query/useAddAccount";
 import { CreateAccountDto } from "@/types/Account";
+import useUpdateUser from "@/query/useUpdateUser";
 
 const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
   userEmail: "",
@@ -48,7 +48,7 @@ export default function OAuthSignUpPage() {
 
   const { handleSubmit } = methods;
 
-  const { mutate: updateUser } = useUpdateSignUpUser();
+  const { mutate: updateUser } = useUpdateUser();
   const { mutateAsync: registerAccount } = useAddAccount();
 
   const onSubmit = async (data: CreateUserForm) => {
@@ -65,9 +65,8 @@ export default function OAuthSignUpPage() {
     } = data;
 
     try {
-      if (userAccBank && userAccNum && user?.userId) {
+      if (userAccBank && userAccNum) {
         await createAccount({
-          userId: user?.userId,
           bank: userAccBank,
           accNum: userAccNum,
         });

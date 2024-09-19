@@ -9,8 +9,6 @@ export interface Comment {
 }
 
 export interface CreateCommentDto {
-  fundId: number;
-  authorId: number;
   content: string;
 }
 
@@ -24,7 +22,5 @@ export interface GetCommentDto {
 }
 
 export interface UpdateCommentDto {
-  fundId: number;
-  comId: number;
   content: string;
 }

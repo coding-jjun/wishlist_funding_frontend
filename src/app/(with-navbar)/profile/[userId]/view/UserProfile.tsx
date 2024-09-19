@@ -1,12 +1,12 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { User } from "@/types/User";
+import { UserDto } from "@/types/User";
 import FriendActionButton from "./FriendActionButton";
 import FriendCount from "./FriendCount";
 import MyProfileImage from "./MyProfileImage";
 
 interface Props {
-  user: User;
+  user: UserDto;
   userId: number;
   friendId: number;
 }
