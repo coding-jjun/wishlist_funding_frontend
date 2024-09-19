@@ -14,7 +14,7 @@ export default function CommentPopover() {
   const [anchorEl, setAnchorEl] = useRecoilState(anchorCommentElAtom);
   const setEditingComId = useSetRecoilState(editingComIdAtom);
 
-  const { mutate: deleteComment } = useDeleteComment(currentFunding?.fundId);
+  const { mutate: deleteComment } = useDeleteComment(currentFunding?.fundUuid);
 
   const handleClose = () => {
     setSelectedComId(null);

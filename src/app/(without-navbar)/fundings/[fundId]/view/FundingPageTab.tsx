@@ -28,7 +28,7 @@ export default function FundingPageTab({ funding }: Props) {
         {
           label: "댓글",
           value: "댓글",
-          panel: <CommentPanel fundId={funding.fundId} />,
+          panel: <CommentPanel fundUuid={funding.fundUuid} />,
         },
         {
           label: "감사인사",

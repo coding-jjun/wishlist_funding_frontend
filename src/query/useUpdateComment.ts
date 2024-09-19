@@ -4,23 +4,29 @@ import { GetCommentDto, UpdateCommentDto } from "@/types/Comment";
 import { CommonResponse } from "@/types/CommonResponse";
 
 const updateComment = async (
-  dto: UpdateCommentDto,
+  fundUuid: string | undefined,
+  comId: number,
+  content: string,
 ): Promise<CommonResponse<GetCommentDto>> => {
-  const { data } = await axios.put(
-    `/api/comment?comId=${dto.comId}&fundId=${dto.fundId}`,
-    { content: dto.content },
-  );
+  if (fundUuid === undefined) {
+    throw new Error("fundUuid가 유효하지 않습니다.");
+  }
+
+  const { data } = await axios.put(`/api/comment/${fundUuid}?comId=${comId}`, {
+    content,
+  });
+
   return data;
 };
 
-const useUpdateComment = (fundId: number | undefined) => {
+const useUpdateComment = (fundUuid: string | undefined, comId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (dto: UpdateCommentDto) => updateComment(dto),
+    mutationFn: (content: string) => updateComment(fundUuid, comId, content),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["comments", fundId],
+        queryKey: ["comments", fundUuid],
       });
     },
   });

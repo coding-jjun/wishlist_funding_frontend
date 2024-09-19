@@ -10,7 +10,7 @@ export default function FundingThumbnail({ funding }: Props) {
 
   return (
     <CoverImage
-      src={fundImg ?? "/dummy/present.png"}
+      src={fundImg ?? "/dummy/present.webp"}
       alt={`thumbnail-${fundTitle}`}
     />
   );

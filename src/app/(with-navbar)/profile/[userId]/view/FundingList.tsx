@@ -24,7 +24,7 @@ export const FundingList = ({ fundings }: Props) => {
       {fundings.map((funding) => (
         <HorizontalImgCard
           key={funding.fundUuid}
-          image={funding.fundImg ?? "/dummy/present.png"}
+          image={funding.fundImg ?? "/dummy/present.webp"}
           userId={"Anonymous"}
           title={funding.fundTitle}
           theme={funding.fundTheme}

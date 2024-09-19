@@ -19,14 +19,6 @@ import Cookies from "js-cookie";
 export default function MainPageContent() {
   const router = useRouter();
 
-  // TODO: 테스트 코드 삭제
-  useEffect(() => {
-    const userCookie = Cookies.get("user");
-    const accessToken = Cookies.get("access_token");
-    const refreshToken = Cookies.get("refresh_token");
-    console.log(userCookie, accessToken, refreshToken);
-  }, []);
-
   // TODO: user 기능이 추가되면 useMyFundingQuery와 useFundingsQuery에 전달하는 userId 수정 필요
   // 나의 펀딩
   const { data: myFundingQueryResponse } = useFundingsQuery(1, {
@@ -68,7 +60,7 @@ export default function MainPageContent() {
               <SwiperSlide key={`slide-${funding.fundUuid}`}>
                 <HorizontalImgCard
                   key={funding.fundUuid}
-                  image={funding.fundImg ?? "/dummy/present.png"}
+                  image={funding.fundImg ?? "/dummy/present.webp"}
                   userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
                   title={funding.fundTitle}
                   theme={funding.fundTheme}
@@ -98,7 +90,7 @@ export default function MainPageContent() {
           .map((funding) => (
             <VerticalImgCard
               key={funding.fundUuid}
-              image={funding.fundImg ?? "/dummy/present.png"}
+              image={funding.fundImg ?? "/dummy/present.webp"}
               userId={"Anonymous"} // TODO: 유저 닉네임 펀딩 조회시 받아올 수 있는지 확인
               title={funding.fundTitle}
               theme={funding.fundTheme}
