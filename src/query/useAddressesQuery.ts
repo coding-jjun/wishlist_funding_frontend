@@ -1,20 +1,19 @@
 import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import { CommonResponse } from "@/types/CommonResponse";
 
-const fetchAddresses = async (userId: number): Promise<Address[]> => {
-  const response = await axios.get<CommonResponse<Address[]>>(
-    `/api/user/${userId}/address`,
-  );
+const fetchAddresses = async (): Promise<AddressDto[]> => {
+  const response =
+    await axios.get<CommonResponse<AddressDto[]>>(`/api/user/address`);
 
   return response.data.data;
 };
 
-const useAddressesQuery = (userId: number): UseQueryResult<Address[]> => {
-  return useQuery<Address[]>({
-    queryKey: ["addresses", userId],
-    queryFn: () => fetchAddresses(userId),
+const useAddressesQuery = (): UseQueryResult<AddressDto[]> => {
+  return useQuery<AddressDto[]>({
+    queryKey: ["addresses"],
+    queryFn: () => fetchAddresses(),
   });
 };
 

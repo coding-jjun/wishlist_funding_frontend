@@ -16,14 +16,13 @@ import {
   Typography,
 } from "@mui/material";
 import Postcode from "@/components/address/Postcode";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import useUpdateAddress from "@/query/useUpdateAddress";
 import useDeleteAddress from "@/query/useDeleteAddress";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 interface Props {
-  userId: number;
-  address: Address;
+  address: AddressDto;
   onClose: () => void;
 }
 
@@ -34,7 +33,7 @@ const predefinedRequests = [
   "택배함에 넣어주세요",
 ];
 
-export default function EditAddress({ userId, address, onClose }: Props) {
+export default function EditAddress({ address, onClose }: Props) {
   const addrId: number | undefined = address?.addrId;
   const [addrNick, setAddrNick] = useState<string>(address.addrNick);
   const [recvName, setRecvName] = useState<string>(address.recvName);
@@ -47,11 +46,8 @@ export default function EditAddress({ userId, address, onClose }: Props) {
   const [recvReq, setRecvReq] = useState<string>(address.recvReq || "");
   const [isCustomMessage, setIsCustomMessage] = useState<boolean>(false);
   const [isDef, setIsDef] = useState<boolean>(address.isDef);
-  {
-    /*TODO: 사용자 기능 추가되면 userId(1) 수정 필요*/
-  }
-  const { mutate: updateAddress } = useUpdateAddress(addrId, userId);
-  const { mutate: deleteAddress } = useDeleteAddress(userId);
+  const { mutate: updateAddress } = useUpdateAddress(addrId);
+  const { mutate: deleteAddress } = useDeleteAddress();
 
   useEffect(() => {
     setAddrNick(address.addrNick);

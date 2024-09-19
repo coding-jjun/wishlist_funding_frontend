@@ -2,23 +2,20 @@ import React, { useMemo, useState } from "react";
 import { Button } from "@mui/material";
 import AddAddress from "@/components/address/AddAddress";
 import AddressWrapper from "@/components/address/AddressWrapper";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import EditAddress from "@/components/address/EditAddress";
 
 interface Props {
-  addresses: Address[] | undefined;
-  userId: number;
-  onSelectAddress: (address: Address) => void;
+  addresses: AddressDto[] | undefined;
+  onSelectAddress: (address: AddressDto) => void;
 }
 
-export default function AddressList({
-  addresses,
-  userId,
-  onSelectAddress,
-}: Props) {
+export default function AddressList({ addresses, onSelectAddress }: Props) {
   const [showAddAddress, setShowAddAddress] = useState<boolean>(false);
   const [showEditAddress, setShowEditAddress] = useState<boolean>(false);
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<AddressDto | null>(
+    null,
+  );
 
   const handleOpenAdd = () => {
     setShowAddAddress(true);
@@ -28,7 +25,7 @@ export default function AddressList({
     setShowAddAddress(false);
   };
 
-  const handleOpenEdit = (address: Address) => {
+  const handleOpenEdit = (address: AddressDto) => {
     setSelectedAddress(address);
     setShowEditAddress(true);
   };
@@ -61,11 +58,7 @@ export default function AddressList({
       {showAddAddress ? (
         <AddAddress onClose={handleCloseAdd} />
       ) : showEditAddress && selectedAddress ? (
-        <EditAddress
-          userId={userId}
-          address={selectedAddress}
-          onClose={handleCloseEdit}
-        />
+        <EditAddress address={selectedAddress} onClose={handleCloseEdit} />
       ) : (
         <div>
           <Button

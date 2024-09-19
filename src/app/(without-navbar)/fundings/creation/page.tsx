@@ -10,7 +10,7 @@ import GiftDto from "@/types/GiftDto";
 
 import { styled } from "@mui/material/styles";
 import { Global } from "@emotion/react";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import useAddressesQuery from "@/query/useAddressesQuery";
 import InputComponent from "@/app/(without-navbar)/fundings/creation/view/InputComponent";
 import GiftComponent from "@/app/(without-navbar)/fundings/creation/view/GiftComponent";
@@ -37,14 +37,12 @@ function getInitialGifts() {
 
 export default function FundingCreationPage() {
   const router = useRouter();
-  {
-    /*TODO: 사용자 기능 추가되면 userId 수정 필요*/
-  }
-  const userId: number = 1;
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
-  const { data: addresses } = useAddressesQuery(userId);
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const { data: addresses } = useAddressesQuery();
+  const [selectedAddress, setSelectedAddress] = useState<AddressDto | null>(
+    null,
+  );
 
   const methods = useForm<FundingForm>();
 
@@ -117,7 +115,6 @@ export default function FundingCreationPage() {
 
                 {/*배송지*/}
                 <AddressComponent
-                  userId={userId}
                   addresses={addresses}
                   selectedAddress={selectedAddress}
                   setSelectedAddress={setSelectedAddress}
