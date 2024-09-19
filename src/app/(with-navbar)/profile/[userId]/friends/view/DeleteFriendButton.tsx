@@ -55,17 +55,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 interface Props {
-  userId: number;
   friendId: number;
-  frinedName: string;
+  friendName: string;
 }
 
-export default function DeleteFriendButton({
-  userId,
-  friendId,
-  frinedName,
-}: Props) {
-  const { mutate: deleteFriend } = useDeleteFriend(userId, friendId);
+export default function DeleteFriendButton({ friendId, friendName }: Props) {
+  const { mutate: deleteFriend } = useDeleteFriend(friendId);
   const overlay = useOverlay();
 
   const handleDelete = () => {
@@ -79,7 +74,7 @@ export default function DeleteFriendButton({
     const overlayElement: CreateOverlayElement = ({ isOpen, close }) => (
       <StyledDialog open={isOpen} onClose={close}>
         <StyledDialogTitle>
-          {frinedName}님과 친구를 끊으시겠어요?
+          {friendName}님과 친구를 끊으시겠어요?
         </StyledDialogTitle>
         <StyledDialogContent>
           <StyledDialogContentText>

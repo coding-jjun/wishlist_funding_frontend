@@ -8,14 +8,12 @@ interface ResponseData {
 }
 
 const deleteFriend = async (
-  userId: number,
   friendId: number,
 ): Promise<CommonResponse<ResponseData>> => {
   const { data } = await axios.delete<CommonResponse<ResponseData>>(
     `/api/friend`,
     {
       data: {
-        userId,
         friendId,
       },
     },
@@ -24,17 +22,17 @@ const deleteFriend = async (
   return data;
 };
 
-const useDeleteFriend = (userId: number, frdId: number) => {
+const useDeleteFriend = (frdId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => deleteFriend(userId, frdId),
+    mutationFn: () => deleteFriend(frdId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["friendStatus", userId, frdId],
+        queryKey: ["friendStatus", frdId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["friends", userId],
+        queryKey: ["friends"],
       });
     },
   });
