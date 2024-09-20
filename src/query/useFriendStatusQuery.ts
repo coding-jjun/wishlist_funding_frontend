@@ -7,23 +7,19 @@ interface QueryResponse {
   message: FriendStatus;
 }
 
-const fetchFriendStatus = async (
-  userId: number,
-  friendId: number,
-): Promise<FriendStatus> => {
+const fetchFriendStatus = async (friendId: number): Promise<FriendStatus> => {
   const { data } = await axios.get<CommonResponse<QueryResponse>>(
-    `/api/friend/${userId}/${friendId}`,
+    `/api/friend/${friendId}`,
   );
   return data.data.message;
 };
 
 const useFriendStatusQuery = (
-  userId: number,
   friendId: number,
 ): UseQueryResult<FriendStatus> => {
   return useQuery<FriendStatus>({
-    queryKey: ["friendStatus", userId, friendId],
-    queryFn: () => fetchFriendStatus(userId, friendId),
+    queryKey: ["friendStatus", friendId],
+    queryFn: () => fetchFriendStatus(friendId),
   });
 };
 

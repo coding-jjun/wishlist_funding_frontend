@@ -1,22 +1,19 @@
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import { Box, Button, Stack } from "@mui/material";
 import AddressHeader from "@/components/address/AddressHeader";
 import AddressContent from "@/components/address/AddressContent";
 import React from "react";
 
 interface Props {
-  address: Address;
-  onSelectAddress: (address: Address) => void;
-  onEditAddress: (address: Address) => void;
+  address: AddressDto;
+  onSelectAddress: (address: AddressDto) => void;
+  onEditAddress: (address: AddressDto) => void;
 }
 export default function AddressWrapper({
   address,
   onSelectAddress,
   onEditAddress,
 }: Props) {
-  {
-    /*TODO: 사용자 기능 추가되면 userId 수정 필요*/
-  }
   const { isDef, addrNick, recvName, addrRoad, addrDetl, recvPhone } = address;
 
   const handleSelect = () => {

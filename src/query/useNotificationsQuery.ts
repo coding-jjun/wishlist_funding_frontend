@@ -13,11 +13,8 @@ import {
 } from "@/types/Notification";
 
 // 쿼리 스트링
-const buildURL = (
-  userId: number,
-  params: Partial<NotificationQueryParam>,
-): string => {
-  const baseUrl = `/api/notification/${userId}`;
+const buildURL = (params: Partial<NotificationQueryParam>): string => {
+  const baseUrl = `/api/notification`;
   const queryParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
@@ -34,10 +31,9 @@ const buildURL = (
 };
 
 const fetchNotifications = async (
-  userId: number,
   queryParams: Partial<NotificationQueryParam>,
 ): Promise<NotificationResponse> => {
-  const url = buildURL(userId, queryParams);
+  const url = buildURL(queryParams);
   const response = await axios.get<CommonResponse<NotificationResponse>>(url);
   return response.data.data;
 };
@@ -47,7 +43,6 @@ interface PageParam {
 }
 
 const useNotificationsQuery = (
-  userId: number,
   queryParams: Partial<NotificationQueryParam>,
 ): UseInfiniteQueryResult<InfiniteData<NotificationResponse>> => {
   return useInfiniteQuery<
@@ -57,9 +52,9 @@ const useNotificationsQuery = (
     QueryKey,
     PageParam
   >({
-    queryKey: ["notifications", userId, queryParams],
+    queryKey: ["notifications", queryParams],
     queryFn: ({ pageParam = { lastId: undefined } }) =>
-      fetchNotifications(userId, {
+      fetchNotifications({
         ...queryParams,
         lastId: pageParam.lastId,
       }),

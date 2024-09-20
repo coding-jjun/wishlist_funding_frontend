@@ -8,10 +8,9 @@ interface ResponseData {
 }
 
 const addFriend = async (
-  userId: number,
   friendId: number,
 ): Promise<CommonResponse<ResponseData>> => {
-  const dto = { userId, friendId };
+  const dto = { friendId };
 
   const { data } = await axios.post<CommonResponse<ResponseData>>(
     "/api/friend",
@@ -21,17 +20,17 @@ const addFriend = async (
   return data;
 };
 
-const useAddFriend = (userId: number, frdId: number) => {
+const useAddFriend = (frdId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => addFriend(userId, frdId),
+    mutationFn: () => addFriend(frdId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["friendStatus", userId, frdId],
+        queryKey: ["friendStatus", frdId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["friends", userId],
+        queryKey: ["friends"],
       });
     },
   });

@@ -45,9 +45,8 @@ export default function FriendsListPage({ params }: Params) {
               </ListItemAvatar>
               <ListItemText primary={friend.userName} />
               <DeleteFriendButton
-                userId={userId}
                 friendId={friend.userId}
-                frinedName={friend.userName}
+                friendName={friend.userName}
               />
             </ListItem>
           ))}
