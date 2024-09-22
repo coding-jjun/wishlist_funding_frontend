@@ -1,13 +1,13 @@
 import { SyntheticEvent, useState } from "react";
 import StickyTabs from "@/components/tab/StickyTabs";
 import FundingInfoPanel from "@/app/(without-navbar)/fundings/[fundId]/view/FundingInfoPanel";
-import type { Funding } from "@/types/Funding";
+import type { FundingDto } from "@/types/Funding";
 import CommentPanel from "@/app/(without-navbar)/fundings/[fundId]/view/CommentPanel";
 import GratitudePanel from "@/app/(without-navbar)/fundings/[fundId]/view/GratitudePanel";
 import RollingPaperPanel from "@/app/(without-navbar)/fundings/[fundId]/view/RollingPaperPanel";
 
 interface Props {
-  funding: Funding;
+  funding: FundingDto;
 }
 
 export default function FundingPageTab({ funding }: Props) {
