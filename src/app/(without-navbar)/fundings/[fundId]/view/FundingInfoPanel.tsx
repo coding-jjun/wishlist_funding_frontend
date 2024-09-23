@@ -1,9 +1,8 @@
 import { Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { Funding } from "@/types/Funding";
+import { FundingDto } from "@/types/Funding";
 
 interface Props {
-  funding: Funding;
+  funding: FundingDto;
 }
 
 export default function FundingInfoPanel({ funding }: Props) {

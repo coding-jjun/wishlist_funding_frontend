@@ -5,7 +5,6 @@ import { CreateUserForm } from "@/types/User";
 import NameNickName from "@/app/(with-navbar)/signup/view/NameNickname";
 import PhoneNumber from "@/app/(with-navbar)/signup/view/PhoneNumber";
 import Complete from "@/app/(with-navbar)/signup/view/Complete";
-import AdditionalInfo from "@/app/(with-navbar)/signup/view/AdditionalInfo";
 import { FormProvider, useForm } from "react-hook-form";
 
 const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
