@@ -8,12 +8,23 @@ import {
 } from "@tanstack/react-query";
 import { FundingQueryParam, FundingQueryResponse } from "@/types/Funding";
 import { CommonResponse } from "@/types/CommonResponse";
+import Cookies from "js-cookie";
 
 const buildURL = (
   userId: number,
   params: Partial<FundingQueryParam>,
+  isFallback: boolean = false,
 ): string => {
-  const baseUrl = `/api/user/${userId}/funding`;
+  const isLoggedIn = Cookies.get("isLoggedIn");
+
+  let baseUrl;
+
+  if (isFallback || isLoggedIn !== "true" || userId === undefined) {
+    baseUrl = `/api/funding`;
+  } else {
+    baseUrl = `/api/user/${userId}/funding`;
+  }
+
   const queryParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
@@ -26,29 +37,38 @@ const buildURL = (
     }
   });
 
-  return `${baseUrl}?${queryParams.toString()}`;
+  return queryParams.toString() === ""
+    ? baseUrl
+    : `${baseUrl}?${queryParams.toString()}`;
 };
 
 const fetchFundings = async (
   userId: number,
   queryParams: Partial<FundingQueryParam>,
 ): Promise<FundingQueryResponse> => {
-  const url = buildURL(userId, queryParams);
-
-  const response = await axios.get<CommonResponse<FundingQueryResponse>>(url);
-
-  return response.data.data;
+  try {
+    const url = buildURL(userId, queryParams);
+    const response = await axios.get<CommonResponse<FundingQueryResponse>>(url);
+    return response.data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      const fallbackUrl = buildURL(userId, queryParams, true);
+      const fallbackResponse =
+        await axios.get<CommonResponse<FundingQueryResponse>>(fallbackUrl);
+      return fallbackResponse.data.data;
+    }
+    throw error;
+  }
 };
 
-// PageParam 타입 정의
 interface PageParam {
   lastFundId: number | undefined;
   lastEndAt: string | undefined;
 }
 
 const useFundingsQuery = (
-  userId: number,
   queryParams: Partial<FundingQueryParam>,
+  userId?: number,
 ): UseSuspenseInfiniteQueryResult<InfiniteData<FundingQueryResponse>> => {
   return useSuspenseInfiniteQuery<
     FundingQueryResponse,
@@ -61,7 +81,7 @@ const useFundingsQuery = (
     queryFn: ({
       pageParam = { lastFundId: undefined, lastEndAt: undefined },
     }) =>
-      fetchFundings(userId, {
+      fetchFundings(userId ?? Number(Cookies.get("userId")), {
         ...queryParams,
         lastFundId: pageParam.lastFundId,
         lastEndAt: pageParam.lastEndAt,

@@ -13,20 +13,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { HorizontalImgCard, VerticalImgCard } from "@/components/card";
 import calculatePercent from "@/utils/calculatePercent";
 import styled from "@emotion/styled";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
 
 export default function MainPageContent() {
   const router = useRouter();
 
-  // TODO: user 기능이 추가되면 useMyFundingQuery와 useFundingsQuery에 전달하는 userId 수정 필요
   // 나의 펀딩
-  const { data: myFundingQueryResponse } = useFundingsQuery(1, {
+  const { data: myFundingQueryResponse } = useFundingsQuery({
     fundPublFilter: "mine",
   });
 
   // 다른 사람들의 펀딩
-  const { data: othersFundingQueryResponse } = useFundingsQuery(2, {
+  const { data: othersFundingQueryResponse } = useFundingsQuery({
     fundPublFilter: "both",
     limit: 5,
   });
