@@ -25,6 +25,7 @@ export interface User {
   addresses: AddressDto[];
   defaultImgId?: number;
   image: Image;
+  userImg?: string;
 }
 
 export interface UserDto {

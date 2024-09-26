@@ -14,7 +14,7 @@ import { useCookie } from "@/hook/useCookie";
 
 export default function NavigationBar() {
   const router = useRouter();
-  const loginUserId = useCookie<number>("userId");
+  const loginUserId = useCookie<Number>("userId");
   const [tab, setTab] = useState("home");
 
   // 모바일 사이트에서 접속했는지 / 앱에서 접속했는지 여부

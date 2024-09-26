@@ -7,6 +7,7 @@ import UserProfile from "./view/UserProfile";
 import { FundingList } from "./view/FundingList";
 import useCurrentUserQuery from "@/query/useCurrentUserQuery";
 import { useCookie } from "@/hook/useCookie";
+import useUserQuery from "@/query/useUserQuery";
 
 interface Params {
   params: {
@@ -20,7 +21,8 @@ export default function MyPageContent({ params }: Params) {
 
   const [tab, setTab] = useState<FundingStatusValue>("진행 중");
 
-  const { data: user } = useCurrentUserQuery();
+  const { data: loginUser } = useCurrentUserQuery();
+  const { data: anotherUser } = useUserQuery(friendId);
 
   const { data: ongoingFundingsQueryResponse } = useFundingsQuery(
     {
@@ -43,14 +45,21 @@ export default function MyPageContent({ params }: Params) {
     setTab(newTab);
   };
 
-  if (!user) {
+  if (!loginUser) {
     // TODO: fallback UI 작업 필요
+    return null;
+  }
+
+  const profileUser = friendId === myId ? loginUser : anotherUser;
+
+  if (!profileUser) {
+    // TODO: 유저정보가 없을 때
     return null;
   }
 
   return (
     <>
-      <UserProfile user={user} userId={myId} friendId={friendId} />
+      <UserProfile user={profileUser} userId={myId} friendId={friendId} />
       <StickyTabs
         tabs={[
           {
