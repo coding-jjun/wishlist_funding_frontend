@@ -1,9 +1,9 @@
 import { ProfileImage } from "@/components/avatar";
 import useUpdateUser from "@/query/useUpdateUser";
-import { UserDto } from "@/types/User";
+import { User, UserDto } from "@/types/User";
 
 interface Props {
-  user: UserDto;
+  user: User | UserDto;
 }
 
 export default function MyProfileImage({ user }: Props) {
@@ -17,7 +17,7 @@ export default function MyProfileImage({ user }: Props) {
 
   return (
     <ProfileImage
-      imgSrc={user.userImg}
+      imgSrc={user?.userImg}
       onSubmit={handleProfileImageChange}
       userId={user.userId}
     />

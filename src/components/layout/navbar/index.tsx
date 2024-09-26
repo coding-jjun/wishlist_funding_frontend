@@ -10,11 +10,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { StyledNavigationPaper } from "@/components/layout/navbar/navigation-paper";
 import { StyledBottomNavigation } from "@/components/layout/navbar/bottom-navigation";
+import { useCookie } from "@/hook/useCookie";
 
 export default function NavigationBar() {
   const router = useRouter();
-  // TODO: 로그인한 userId로 수정 필요
-  const userId: number = 1;
+  const loginUserId = useCookie<Number>("userId");
   const [tab, setTab] = useState("home");
 
   // 모바일 사이트에서 접속했는지 / 앱에서 접속했는지 여부
@@ -49,7 +49,7 @@ export default function NavigationBar() {
         <BottomNavigationAction
           value="profile"
           icon={<AccountCircleOutlinedIcon />}
-          onClick={() => router.push(`/profile/${userId}`)}
+          onClick={() => router.push(`/profile/${loginUserId}`)}
         />
         <BottomNavigationAction
           value="setting"
