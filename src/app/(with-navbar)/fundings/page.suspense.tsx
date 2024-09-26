@@ -34,7 +34,7 @@ export default function FundingListContent() {
     data: fundingQueryResponse,
     fetchNextPage,
     hasNextPage,
-  } = useFundingsQuery(2, {
+  } = useFundingsQuery({
     fundThemes: themes.map((value) => getFundThemeKey(value)),
     fundPublFilter: getPublFilterKey(visibility),
     status: getFundingStatusKey(status),
