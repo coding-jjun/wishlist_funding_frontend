@@ -6,3 +6,13 @@ export default interface GiftDto {
   giftOpt: string;
   giftCont: string;
 }
+
+export interface ResponseGiftDto {
+  giftId: number;
+  fundId: number;
+  giftUrl: string;
+  giftOrd: number;
+  giftOpt: string;
+  giftCont: string;
+  giftImg: string;
+}

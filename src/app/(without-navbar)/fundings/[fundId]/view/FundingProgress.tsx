@@ -1,9 +1,9 @@
 import ProgressBarWithText from "@/components/progress/ProgressBarWithText";
 import calculatePercent from "@/utils/calculatePercent";
-import { Funding } from "@/types/Funding";
+import { FundingDto } from "@/types/Funding";
 
 interface Props {
-  funding: Funding;
+  funding: FundingDto;
 }
 
 export default function FundingProgress({ funding }: Props) {
@@ -12,7 +12,7 @@ export default function FundingProgress({ funding }: Props) {
   return (
     <ProgressBarWithText
       progress={calculatePercent(fundSum, fundGoal)}
-      endDate={endAt}
+      endDate={endAt.toString()}
     />
   );
 }

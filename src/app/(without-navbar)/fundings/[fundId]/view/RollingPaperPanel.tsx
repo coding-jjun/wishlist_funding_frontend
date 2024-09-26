@@ -16,9 +16,9 @@ export default function RollingPaperPanel({ fundUuid }: Props) {
       {rollingPapers?.map((paper) => (
         <ProfileBox
           key={`rolling-paper-${paper.rollId}`}
-          userName={paper?.donation?.user?.userNick ?? "익명"}
-          regAt={paper.donation?.regAt.toString()}
-          description={<MoneyChip amount={paper.donation.donAmnt} />}
+          userName={paper?.userNick ?? "익명"}
+          regAt={paper?.regAt.toString()}
+          description={<MoneyChip amount={paper.donAmnt} />}
           content={
             <Stack direction="column" spacing={1}>
               <Typography variant="body1">{paper.rollMsg}</Typography>
