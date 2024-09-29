@@ -8,33 +8,16 @@ import FundingTitle from "@/app/(without-navbar)/fundings/[fundId]/view/FundingT
 import FundingProgress from "@/app/(without-navbar)/fundings/[fundId]/view/FundingProgress";
 import FundingThumbnail from "@/app/(without-navbar)/fundings/[fundId]/view/FundingThumbnail";
 import { currentFundingAtom } from "@/store/atoms/funding";
-import { Funding } from "@/types/Funding";
 import { DetailActionBar } from "@/components/layout/action-bar";
 import { useRouter } from "next/navigation";
 import Appbar from "@/components/layout/appbar/appbar";
-
-const defaultFunding: Funding = {
-  fundId: 1,
-  fundUuid: "d",
-  fundTitle: "펀딩 제목",
-  fundCont: "펀딩 내용",
-  fundImg: "/dummy/present.png",
-  fundTheme: "Anniversary",
-  fundPubl: true,
-  fundGoal: 100,
-  fundSum: 60,
-  endAt: new Date(2024, 4, 28, 12).toString(),
-  regAt: new Date().toString(),
-};
 
 export default function FundingDetailPage({
   params,
 }: {
   params: { fundId: string };
 }) {
-  const { data: funding = defaultFunding } = useFundingDetailQuery(
-    params.fundId,
-  );
+  const { data: funding } = useFundingDetailQuery(params.fundId);
 
   const setCurrentFunding = useSetRecoilState(currentFundingAtom);
   const [isWriter, setIsWriter] = useState<boolean>(false);
@@ -55,6 +38,11 @@ export default function FundingDetailPage({
   };
 
   const handleDelete = () => {};
+
+  if (!funding) {
+    // TODO: fallback UI 작업 필요
+    return null;
+  }
 
   return (
     <>

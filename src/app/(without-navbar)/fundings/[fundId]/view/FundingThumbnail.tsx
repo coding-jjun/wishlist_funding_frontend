@@ -1,16 +1,17 @@
 import CoverImage from "@/components/image/CoverImage";
-import { Funding } from "@/types/Funding";
+import { FundingDto } from "@/types/Funding";
 
 interface Props {
-  funding: Funding;
+  funding: FundingDto;
 }
 
 export default function FundingThumbnail({ funding }: Props) {
-  const { fundImg, fundTitle } = funding;
+  const { fundImgUrls, fundTitle } = funding;
 
+  // TODO: 펀딩 이미지 슬라이드 변경 기능 추가 필요
   return (
     <CoverImage
-      src={fundImg ?? "/dummy/present.png"}
+      src={fundImgUrls[0] ?? "/dummy/present.webp"}
       alt={`thumbnail-${fundTitle}`}
     />
   );

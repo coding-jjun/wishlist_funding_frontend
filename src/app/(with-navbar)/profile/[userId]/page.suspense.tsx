@@ -3,9 +3,11 @@ import { SyntheticEvent, useState } from "react";
 import StickyTabs from "@/components/tab/StickyTabs";
 import { FundingStatusValue } from "@/types/Funding.enum";
 import useFundingsQuery from "@/query/useFundingsQuery";
-import useUserQuery from "@/query/useUserQuery";
 import UserProfile from "./view/UserProfile";
 import { FundingList } from "./view/FundingList";
+import useCurrentUserQuery from "@/query/useCurrentUserQuery";
+import { useCookie } from "@/hook/useCookie";
+import useUserQuery from "@/query/useUserQuery";
 
 interface Params {
   params: {
@@ -14,24 +16,27 @@ interface Params {
 }
 
 export default function MyPageContent({ params }: Params) {
-  // TODO: 현재 로그인되어 있는 userId로 수정 필요
-  const userId = Number(params.userId);
-  // TODO: 접속한 친구 프로필 페이지의 userId로 수정 필요(friendId)
-  const friendId = 1;
+  const myId = useCookie<number>("userId");
+  const friendId = Number(params.userId);
 
   const [tab, setTab] = useState<FundingStatusValue>("진행 중");
 
-  const { data: user } = useUserQuery(userId);
+  const { data: loginUser } = useCurrentUserQuery();
+  const { data: anotherUser } = useUserQuery(friendId);
 
-  const { data: ongoingFundingsQueryResponse } = useFundingsQuery(1, {
-    fundPublFilter: "mine",
-    status: "ongoing",
-  });
+  const { data: ongoingFundingsQueryResponse } = useFundingsQuery(
+    {
+      status: "ongoing",
+    },
+    friendId,
+  );
 
-  const { data: endedFundingsQueryResponse } = useFundingsQuery(1, {
-    fundPublFilter: "mine",
-    status: "ended",
-  });
+  const { data: endedFundingsQueryResponse } = useFundingsQuery(
+    {
+      status: "ended",
+    },
+    friendId,
+  );
 
   const handleTabChange = (
     event: SyntheticEvent,
@@ -40,14 +45,21 @@ export default function MyPageContent({ params }: Params) {
     setTab(newTab);
   };
 
-  if (!user) {
+  if (!loginUser) {
     // TODO: fallback UI 작업 필요
+    return null;
+  }
+
+  const profileUser = friendId === myId ? loginUser : anotherUser;
+
+  if (!profileUser) {
+    // TODO: 유저정보가 없을 때
     return null;
   }
 
   return (
     <>
-      <UserProfile user={user} userId={userId} friendId={friendId} />
+      <UserProfile user={profileUser} userId={myId} friendId={friendId} />
       <StickyTabs
         tabs={[
           {

@@ -1,4 +1,4 @@
-import GiftDto from "@/types/GiftDto";
+import GiftDto, { ResponseGiftDto } from "@/types/GiftDto";
 
 import {
   FundingPublFilter,
@@ -55,4 +55,28 @@ export interface FundingQueryResponse {
   count: number;
   lastFundId: number;
   lastEndAt?: string;
+}
+
+export interface FundingDto {
+  fundId: number;
+  fundUuid: string;
+  fundUserId: number;
+  fundUserNick: string;
+  // fundUserImg?: string;
+  fundTitle: string;
+  fundCont: string;
+  fundTheme: string;
+  fundPubl: boolean;
+  fundGoal: number;
+  fundSum: number;
+  fundAddrRoad: string;
+  fundAddrDetl: string;
+  fundAddrZip: string;
+  fundRecvName: string;
+  fundRecvPhone: string;
+  fundRecvReq?: string;
+  regAt: Date;
+  endAt: Date;
+  gifts: ResponseGiftDto[];
+  fundImgUrls: string[];
 }

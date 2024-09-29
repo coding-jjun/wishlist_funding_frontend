@@ -1,7 +1,7 @@
 import { Funding } from "@/types/Funding";
 import { Comment } from "@/types/Comment";
 import { AuthType } from "@/types/Auth";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import { Image } from "@/types/Image";
 import { Account, BankType } from "@/types/Account";
 
@@ -22,9 +22,10 @@ export interface User {
   delAt: Date;
   fundings: Funding[];
   comments: Comment[];
-  addresses: Address[];
+  addresses: AddressDto[];
   defaultImgId?: number;
   image: Image;
+  userImg?: string;
 }
 
 export interface UserDto {

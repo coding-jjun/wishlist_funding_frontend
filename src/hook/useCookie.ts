@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-export const useCookie = <T = string>(key: string): T | null => {
-  const [cookieValue, setCookieValue] = useState<T | null>(null);
+export const useCookie = <T = string>(key: string): T | undefined => {
+  const [cookieValue, setCookieValue] = useState<T | undefined>(undefined);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

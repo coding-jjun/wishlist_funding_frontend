@@ -10,15 +10,14 @@ import {
 import { useFormContext } from "react-hook-form";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 import AddressList from "@/components/address/AddressList";
 import { DRAWER_BLEEDING } from "@/constants/constants";
 
 interface Props {
-  userId: number;
-  addresses: Address[] | undefined;
-  selectedAddress: Address | null;
-  setSelectedAddress: (address: Address) => void;
+  addresses: AddressDto[] | undefined;
+  selectedAddress: AddressDto | null;
+  setSelectedAddress: (address: AddressDto) => void;
 }
 
 // 바텀시트 박스
@@ -39,7 +38,6 @@ const Puller = styled("div")(({ theme }) => ({
 }));
 
 export default function AddressComponent({
-  userId,
   addresses,
   selectedAddress,
   setSelectedAddress,
@@ -49,7 +47,7 @@ export default function AddressComponent({
   const container =
     typeof window !== "undefined" ? () => window.document.body : undefined;
 
-  const setAddressValues = (address: Address) => {
+  const setAddressValues = (address: AddressDto) => {
     const fundAddr = `${address.addrRoad} ${address.addrDetl} (${address.addrZip})`;
     setValue("fundRecvName", address.recvName);
     setValue("fundRecvPhone", address.recvPhone);
@@ -149,7 +147,6 @@ export default function AddressComponent({
         >
           <AddressList
             addresses={addresses}
-            userId={userId}
             onSelectAddress={(address) => {
               setSelectedAddress(address);
               setOpenBottomSheet(false);

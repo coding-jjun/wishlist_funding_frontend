@@ -37,7 +37,6 @@ export enum BankType {
 }
 
 export interface CreateAccountDto {
-  userId: number;
   bank: BankType;
   accNum: string;
 }

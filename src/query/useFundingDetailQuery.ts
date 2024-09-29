@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Funding } from "@/types/Funding";
+import { FundingDto } from "@/types/Funding";
 import { CommonResponse } from "@/types/CommonResponse";
 
-const fetchFundingDetail = async (fundingUuid: string): Promise<Funding> => {
-  const response = await axios.get<CommonResponse<Funding>>(
+const fetchFundingDetail = async (fundingUuid: string): Promise<FundingDto> => {
+  const response = await axios.get<CommonResponse<FundingDto>>(
     `/api/funding/${fundingUuid}`,
   );
 
@@ -13,8 +13,8 @@ const fetchFundingDetail = async (fundingUuid: string): Promise<Funding> => {
 
 const useFundingDetailQuery = (
   fundingUuid: string,
-): UseQueryResult<Funding> => {
-  return useQuery<Funding>({
+): UseQueryResult<FundingDto> => {
+  return useQuery<FundingDto>({
     queryKey: ["funding", fundingUuid],
     queryFn: () => fetchFundingDetail(fundingUuid),
   });

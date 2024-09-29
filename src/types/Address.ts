@@ -1,4 +1,4 @@
-export interface Address {
+export interface AddressDto {
   addrId: number;
   isDef: boolean;
   addrNick: string;
@@ -8,7 +8,6 @@ export interface Address {
   addrDetl: string;
   recvPhone: string;
   recvReq: string;
-  userId: number;
 }
 
 export interface CreateAddressDto {
@@ -20,7 +19,6 @@ export interface CreateAddressDto {
   addrDetl: string;
   recvPhone: string;
   recvReq: string;
-  userId: number;
 }
 
 export interface UpdateAddressDto {

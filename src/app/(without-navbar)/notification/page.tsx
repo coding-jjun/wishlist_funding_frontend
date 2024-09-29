@@ -24,14 +24,13 @@ import NotificationWrapper from "@/app/(without-navbar)/notification/view/Notifi
 export default function AlarmHistoryPage() {
   const router = useRouter();
   const [filter, setFilter] = useState<NotiFilter>("all");
-  // TODO: 현재 로그인되어 있는 유저의 아이디로 수정 필요
   const {
     data: notificationResponse,
     isLoading,
     error,
     fetchNextPage,
     hasNextPage,
-  } = useNotificationsQuery(1, {
+  } = useNotificationsQuery({
     notiFilter: filter,
   });
 

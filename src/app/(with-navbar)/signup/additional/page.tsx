@@ -11,13 +11,13 @@ import {
 } from "@/app/(with-navbar)/signup/styles";
 import React, { useEffect, useState } from "react";
 import { useCookie } from "@/hook/useCookie";
-import useUpdateSignUpUser from "@/query/useUpdateSignUpUser";
 import useAddAccount from "@/query/useAddAccount";
 import { CreateAccountDto } from "@/types/Account";
 import SectionTitle from "@/app/(with-navbar)/signup/view/SectionTitle";
 import ProfileImageField from "@/app/(with-navbar)/signup/view/input/ProfileImageField";
 import BirthdayField from "@/app/(with-navbar)/signup/view/input/BirthdayField";
 import AccountField from "@/app/(with-navbar)/signup/view/input/AccountField";
+import useUpdateUser from "@/query/useUpdateUser";
 
 const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
   userEmail: "",
@@ -38,7 +38,7 @@ export default function AdditionalInfoPage() {
 
   const user = useCookie<UserDto>("user");
 
-  const { mutate: updateUser } = useUpdateSignUpUser();
+  const { mutate: updateUser } = useUpdateUser();
   const { mutateAsync: registerAccount } = useAddAccount();
 
   useEffect(() => {
@@ -71,9 +71,8 @@ export default function AdditionalInfoPage() {
     try {
       setLoading(true);
 
-      if (userAccBank && userAccNum && user?.userId) {
+      if (userAccBank && userAccNum) {
         await createAccount({
-          userId: user?.userId,
           bank: userAccBank,
           accNum: userAccNum,
         });

@@ -5,26 +5,26 @@ import { CommonResponse } from "@/types/CommonResponse";
 
 const deleteComment = async (
   comId: number,
-  fundId: number | undefined,
+  fundUuid: string | undefined,
 ): Promise<CommonResponse<GetCommentDto>> => {
-  if (fundId === undefined) {
-    throw new Error("fundId가 유효하지 않습니다.");
+  if (fundUuid === undefined) {
+    throw new Error("fundUuid가 유효하지 않습니다.");
   }
 
   const { data } = await axios.delete(
-    `/api/comment?comId=${comId}&fundId=${fundId}`,
+    `/api/comment/${fundUuid}?comId=${comId}`,
   );
   return data;
 };
 
-const useDeleteComment = (fundId: number | undefined) => {
+const useDeleteComment = (fundUuid: string | undefined) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (comId: number) => deleteComment(comId, fundId),
+    mutationFn: (comId: number) => deleteComment(comId, fundUuid),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["comments", fundId],
+        queryKey: ["comments", fundUuid],
       });
     },
   });

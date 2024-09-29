@@ -16,9 +16,9 @@ export default function FriendActionButton({
   friendId,
 }: Props) {
   const router = useRouter();
-  const { data: friendStatus } = useFriendStatusQuery(userId, friendId);
-  const { mutate: requestFriend } = useAddFriend(userId, friendId);
-  const { mutate: deleteFriend } = useDeleteFriend(userId, friendId);
+  const { data: friendStatus } = useFriendStatusQuery(friendId);
+  const { mutate: requestFriend } = useAddFriend(friendId);
+  const { mutate: deleteFriend } = useDeleteFriend(friendId);
 
   const handleClickFriendActionButton = () => {
     // 본인일 경우 친구 목록 페이지로 이동

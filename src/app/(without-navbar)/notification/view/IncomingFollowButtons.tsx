@@ -8,19 +8,16 @@ interface Props {
 }
 
 export default function IncomingFollowButtons({ sendId }: Props) {
-  // TODO: 로그인한 유저 아이디로 수정 필요
-  const userId: number = 1;
-
   const queryClient = useQueryClient();
-  const { mutate: addFriend } = useAddFriend(userId, sendId);
-  const { mutate: deleteFriend } = useDeleteFriend(userId, sendId);
+  const { mutate: addFriend } = useAddFriend(sendId);
+  const { mutate: deleteFriend } = useDeleteFriend(sendId);
 
   const handleSubmit = (type: string) => {
     if (type === "accept") {
       addFriend(undefined, {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ["notifications", userId],
+            queryKey: ["notifications"],
           });
         },
       });
@@ -28,7 +25,7 @@ export default function IncomingFollowButtons({ sendId }: Props) {
       deleteFriend(undefined, {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ["notifications", userId],
+            queryKey: ["notifications"],
           });
         },
       });

@@ -1,30 +1,23 @@
 import { ProfileImage } from "@/components/avatar";
 import useUpdateUser from "@/query/useUpdateUser";
-import { User } from "@/types/User";
+import { User, UserDto } from "@/types/User";
 
 interface Props {
-  user: User;
+  user: User | UserDto;
 }
 
 export default function MyProfileImage({ user }: Props) {
-  const { mutate: updateUser } = useUpdateUser(user.userId);
+  const { mutate: updateUser } = useUpdateUser();
 
   const handleProfileImageChange = (img: string) => {
-    // TODO: 업데이트할 때 업데이트하는 정보만 전달할 수 없을지..?
     updateUser({
-      userNick: user.userNick,
-      userPw: user.userPw,
-      userName: user.userName,
-      userPhone: user.userPhone,
-      userBirth: user.userBirth ? new Date(user.userBirth) : new Date(),
-      userEmail: user.userEmail,
       userImg: img,
     });
   };
 
   return (
     <ProfileImage
-      imgSrc={user.image?.imgUrl}
+      imgSrc={user?.userImg}
       onSubmit={handleProfileImageChange}
       userId={user.userId}
     />

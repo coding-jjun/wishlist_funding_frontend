@@ -34,10 +34,7 @@ export default function AddAddress({ onClose }: Props) {
   const [recvReq, setRecvReq] = useState<string>("");
   const [isCustomMessage, setIsCustomMessage] = useState<boolean>(false);
   const [isDef, setIsDef] = useState<boolean>(true);
-  {
-    /*TODO: 사용자 기능 추가되면 userId(1) 수정 필요*/
-  }
-  const { mutate } = useAddAddress(1);
+  const { mutate } = useAddAddress();
 
   const handleNickChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAddrNick(e.target.value);
@@ -84,12 +81,8 @@ export default function AddAddress({ onClose }: Props) {
     onClose();
   };
 
-  {
-    /*TODO: 사용자 기능 추가되면 userId 수정 필요*/
-  }
   const handleSubmit = () => {
     const body = {
-      userId: 1,
       addrNick,
       recvName,
       addrZip: postcodeData.addrZip,

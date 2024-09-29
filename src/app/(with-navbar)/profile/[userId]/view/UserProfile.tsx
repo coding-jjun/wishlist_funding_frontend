@@ -1,13 +1,13 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { User } from "@/types/User";
+import { User, UserDto } from "@/types/User";
 import FriendActionButton from "./FriendActionButton";
 import FriendCount from "./FriendCount";
 import MyProfileImage from "./MyProfileImage";
 
 interface Props {
-  user: User;
-  userId: number;
+  user: User | UserDto;
+  userId: number | undefined;
   friendId: number;
 }
 
@@ -17,13 +17,15 @@ export default function UserProfile({ user, userId, friendId }: Props) {
       <UserInfoContainer direction="column" spacing={2}>
         <Box>
           <UserName variant="h6">{user?.userNick ?? "sample_id"}</UserName>
-          <FriendCount userId={userId} />
+          <FriendCount userId={friendId} />
         </Box>
-        <FriendActionButton
-          userId={userId}
-          userNick={user?.userNick}
-          friendId={friendId}
-        />
+        {userId && (
+          <FriendActionButton
+            userId={userId}
+            userNick={user?.userNick}
+            friendId={friendId}
+          />
+        )}
       </UserInfoContainer>
       <MyProfileImage user={user} />
     </UserProfileContainer>

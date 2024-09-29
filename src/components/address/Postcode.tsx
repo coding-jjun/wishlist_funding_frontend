@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 import { Button, TextField, Modal, Box } from "@mui/material";
-import { Address } from "@/types/Address";
+import { AddressDto } from "@/types/Address";
 
 interface Props {
-  address?: Address;
+  address?: AddressDto;
   onComplete: (data: {
     addrZip: string;
     addrRoad: string;
