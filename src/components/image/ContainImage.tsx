@@ -4,10 +4,16 @@ import { CSSProperties } from "react";
 interface Props {
   src: string;
   alt: string;
+  objectPosition?: string;
   parentDivStyle?: CSSProperties;
 }
 
-export default function ContainImage({ src, alt, parentDivStyle }: Props) {
+export default function ContainImage({
+  src,
+  alt,
+  objectPosition,
+  parentDivStyle,
+}: Props) {
   return (
     <div
       style={{
@@ -21,7 +27,7 @@ export default function ContainImage({ src, alt, parentDivStyle }: Props) {
         alt={alt}
         fill={true}
         objectFit="contain"
-        objectPosition="left top"
+        objectPosition={objectPosition ?? "left top"}
       />
     </div>
   );
