@@ -4,14 +4,19 @@ import NameField from "@/app/(with-navbar)/signup/view/input/NameField";
 import NicknameField from "@/app/(with-navbar)/signup/view/input/NicknameField";
 import EmailField from "@/app/(with-navbar)/signup/view/input/EmailField";
 import PhoneNumberField from "@/app/(with-navbar)/signup/view/input/PhoneNumberField";
+import { UserDto } from "@/types/User";
 
-export default function RequiredInfoForm() {
+interface Props {
+  user?: UserDto;
+}
+
+export default function RequiredInfoForm({ user }: Props) {
   return (
     <>
       <SectionTitle>필수 정보를 입력해주세요.</SectionTitle>
       <NameField />
-      <NicknameField />
-      <PhoneNumberField />
+      <NicknameField myNickname={user?.userNick} />
+      <PhoneNumberField myPhoneNumber={user?.userPhone} />
     </>
   );
 }

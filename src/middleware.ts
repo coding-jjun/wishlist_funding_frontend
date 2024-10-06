@@ -47,7 +47,7 @@ function getUserIdFromCookie(
 }
 
 function shouldCheckAuth(request: NextRequest): boolean {
-  const protectedRoutes = ["/setting", "/notification"];
+  const protectedRoutes = ["/setting", "/notification", "/fundings/creation"];
   return protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route),
   );

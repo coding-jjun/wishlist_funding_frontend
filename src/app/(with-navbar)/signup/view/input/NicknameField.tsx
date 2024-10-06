@@ -36,7 +36,11 @@ const validateNickname = async (nickname: string | undefined) => {
   return true;
 };
 
-const NicknameField = () => {
+interface Props {
+  myNickname?: string;
+}
+
+const NicknameField = ({ myNickname }: Props) => {
   const {
     control,
     formState: { errors },
@@ -61,8 +65,7 @@ const NicknameField = () => {
   );
 
   useEffect(() => {
-    // 쿠키에 저장된 닉네임과 입력된 값이 같다면 (즉, 본인의 닉네임이라면 유효성 검증을 하지 않음)
-    if (userNick && userNick !== cookieUser?.userNick) {
+    if (userNick && userNick !== myNickname) {
       debouncedValidate(userNick);
     } else {
       clearErrors("userNick");

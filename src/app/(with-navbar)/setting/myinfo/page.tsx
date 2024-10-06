@@ -1,22 +1,23 @@
 "use client";
+import NameField from "@/app/(with-navbar)/signup/view/input/NameField";
+import NicknameField from "@/app/(with-navbar)/signup/view/input/NicknameField";
+import PhoneNumberField from "@/app/(with-navbar)/signup/view/input/PhoneNumberField";
 import React, { useEffect } from "react";
+import ProfileImageField from "@/app/(with-navbar)/signup/view/input/ProfileImageField";
+import BirthdayField from "@/app/(with-navbar)/signup/view/input/BirthdayField";
+import AccountField from "@/app/(with-navbar)/signup/view/input/AccountField";
 import { FormProvider, useForm } from "react-hook-form";
-import { IconButton, Link } from "@mui/material";
-import { ArrowBackIosNew as ArrowBackIosNewIcon } from "@mui/icons-material";
-import { CreateUserForm, UpdateUserDto, UserDto } from "@/types/User";
-import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
+import { CreateUserForm, UpdateUserDto } from "@/types/User";
+import useUpdateUser from "@/query/useUpdateUser";
+import useAddAccount from "@/query/useAddAccount";
+import { CreateAccountDto } from "@/types/Account";
 import {
   Container,
   FormContainer,
   NextButton,
 } from "@/app/(with-navbar)/signup/styles";
-import RequiredInfoForm from "@/app/(with-navbar)/signup/oauth/view/RequiredInfoForm";
-import ExtraInfoForm from "@/app/(with-navbar)/signup/oauth/view/ExtraInfoForm";
-import { useCookie } from "@/hook/useCookie";
-import useAddAccount from "@/query/useAddAccount";
-import { CreateAccountDto } from "@/types/Account";
-import useUpdateUser from "@/query/useUpdateUser";
 import useCurrentUserQuery from "@/query/useCurrentUserQuery";
+import { useRouter } from "next/navigation";
 
 const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
   userEmail: "",
@@ -28,7 +29,9 @@ const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
 
 const USER_DEFAULT_IMG_ID = 24;
 
-export default function OAuthSignUpPage() {
+export default function MyInfoPage() {
+  const router = useRouter();
+
   const methods = useForm<CreateUserForm>({
     defaultValues: DEFAULT_CREATE_USER_DTO,
   });
@@ -43,6 +46,8 @@ export default function OAuthSignUpPage() {
         userPhone: user.userPhone,
         userImg: user.userImg,
         userBirth: user.userBirth ?? new Date(),
+        userAccNum: user.accNum,
+        userAccBank: user.bank,
       });
     }
   }, [user, methods]);
@@ -88,8 +93,9 @@ export default function OAuthSignUpPage() {
       };
 
       updateUser(dto);
+      router.push("/setting");
     } catch (error) {
-      console.error("OAuth 회원가입 에러 발생", error);
+      console.error("회원 정보 수정 에러 발생", error);
     }
   };
 
@@ -104,29 +110,24 @@ export default function OAuthSignUpPage() {
 
   return (
     <FormProvider {...methods}>
-      <form>
-        <Container>
-          <TopFixedStack direction="row" alignItems="center">
-            <Link href="/login" sx={{ textDecoration: "none" }}>
-              <IconButton>
-                <ArrowBackIosNewIcon />
-              </IconButton>
-            </Link>
-          </TopFixedStack>
-          <FormContainer>
-            <RequiredInfoForm user={user} />
-            <ExtraInfoForm />
-            <NextButton
-              variant="contained"
-              color="secondary"
-              onClick={handleSubmit(onSubmit)}
-              fullWidth
-            >
-              완료
-            </NextButton>
-          </FormContainer>
-        </Container>
-      </form>
+      <Container style={{ marginTop: "40px" }}>
+        <FormContainer>
+          <ProfileImageField />
+          <NameField />
+          <NicknameField myNickname={user?.userNick} />
+          <PhoneNumberField myPhoneNumber={user?.userPhone} />
+          <BirthdayField />
+          <AccountField />
+          <NextButton
+            variant="contained"
+            color="secondary"
+            onClick={handleSubmit(onSubmit)}
+            fullWidth
+          >
+            완료
+          </NextButton>
+        </FormContainer>
+      </Container>
     </FormProvider>
   );
 }
