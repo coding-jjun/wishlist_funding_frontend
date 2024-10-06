@@ -16,6 +16,7 @@ import { useCookie } from "@/hook/useCookie";
 import useAddAccount from "@/query/useAddAccount";
 import { CreateAccountDto } from "@/types/Account";
 import useUpdateUser from "@/query/useUpdateUser";
+import useCurrentUserQuery from "@/query/useCurrentUserQuery";
 
 const DEFAULT_CREATE_USER_DTO: CreateUserForm = {
   userEmail: "",
@@ -32,7 +33,7 @@ export default function OAuthSignUpPage() {
     defaultValues: DEFAULT_CREATE_USER_DTO,
   });
 
-  const user = useCookie<UserDto>("user");
+  const { data: user } = useCurrentUserQuery();
 
   useEffect(() => {
     if (user) {
@@ -113,7 +114,7 @@ export default function OAuthSignUpPage() {
             </Link>
           </TopFixedStack>
           <FormContainer>
-            <RequiredInfoForm />
+            <RequiredInfoForm user={user} />
             <ExtraInfoForm />
             <NextButton
               variant="contained"
