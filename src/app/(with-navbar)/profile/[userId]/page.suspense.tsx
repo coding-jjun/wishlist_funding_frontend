@@ -8,6 +8,7 @@ import { FundingList } from "./view/FundingList";
 import useCurrentUserQuery from "@/query/useCurrentUserQuery";
 import { useCookie } from "@/hook/useCookie";
 import useUserQuery from "@/query/useUserQuery";
+import { useRouter } from "next/navigation";
 
 interface Params {
   params: {
@@ -16,6 +17,7 @@ interface Params {
 }
 
 export default function MyPageContent({ params }: Params) {
+  const router = useRouter();
   const myId = useCookie<number>("userId");
   const friendId = Number(params.userId);
 
@@ -46,8 +48,7 @@ export default function MyPageContent({ params }: Params) {
   };
 
   if (!loginUser) {
-    // TODO: fallback UI 작업 필요
-    return null;
+    router.push("/login");
   }
 
   const profileUser = friendId === myId ? loginUser : anotherUser;
