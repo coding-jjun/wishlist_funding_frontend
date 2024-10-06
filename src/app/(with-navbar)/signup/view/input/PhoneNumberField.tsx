@@ -12,7 +12,14 @@ const validatePhoneNumberFormat = (phoneNumber: string): boolean => {
   return regex.test(phoneNumber);
 };
 
-const validate = async (phoneNumber: string | undefined) => {
+const validate = async (
+  phoneNumber: string | undefined,
+  myPhoneNumber?: string,
+) => {
+  if (myPhoneNumber && phoneNumber === myPhoneNumber) {
+    return true;
+  }
+
   if (!phoneNumber) {
     return "휴대폰 번호는 필수 입력 항목입니다.";
   }
@@ -45,7 +52,11 @@ const validate = async (phoneNumber: string | undefined) => {
   return true;
 };
 
-const PhoneNumberField = () => {
+interface Props {
+  myPhoneNumber?: string;
+}
+
+const PhoneNumberField = ({ myPhoneNumber }: Props) => {
   const {
     control,
     formState: { errors },
@@ -71,7 +82,7 @@ const PhoneNumberField = () => {
         control={control}
         rules={{
           required: "휴대폰 번호는 필수 입력 항목입니다.",
-          validate,
+          validate: (value) => validate(value, myPhoneNumber),
         }}
         render={({ field }) => (
           <GreyTextField

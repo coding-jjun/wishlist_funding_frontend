@@ -1,9 +1,19 @@
+"use client";
 import { grey } from "@mui/material/colors";
 import { Avatar, Link, Stack, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import useCurrentUserQuery from "@/query/useCurrentUserQuery";
+import { useRouter } from "next/navigation";
 export default function SettingPage() {
+  const { data: user } = useCurrentUserQuery();
+  const router = useRouter();
+
+  if (!user) {
+    router.push("/login");
+  }
+
   return (
     <Stack direction="column" sx={{ marginTop: "20px" }}>
       <Link href="/setting/myinfo">
@@ -16,11 +26,11 @@ export default function SettingPage() {
           <Stack direction="row" spacing={2} alignItems="center">
             <Avatar
               sx={{ width: "70px", height: "70px" }}
-              src="https://cdn.gukjenews.com/news/photo/202405/2989378_3066370_552.jpg"
+              src={user?.userImg}
             />
             <div>
               <Typography fontSize="22px" fontWeight={700}>
-                홍길동
+                {user?.userName}
               </Typography>
               <Typography sx={{ fontSize: "16px" }}>
                 내 정보 수정하기

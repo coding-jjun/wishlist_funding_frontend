@@ -13,8 +13,8 @@ import useMyDonationsQuery from "@/query/useMyDonationsQuery";
 export default function DonationPage() {
   const router = useRouter();
   const [tab, setTab] = useState<"진행 중" | "종료됨">("진행 중");
-  const { data: myOngoingDonations } = useMyDonationsQuery(1, "ongoing");
-  const { data: myEndedDonations } = useMyDonationsQuery(1, "ended");
+  const { data: myOngoingDonations } = useMyDonationsQuery("ongoing");
+  const { data: myEndedDonations } = useMyDonationsQuery("ended");
   const handleTabChange = (
     event: SyntheticEvent,
     newTab: FundingStatusValue,

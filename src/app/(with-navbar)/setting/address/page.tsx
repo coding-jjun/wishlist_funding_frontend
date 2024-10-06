@@ -1,22 +1,21 @@
 "use client";
 import { Button, IconButton, Typography } from "@mui/material";
 import AddressWrapper from "@/components/address/AddressWrapper";
-import React, { useMemo, useState } from "react";
-import { Address } from "@/types/Address";
+import React, { useMemo } from "react";
+import { AddressDto } from "@/types/Address";
 import useAddressesQuery from "@/query/useAddressesQuery";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { TopFixedStack } from "@/components/layout/action-bar/TopFixedStack";
 import { useRouter } from "next/navigation";
 
 export default function AddressPage() {
-  // TODO: userID 하드코딩 수정 필요
-  const { data: addresses } = useAddressesQuery(1);
+  const { data: addresses } = useAddressesQuery();
 
   const handleOpenAdd = () => {
     router.push("/setting/address/new");
   };
 
-  const handleOpenEdit = (address: Address) => {
+  const handleOpenEdit = (address: AddressDto) => {
     // setSelectedAddress(address);
     // setShowEditAddress(true);
     router.push(`/setting/address/${address.addrId}`);

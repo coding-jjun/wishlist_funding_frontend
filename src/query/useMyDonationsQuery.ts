@@ -10,12 +10,11 @@ import { CommonResponse } from "@/types/CommonResponse";
 import { MyDonationListDto } from "@/types/Donation";
 
 const fetchMyDonations = async (
-  userId: number,
   status?: string,
   lastId?: number,
 ): Promise<MyDonationsQueryResponse> => {
   const response = await axios.get<CommonResponse<MyDonationsQueryResponse>>(
-    `/api/user/${userId}/donation?status=${status}&lastId=${lastId}`,
+    `/api/user/donation?status=${status}&lastId=${lastId}`,
   );
 
   return response.data.data;
@@ -31,7 +30,6 @@ interface MyDonationsQueryResponse {
 }
 
 const useMyDonationsQuery = (
-  userId: number,
   status: "ongoing" | "ended",
 ): UseInfiniteQueryResult<InfiniteData<MyDonationsQueryResponse>> => {
   return useInfiniteQuery<
@@ -41,9 +39,9 @@ const useMyDonationsQuery = (
     QueryKey,
     PageParam
   >({
-    queryKey: ["myDonation", userId, status],
+    queryKey: ["myDonation", status],
     queryFn: ({ pageParam = { lastId: undefined } }) =>
-      fetchMyDonations(userId, status, pageParam.lastId),
+      fetchMyDonations(status, pageParam.lastId),
     initialPageParam: { lastId: undefined },
     getNextPageParam: (lastPage) => {
       if (lastPage.donations.length < 10) {

@@ -1,42 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Chip, Stack, styled, Typography } from "@mui/material";
 import { BottomSheet, useOverlay } from "@/components/overlay";
 import BankBottomSheet from "@/app/(with-navbar)/signup/view/input/BankBottomSheet";
 import { useFormContext } from "react-hook-form";
 import { CreateUserForm } from "@/types/User";
-import { BankInfo } from "@/app/(with-navbar)/signup/constants/banks";
+import { BankInfo, banks } from "@/app/(with-navbar)/signup/constants/banks";
 
 export default function BankSelectBar() {
-  const { setValue } = useFormContext<CreateUserForm>();
-  const [selectedBank, setSelectedBank] = useState<BankInfo | null>(null);
+  const { setValue, watch } = useFormContext<CreateUserForm>();
 
-  // 오버레이 훅
+  const userAccBank = watch("userAccBank");
+
+  const selectedBank = banks.find((bank) => bank.type === userAccBank) || null;
+
   const overlay = useOverlay();
 
-  // Bottom Sheet 닫기
-  const handleClose = () => {
-    overlay.close();
-  };
-
-  // Bottom Sheet 열기
   const openBottomSheet = () => {
-    return new Promise<boolean>((resolve) => {
-      overlay.open(({ isOpen, close }) => (
-        <BottomSheet
-          isOpen={isOpen}
-          onClose={handleClose}
-          title="은행 선택"
-          body={
-            <BankBottomSheet selectBank={selectBank} closeOverlay={close} />
-          }
-          boxSx={{ height: "75vh" }}
-        />
-      ));
-    });
+    overlay.open(({ isOpen, close }) => (
+      <BottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        title="은행 선택"
+        body={<BankBottomSheet selectBank={selectBank} closeOverlay={close} />}
+        boxSx={{ height: "75vh" }}
+      />
+    ));
   };
 
   const selectBank = (bank: BankInfo) => {
-    setSelectedBank(bank);
     setValue("userAccBank", bank.type);
   };
 
