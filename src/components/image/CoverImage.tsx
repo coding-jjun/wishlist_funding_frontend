@@ -13,14 +13,13 @@ export default function CoverImage({ src, alt, parentDivStyle }: Props) {
       style={{
         position: "relative",
         overflow: "hidden",
-        objectFit: "cover",
         width: "100%",
         aspectRatio: "1 / 1",
         borderRadius: 10,
         ...parentDivStyle,
       }}
     >
-      <Image src={src} alt={alt} fill={true} />
+      <Image src={src} alt={alt} fill={true} style={{ objectFit: "cover" }} />
     </div>
   );
 }

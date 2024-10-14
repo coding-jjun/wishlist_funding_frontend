@@ -38,6 +38,8 @@ export interface UserDto {
   userId: number;
   userEmail?: string;
   authId?: string;
+  bank?: BankType;
+  accNum?: string;
 }
 
 export interface UpdateUserDto {
