@@ -38,6 +38,11 @@ export default function DragGifts({ gifts, setGifts }: Props) {
     () => gifts.find((gift) => gift.id === active?.id),
     [active, gifts],
   );
+  const [primaryIndex, setPrimaryIndex] = useState<number | null>(null);
+
+  const handleSetPrimary = (index: number) => {
+    setPrimaryIndex(index);
+  };
 
   useEffect(() => {
     console.log("gifts: ", gifts);
@@ -139,7 +144,12 @@ export default function DragGifts({ gifts, setGifts }: Props) {
         onDragCancel={handleDragCancel}
         onDragEnd={handleDragEnd}
       >
-        <DroppableGiftForm gifts={gifts} onDelete={(id) => deleteGift(id)} />
+        <DroppableGiftForm
+          gifts={gifts}
+          onDelete={(id) => deleteGift(id)}
+          primaryIndex={primaryIndex}
+          setPrimaryIndex={handleSetPrimary}
+        />
         <DragOverlay>
           {activeItem ? (
             <GiftItem
@@ -152,6 +162,8 @@ export default function DragGifts({ gifts, setGifts }: Props) {
                   deleteGift(targetGift.id);
                 }
               }}
+              primaryIndex={primaryIndex}
+              setPrimaryIndex={handleSetPrimary}
             />
           ) : null}
         </DragOverlay>

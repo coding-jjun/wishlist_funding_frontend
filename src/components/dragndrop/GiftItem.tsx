@@ -12,6 +12,8 @@ interface GiftItemProps {
   index: number;
   gifts: GiftDto[];
   onDelete: () => void;
+  primaryIndex: number | null;
+  setPrimaryIndex: (index: number) => void;
 }
 
 interface MetadataResponse {
@@ -25,6 +27,8 @@ export default function GiftItem({
   index,
   gifts,
   onDelete,
+  primaryIndex,
+  setPrimaryIndex,
 }: GiftItemProps) {
   const { register, setValue, control } = useFormContext();
   const giftUrl = useWatch({
@@ -35,13 +39,14 @@ export default function GiftItem({
   const DUMMY: string = "/dummy/present.webp";
 
   const [thumbnail, setThumbnail] = useState<string | null>(null);
-  const [isPrimary, setIsPrimary] = useState<boolean>(false); // 대표 이미지 상태
+
+  // 현재 대표 이미지 여부를 primaryIndex로 확인
+  const isPrimary = primaryIndex === index;
 
   useEffect(() => {
     // url 지우면 기존에 있던 썸네일도 제거
     if (giftUrl === "") {
       setThumbnail(null);
-      setIsPrimary(false);
       return;
     }
 
@@ -70,7 +75,7 @@ export default function GiftItem({
 
   // 대표이미지 설정하는 함수
   const handleSetPrimary = () => {
-    setIsPrimary(!isPrimary);
+    setPrimaryIndex(index); // 부모의 primaryIndex 업데이트
     setValue(`gifts[${index - 1}].isPrimary`, !isPrimary);
   };
 
