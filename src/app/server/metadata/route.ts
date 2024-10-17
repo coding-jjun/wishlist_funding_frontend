@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse, userAgent } from "next/server";
-import fetch from "node-fetch";
 import { JSDOM } from "jsdom";
 import axios from "axios";
 
@@ -23,41 +22,42 @@ export async function POST(request: NextRequest) {
     // 최종 url 여부 확인
     const getFinalUrl = async (initialUrl: string) => {
       try {
-        const response = await axios.head(initialUrl, {
-          maxRedirects: 0,
-          validateStatus: (status) => status >= 200 && status < 400,
-        });
-        // 리다이렉트 url인 경우 최종 url 획득
-        if (response.status >= 300 && response.status < 400) {
-          const redirectResponse = await axios.get(initialUrl, {
-            maxRedirects: 10,
-            validateStatus: (status) => status >= 200 && status < 400,
-          });
-          return redirectResponse.request.res.responseUrl;
+        // 쿠팡 URL은 리다이렉트 확인을 생략
+        if (initialUrl.includes("coupang.com")) {
+          return initialUrl;
         }
-        // 리다이렉트 url이 아닌 경우 기존 url 반환
+
+        // 최초 HEAD 요청으로 리다이렉트 여부 확인
+        const response = await axios.head(initialUrl, {
+          maxRedirects: 0, // 리다이렉트 발생 시 catch로 이동
+          validateStatus: (status) =>
+            (status >= 200 && status < 400) || (status >= 300 && status < 400),
+        });
+
+        // 리다이렉트가 발생하지 않는 경우, 초기 URL 반환
         return initialUrl;
       } catch (error) {
         const axiosError = error as any;
 
-        // 리다이렉트 url인 경우 catch
+        // 리다이렉트가 발생한 경우, get 요청으로 최종 URL 확인
         if (
           axiosError.response &&
           axiosError.response.status >= 300 &&
           axiosError.response.status < 400
         ) {
           const redirectResponse = await axios.get(initialUrl, {
-            maxRedirects: 10,
+            maxRedirects: 10, // 리다이렉트 최대 10회까지 추적
             validateStatus: (status) => status >= 200 && status < 400,
           });
           return redirectResponse.request.res.responseUrl;
         }
+
+        // 리다이렉트가 아닌 에러의 경우 예외 처리
         throw error;
       }
     };
 
     const finalUrl = await getFinalUrl(decodeURIComponent(encodedUrl));
-    console.log("🩵최종 URL: ", finalUrl);
 
     const response = await fetch(finalUrl, {
       method: "GET",
@@ -70,7 +70,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.ok) {
-      console.log("Fetch failed with status:", response.status);
       return NextResponse.json(
         { error: `메타데이터 fetch 실패, status code: ${response.status}` },
         { status: 500 },
@@ -102,12 +101,9 @@ export async function POST(request: NextRequest) {
           .querySelector('meta[name="twitter:image"]')
           ?.getAttribute("content"),
     };
-
-    console.log("Ⓜ️metadata: ", metadata);
-
     return NextResponse.json(metadata);
   } catch (error) {
-    console.error("메타데이터 fetch 중 에러:", error);
+    console.error("❌메타데이터 fetch 중 에러:", error);
     return NextResponse.json(
       { error: "메타데이터를 불러오는데 실패했어요." },
       { status: 500 },

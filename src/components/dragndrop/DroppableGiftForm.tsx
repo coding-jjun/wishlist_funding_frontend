@@ -13,11 +13,11 @@ interface Prop {
 export function DroppableGiftForm({ gifts, onDelete }: Prop) {
   return (
     <SortableContext items={gifts}>
-      {gifts.map((gift) => (
+      {gifts.map((gift, index) => (
         <SortableGiftForm
           key={gift.id}
           id={gift.id}
-          giftOrd={gift.giftOrd}
+          giftOrd={index + 1}
           gifts={gifts}
           onDelete={() => onDelete(gift.id)}
         />

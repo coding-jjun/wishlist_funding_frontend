@@ -54,7 +54,6 @@ export default function GiftItem({
               url: giftUrl,
             },
           );
-          console.log("Ⓜ️ 메타데이터:", response.data);
           const imageUrl = response.data.image || null;
           setThumbnail(response.data.image || DUMMY);
           setValue(`gifts[${index - 1}].giftImg`, imageUrl);
