@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     // 최종 url 여부 확인
     const getFinalUrl = async (initialUrl: string) => {
       try {
-        // 쿠팡 URL은 리다이렉트 확인을 생략
+        // 쿠팡 url 리다이렉트 확인 생략
         if (initialUrl.includes("coupang.com")) {
           return initialUrl;
         }
@@ -34,12 +34,11 @@ export async function POST(request: NextRequest) {
             (status >= 200 && status < 400) || (status >= 300 && status < 400),
         });
 
-        // 리다이렉트가 발생하지 않는 경우, 초기 URL 반환
-        return initialUrl;
+        return initialUrl; // 리다이렉트가 발생하지 않는 경우 초기 url 반환
       } catch (error) {
         const axiosError = error as any;
 
-        // 리다이렉트가 발생한 경우, get 요청으로 최종 URL 확인
+        // 리다이렉트가 발생한 경우, get 요청으로 최종 url 확인
         if (
           axiosError.response &&
           axiosError.response.status >= 300 &&
