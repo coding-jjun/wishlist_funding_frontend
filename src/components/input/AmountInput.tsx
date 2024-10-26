@@ -4,14 +4,26 @@ import React, { ChangeEvent, useState } from "react";
 import addComma from "@/utils/addComma";
 
 export default function AmountInput() {
-  const { register, setValue, watch } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const [amount, setAmount] = useState<number>(0);
 
-  // const input = watch("fundGoal")
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputVal = e.target.value;
     let strVal = inputVal.replaceAll(",", "");
     setAmount(Number(strVal));
+  };
+
+  const validate = async (amount: number) => {
+    if (!amount) {
+      return "금액을 입력해주세요.";
+    }
+
+    if (amount <= 0) {
+      return "0보다 큰 숫자를 입력해주세요.";
+    }
   };
 
   return (
@@ -23,16 +35,19 @@ export default function AmountInput() {
         inputProps={{
           inputMode: "numeric",
           pattern: "[0-9]*",
-          onChange: handleAmountChange,
         }}
         value={addComma(amount) || 0}
         {...register("fundGoal", {
-          required: true,
+          required: "금액을 입력해주세요.",
+          validate: validate,
           pattern: {
             value: /^[0-9,]*$/,
             message: "숫자만 입력 가능해요.",
           },
+          onChange: handleAmountChange,
         })}
+        error={!!errors.fundGoal}
+        helperText={errors.fundGoal?.message?.toString() || ""}
       />
     </Grid>
   );
