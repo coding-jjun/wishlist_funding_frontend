@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, Card, CardContent, TextField } from "@mui/material";
+import { Box, Card, CardContent, IconButton, TextField } from "@mui/material";
 import { useFormContext, useWatch } from "react-hook-form";
 import GiftDto from "@/types/GiftDto";
 import DragHandler from "@/components/dragndrop/DragHandler";
 import axios from "axios";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 interface GiftItemProps {
   id: number;
   index: number;
   gifts: GiftDto[];
   onDelete: () => void;
+  primaryIndex: number | null;
+  setPrimaryIndex: (index: number) => void;
 }
 
 interface MetadataResponse {
@@ -23,6 +27,8 @@ export default function GiftItem({
   index,
   gifts,
   onDelete,
+  primaryIndex,
+  setPrimaryIndex,
 }: GiftItemProps) {
   const { register, setValue, control } = useFormContext();
   const giftUrl = useWatch({
@@ -33,6 +39,9 @@ export default function GiftItem({
   const DUMMY: string = "/dummy/present.webp";
 
   const [thumbnail, setThumbnail] = useState<string | null>(null);
+
+  // 현재 대표 이미지 여부를 primaryIndex로 확인
+  const isPrimary = primaryIndex === index;
 
   useEffect(() => {
     // url 지우면 기존에 있던 썸네일도 제거
@@ -50,7 +59,6 @@ export default function GiftItem({
               url: giftUrl,
             },
           );
-          console.log("Fetched metadata from API:", response.data);
           const imageUrl = response.data.image || null;
           setThumbnail(response.data.image || DUMMY);
           setValue(`gifts[${index - 1}].giftImg`, imageUrl);
@@ -65,6 +73,12 @@ export default function GiftItem({
     }
   }, [giftUrl, setValue]);
 
+  // 대표이미지 설정하는 함수
+  const handleSetPrimary = () => {
+    setPrimaryIndex(index); // 부모의 primaryIndex 업데이트
+    setValue(`gifts[${index - 1}].isPrimary`, !isPrimary);
+  };
+
   return (
     <Card
       sx={{
@@ -77,18 +91,46 @@ export default function GiftItem({
         <DragHandler gifts={gifts} id={id} onDelete={onDelete} />
 
         {/*썸네일*/}
-        <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            position: "relative",
+          }}
+        >
           {thumbnail && (
-            <Box
-              component="img"
-              src={thumbnail}
-              sx={{
-                width: "100%",
-                height: "auto",
-                marginTop: 2,
-                borderRadius: 2,
-              }}
-            />
+            <div>
+              <Box
+                component="img"
+                src={thumbnail}
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  marginTop: 2,
+                  borderRadius: 2,
+                }}
+              />
+
+              {/*대표 이미지 지정*/}
+              <IconButton
+                onClick={handleSetPrimary}
+                sx={{
+                  position: "absolute",
+                  top: 30,
+                  right: 10,
+                  zIndex: 10,
+                  backgroundColor: "white",
+                  borderRadius: "50%",
+                  boxShadow: "0px 2px 5px rgba(0,0,0,0.2)",
+                }}
+              >
+                {isPrimary ? (
+                  <StarIcon sx={{ color: "gold" }} />
+                ) : (
+                  <StarBorderIcon sx={{ color: "gray" }} />
+                )}
+              </IconButton>
+            </div>
           )}
         </Box>
 

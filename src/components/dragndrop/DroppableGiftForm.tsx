@@ -8,16 +8,25 @@ import GiftDto from "@/types/GiftDto";
 interface Prop {
   gifts: GiftDto[];
   onDelete: (index: number) => void;
+  primaryIndex: number | null;
+  setPrimaryIndex: (index: number) => void;
 }
 
-export function DroppableGiftForm({ gifts, onDelete }: Prop) {
+export function DroppableGiftForm({
+  gifts,
+  onDelete,
+  primaryIndex,
+  setPrimaryIndex,
+}: Prop) {
   return (
     <SortableContext items={gifts}>
-      {gifts.map((gift) => (
+      {gifts.map((gift, index) => (
         <SortableGiftForm
+          primaryIndex={primaryIndex}
+          setPrimaryIndex={setPrimaryIndex}
           key={gift.id}
           id={gift.id}
-          giftOrd={gift.giftOrd}
+          giftOrd={index + 1}
           gifts={gifts}
           onDelete={() => onDelete(gift.id)}
         />
