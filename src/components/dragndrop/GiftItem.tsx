@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Card, CardContent, IconButton, TextField } from "@mui/material";
-import { useFormContext, useWatch } from "react-hook-form";
+import { FieldErrors, useFormContext, useWatch } from "react-hook-form";
 import GiftDto from "@/types/GiftDto";
 import DragHandler from "@/components/dragndrop/DragHandler";
 import axios from "axios";
@@ -30,7 +30,12 @@ export default function GiftItem({
   primaryIndex,
   setPrimaryIndex,
 }: GiftItemProps) {
-  const { register, setValue, control } = useFormContext();
+  const {
+    register,
+    setValue,
+    control,
+    formState: { errors },
+  } = useFormContext();
   const giftUrl = useWatch({
     control,
     name: `gifts[${index - 1}].giftUrl`,
@@ -42,6 +47,8 @@ export default function GiftItem({
 
   // 현재 대표 이미지 여부를 primaryIndex로 확인
   const isPrimary = primaryIndex === index;
+
+  const giftsErrors = errors.gifts as FieldErrors<GiftDto>[] | undefined;
 
   useEffect(() => {
     // url 지우면 기존에 있던 썸네일도 제거
@@ -134,19 +141,27 @@ export default function GiftItem({
           )}
         </Box>
 
+        {/*입력폼*/}
         <Box sx={{ flexGrow: 1 }}>
           <TextField
-            {...register(`gifts[${index - 1}].giftUrl`)}
+            {...register(`gifts[${index - 1}].giftUrl`, {
+              required: "url을 첨부해주세요.",
+            })}
+            helperText={
+              giftsErrors?.[index - 1]?.giftUrl?.message?.toString() || ""
+            }
             placeholder="url"
             size="small"
             fullWidth
             margin="dense"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            InputLabelProps={{ shrink: true }}
             sx={{
               borderRadius: 4,
               backgroundColor: "#ECF0EF",
+              "& .MuiFormHelperText-root": {
+                color: "#d32f2f",
+                pb: "2px",
+              },
             }}
           />
           <TextField
@@ -155,26 +170,34 @@ export default function GiftItem({
             size="small"
             fullWidth
             margin="dense"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            InputLabelProps={{ shrink: true }}
             sx={{
               borderRadius: 4,
               backgroundColor: "#ECF0EF",
             }}
           />
           <TextField
-            {...register(`gifts[${index - 1}].giftCont`)}
+            {...register(`gifts[${index - 1}].giftCont`, {
+              maxLength: {
+                value: 20,
+                message: "20자 이내로 입력해주세요.",
+              },
+            })}
+            helperText={
+              giftsErrors?.[index - 1]?.giftCont?.message?.toString() || ""
+            }
             placeholder="상품 설명"
             size="small"
             fullWidth
             margin="dense"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            InputLabelProps={{ shrink: true }}
             sx={{
               borderRadius: 4,
               backgroundColor: "#ECF0EF",
+              "& .MuiFormHelperText-root": {
+                color: "#d32f2f",
+                pb: "2px",
+              },
             }}
           />
         </Box>
