@@ -6,6 +6,7 @@ import { FullSizeIcon } from "@/components/icon";
 interface Props {
   src: string;
   alt: string;
+  fallbackSrc?: string;
   width: number;
   parentDivStyle?: CSSProperties;
 }
@@ -13,6 +14,7 @@ interface Props {
 export default function SizeToggleImage({
   src,
   alt,
+  fallbackSrc = "/dummy/fallback.webp",
   width,
   parentDivStyle,
 }: Props) {
@@ -25,11 +27,12 @@ export default function SizeToggleImage({
   return (
     <div onClick={toggleSize} style={{ position: "relative" }}>
       {fullSize ? (
-        <ContainImage src={src} alt={alt} />
+        <ContainImage src={src} alt={alt} fallbackSrc={fallbackSrc} />
       ) : (
         <CoverImage
           src={src}
           alt={alt}
+          fallbackSrc={fallbackSrc}
           parentDivStyle={{ ...parentDivStyle, width: width }}
         />
       )}

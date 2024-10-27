@@ -1,13 +1,22 @@
 import Image from "next/image";
+import { useState } from "react";
 import type { CSSProperties } from "react";
 
 interface Props {
   src: string;
   alt: string;
+  fallbackSrc?: string;
   parentDivStyle?: CSSProperties;
 }
 
-export default function CoverImage({ src, alt, parentDivStyle }: Props) {
+export default function CoverImage({
+  src,
+  alt,
+  fallbackSrc = "/dummy/fallback.webp",
+  parentDivStyle,
+}: Props) {
+  const [imgSrc, setImgSrc] = useState(src);
+
   return (
     <div
       style={{
@@ -19,7 +28,13 @@ export default function CoverImage({ src, alt, parentDivStyle }: Props) {
         ...parentDivStyle,
       }}
     >
-      <Image src={src} alt={alt} fill={true} style={{ objectFit: "cover" }} />
+      <Image
+        src={imgSrc}
+        alt={alt}
+        fill={true}
+        style={{ objectFit: "cover" }}
+        onError={() => setImgSrc(fallbackSrc)}
+      />
     </div>
   );
 }
