@@ -1,17 +1,32 @@
 import { Typography } from "@mui/material";
 import { FundingDto } from "@/types/Funding";
+import { GiftCard } from "@/components/card";
 
 interface Props {
   funding: FundingDto;
 }
 
 export default function FundingInfoPanel({ funding }: Props) {
-  const { fundCont } = funding;
+  const { fundCont, gifts } = funding;
 
   return (
     <>
-      <Typography variant="body1">{fundCont}</Typography>
-      {/*TODO: 펀딩 상세 정보 조회 API에 선물 목록이 추가됐을 때 선물 목록 카드 추가하기*/}
+      <Typography variant="body1" marginBottom={4}>
+        {fundCont}
+      </Typography>
+      <Typography variant="body1" fontWeight={700}>
+        선물 목록
+      </Typography>
+      {gifts.map((gift, index) => (
+        <GiftCard
+          key={gift.giftId}
+          title={`선물 ${index}`}
+          image={gift.giftImg ?? "/dummy/present.png"}
+          option={gift.giftOpt}
+          content={gift.giftCont}
+          url={gift.giftUrl}
+        />
+      ))}
     </>
   );
 }
